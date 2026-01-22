@@ -1,0 +1,12 @@
+# Build outputs
+build/
+.react-router/
+
+# Dependencies
+node_modules/
+
+# Docker build artifacts (root-owned files)
+public/downloads/src/
+
+# Generated whitepaper assets
+scripts/motion-canvas/output/

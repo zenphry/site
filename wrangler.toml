@@ -1,0 +1,69 @@
+#:schema node_modules/wrangler/config-schema.json
+
+# Cloudflare Workers Configuration for Zenphry
+
+name = "zenphry-cf-worker"
+compatibility_date = "2025-01-15"
+compatibility_flags = ["nodejs_compat"]
+
+main = "workers/app.js"
+upload_source_maps = true
+
+[observability]
+enabled = true
+head_sampling_rate = 1
+
+[assets]
+directory = "build/client"
+
+# Dev Environment
+[env.dev]
+name = "zenphry-cf-worker-dev"
+[[env.dev.routes]]
+pattern = "dev.zenphry.com"
+custom_domain = true
+
+[env.dev.vars]
+ENVIRONMENT = "dev"
+SITE_URL = "https://dev.zenphry.com"
+TURNSTILE_SITE_KEY = "1x00000000000000000000AA"
+
+[env.dev.observability]
+enabled = true
+head_sampling_rate = 1
+
+# Staging Environment
+[env.stg]
+name = "zenphry-cf-worker-stg"
+[[env.stg.routes]]
+pattern = "stg.zenphry.com"
+custom_domain = true
+
+[env.stg.vars]
+ENVIRONMENT = "stg"
+SITE_URL = "https://stg.zenphry.com"
+TURNSTILE_SITE_KEY = "1x00000000000000000000AA"
+
+[env.stg.observability]
+enabled = true
+head_sampling_rate = 1
+
+# Production Environment
+[env.prod]
+name = "zenphry-cf-worker-prod"
+[[env.prod.routes]]
+pattern = "zenphry.com"
+custom_domain = true
+
+[[env.prod.routes]]
+pattern = "www.zenphry.com"
+custom_domain = true
+
+[env.prod.vars]
+ENVIRONMENT = "prod"
+SITE_URL = "https://zenphry.com"
+TURNSTILE_SITE_KEY = ""
+
+[env.prod.observability]
+enabled = true
+head_sampling_rate = 1
