@@ -1,102 +1,43 @@
-import type { RenderToPipeableStreamOptions } from 'react-dom/server';
 import type { AppLoadContext, EntryContext } from 'react-router';
 import { ServerRouter } from 'react-router';
 import { isbot } from 'isbot';
-import { renderToPipeableStream } from 'react-dom/server';
-import { PassThrough } from 'node:stream';
+import { renderToReadableStream } from 'react-dom/server';
 
-const ABORT_DELAY = 5_000;
-
-export default function handleRequest(
+export default async function handleRequest(
   request: Request,
   responseStatusCode: number,
   responseHeaders: Headers,
-  entryContext: EntryContext,
-  loadContext: AppLoadContext
+  routerContext: EntryContext,
+  _loadContext: AppLoadContext
 ) {
-  return isbot(request.headers.get('user-agent'))
-    ? handleBotRequest(request, responseStatusCode, responseHeaders, entryContext)
-    : handleBrowserRequest(request, responseStatusCode, responseHeaders, entryContext);
-}
+  let shellRendered = false;
+  const userAgent = request.headers.get('user-agent');
 
-function handleBotRequest(
-  request: Request,
-  responseStatusCode: number,
-  responseHeaders: Headers,
-  entryContext: EntryContext
-) {
-  return new Promise((resolve, reject) => {
-    let shellRendered = false;
-    const { pipe, abort } = renderToPipeableStream(
-      <ServerRouter context={entryContext} url={request.url} />,
-      {
-        onAllReady() {
-          shellRendered = true;
-          const body = new PassThrough();
-          responseHeaders.set('Content-Type', 'text/html');
+  const body = await renderToReadableStream(
+    <ServerRouter context={routerContext} url={request.url} />,
+    {
+      onError(error: unknown) {
+        responseStatusCode = 500;
+        // Log streaming rendering errors from inside the shell. Don't log
+        // errors encountered during initial shell rendering since they'll
+        // reject and get logged in handleDocumentRequest.
+        if (shellRendered) {
+          console.error(error);
+        }
+      },
+    }
+  );
+  shellRendered = true;
 
-          resolve(
-            new Response(body as any, {
-              headers: responseHeaders,
-              status: responseStatusCode,
-            })
-          );
+  // Ensure requests from bots and SPA Mode renders wait for all content to load before responding
+  // https://react.dev/reference/react-dom/server/renderToPipeableStream#waiting-for-all-content-to-load-for-crawlers-and-static-generation
+  if ((userAgent && isbot(userAgent)) || routerContext.isSpaMode) {
+    await body.allReady;
+  }
 
-          pipe(body);
-        },
-        onShellError(error: unknown) {
-          reject(error);
-        },
-        onError(error: unknown) {
-          responseStatusCode = 500;
-          if (shellRendered) {
-            console.error(error);
-          }
-        },
-      } as RenderToPipeableStreamOptions
-    );
-
-    setTimeout(abort, ABORT_DELAY);
-  });
-}
-
-function handleBrowserRequest(
-  request: Request,
-  responseStatusCode: number,
-  responseHeaders: Headers,
-  entryContext: EntryContext
-) {
-  return new Promise((resolve, reject) => {
-    let shellRendered = false;
-    const { pipe, abort } = renderToPipeableStream(
-      <ServerRouter context={entryContext} url={request.url} />,
-      {
-        onShellReady() {
-          shellRendered = true;
-          const body = new PassThrough();
-          responseHeaders.set('Content-Type', 'text/html');
-
-          resolve(
-            new Response(body as any, {
-              headers: responseHeaders,
-              status: responseStatusCode,
-            })
-          );
-
-          pipe(body);
-        },
-        onShellError(error: unknown) {
-          reject(error);
-        },
-        onError(error: unknown) {
-          responseStatusCode = 500;
-          if (shellRendered) {
-            console.error(error);
-          }
-        },
-      } as RenderToPipeableStreamOptions
-    );
-
-    setTimeout(abort, ABORT_DELAY);
+  responseHeaders.set('Content-Type', 'text/html');
+  return new Response(body, {
+    headers: responseHeaders,
+    status: responseStatusCode,
   });
 }

@@ -1,4 +1,4 @@
-import { cloudflareDevProxy } from '@react-router/dev/vite/cloudflare';
+import { cloudflare } from '@cloudflare/vite-plugin';
 import { reactRouter } from '@react-router/dev/vite';
 import { defineConfig, type Plugin } from 'vite';
 import tsconfigPaths from 'vite-tsconfig-paths';
@@ -29,53 +29,14 @@ function excludeTestFiles(): Plugin {
   };
 }
 
-export default defineConfig(() => ({
+export default defineConfig({
   build: {
     cssMinify: process.env.NODE_ENV === 'production',
   },
-  // PostCSS configuration is in postcss.config.js at project root
-  // Tailwind CSS v4 configuration is in app/tailwind.config.css
-  ssr: {
-    target: 'webworker',
-    external: [
-      'node:async_hooks',
-      'node:events',
-      'node:path',
-      'node:perf_hooks',
-      'node:process',
-      'node:stream',
-      'node:tty',
-      'node:url',
-      // Exclude test dependencies from SSR bundle (vitest and its dependencies)
-      'vitest',
-      '@vitest/runner',
-      '@vitest/utils',
-      '@vitest/expect',
-      '@sinonjs/fake-timers',
-      'chai',
-      '@testing-library/react',
-      '@testing-library/jest-dom',
-      'happy-dom',
-    ],
-    resolve: {
-      conditions: ['workerd', 'browser'],
-      externalConditions: ['workerd', 'worker'],
-    },
-  },
-  optimizeDeps: {
-    include: [
-      'react',
-      'react/jsx-runtime',
-      'react/jsx-dev-runtime',
-      'react-dom',
-      'react-dom/server',
-      'react-router',
-    ],
-  },
   plugins: [
+    cloudflare({ viteEnvironment: { name: 'ssr' } }),
     excludeTestFiles(),
-    cloudflareDevProxy(),
     reactRouter(),
     tsconfigPaths(),
   ],
-}));
+});

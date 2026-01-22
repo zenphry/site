@@ -6,7 +6,7 @@ name = "zenphry-cf-worker"
 compatibility_date = "2025-01-15"
 compatibility_flags = ["nodejs_compat"]
 
-main = "workers/app.js"
+main = "workers/app.ts"
 upload_source_maps = true
 
 [observability]
