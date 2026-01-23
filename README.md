@@ -74,6 +74,7 @@ workers/             # Cloudflare Worker entry point
 ## SEO Protection
 
 Dev and staging environments are blocked from search engine indexing via:
+
 - `robots.txt` (Disallow: /)
 - Meta tags (`noindex, nofollow`)
 
@@ -82,6 +83,7 @@ Production environment is fully indexed.
 ## Documentation
 
 See `/docs/` directory for complete documentation:
+
 - **[docs/README.md](./docs/README.md)** - Documentation overview
 - **[docs/contributing.md](./docs/contributing.md)** - Technical architecture and contributing guide
 - **[docs/cloudflare-setup.md](./docs/cloudflare-setup.md)** - Cloudflare configuration
@@ -89,6 +91,7 @@ See `/docs/` directory for complete documentation:
 - **[docs/brand.md](./docs/brand.md)** - Brand guidelines
 
 Additional resources:
+
 - **[NEXT_STEPS.md](./NEXT_STEPS.md)** - What to do next (deployment, content, integrations)
 - **[IMPLEMENTATION_PLAN.md](./IMPLEMENTATION_PLAN.md)** - Full implementation plan
 

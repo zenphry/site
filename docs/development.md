@@ -104,13 +104,13 @@ open lighthouse-dev.html  # macOS
 
 ### Testing
 
-| Command                      | Description                                                                                  |
-| ---------------------------- | -------------------------------------------------------------------------------------------- |
-| `npm run test:unit`          | Run unit tests (Vitest)                                                                      |
-| `npm run test:unit:ui`       | Run unit tests in UI mode                                                                    |
-| `npm run test:unit:coverage` | Generate coverage report                                                                     |
-| `npm run test:unit`          | Run unit tests (Vitest) - Not yet configured                                                  |
-| `npm run test:e2e`           | Run E2E tests (Playwright) - Not yet configured                                               |
+| Command                      | Description                                     |
+| ---------------------------- | ----------------------------------------------- |
+| `npm run test:unit`          | Run unit tests (Vitest)                         |
+| `npm run test:unit:ui`       | Run unit tests in UI mode                       |
+| `npm run test:unit:coverage` | Generate coverage report                        |
+| `npm run test:unit`          | Run unit tests (Vitest) - Not yet configured    |
+| `npm run test:e2e`           | Run E2E tests (Playwright) - Not yet configured |
 
 **Note:** Test infrastructure not yet set up.
 
@@ -161,9 +161,9 @@ docs/                    # Documentation
 Use `@/` prefix for all imports:
 
 ```javascript
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
-import { base44 } from '@/api/base44Client';
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { base44 } from "@/api/base44Client";
 ```
 
 Configured in `vite.config.js` and `jsconfig.json`.
@@ -178,10 +178,10 @@ The site uses a fully static data architecture with JSON files:
 
 ```javascript
 // app/lib/static-data.server.ts
-import { getStaticDataClient } from '~/lib/static-data.server';
+import { getStaticDataClient } from "~/lib/static-data.server";
 
 const client = getStaticDataClient();
-const posts = await client.getBlogPosts('published');
+const posts = await client.getBlogPosts("published");
 ```
 
 **Content Location:**
@@ -200,9 +200,9 @@ Edit the JSON files directly in `app/content/data/`. Changes are deployed with t
 **Usage (same API for all modes):**
 
 ```javascript
-import { base44 } from '@/api/base44Client';
+import { base44 } from "@/api/base44Client";
 
-const posts = await base44.entities.BlogPost.filter({ status: 'published' });
+const posts = await base44.entities.BlogPost.filter({ status: "published" });
 const team = await base44.entities.TeamMember.list();
 ```
 
@@ -234,9 +234,9 @@ const team = await base44.entities.TeamMember.list();
 **Class Merging:**
 
 ```javascript
-import { cn } from '@/lib/utils';
+import { cn } from "@/lib/utils";
 
-<div className={cn('base-classes', isActive && 'active-classes')} />;
+<div className={cn("base-classes", isActive && "active-classes")} />;
 ```
 
 ---
@@ -355,12 +355,12 @@ All content is stored as JSON files in `app/content/data/`:
 **Usage:**
 
 ```javascript
-import { getStaticDataClient } from '~/lib/static-data.server';
+import { getStaticDataClient } from "~/lib/static-data.server";
 
 // In loader functions
 export async function loader() {
   const client = getStaticDataClient();
-  const posts = await client.getBlogPosts('published');
+  const posts = await client.getBlogPosts("published");
   const team = await client.getTeamMembers();
   const offers = await client.getOffers(true);
   const caseStudies = await client.getCaseStudies();
@@ -382,13 +382,13 @@ export async function loader() {
 All data fetching uses TanStack Query:
 
 ```javascript
-import { useQuery } from '@tanstack/react-query';
-import { base44 } from '@/api/base44Client';
+import { useQuery } from "@tanstack/react-query";
+import { base44 } from "@/api/base44Client";
 
 export default function BlogList() {
   const { data, isLoading } = useQuery({
-    queryKey: ['blogPosts'],
-    queryFn: () => base44.entities.BlogPost.filter({ status: 'published' }),
+    queryKey: ["blogPosts"],
+    queryFn: () => base44.entities.BlogPost.filter({ status: "published" }),
     initialData: [],
   });
 

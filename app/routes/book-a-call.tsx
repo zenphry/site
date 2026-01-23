@@ -29,7 +29,7 @@ export default function BookACall() {
               <CardTitle>Scheduling</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="bg-gray-50 dark:bg-gray-800 p-8 rounded-lg text-center">
+              <div className="bg-gray-50/75 dark:bg-gray-800/75 backdrop-blur-sm p-8 rounded-lg text-center">
                 <p className="text-gray-600 dark:text-gray-400 mb-4">
                   Calendly or scheduling embed will be integrated here.
                 </p>

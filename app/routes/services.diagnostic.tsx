@@ -76,7 +76,7 @@ export default function ServiceDiagnostic() {
             ].map((trigger, index) => (
               <div
                 key={index}
-                className="bg-gray-50 dark:bg-gray-800 p-3 rounded text-gray-700 dark:text-gray-300 text-sm"
+                className="bg-gray-50/75 dark:bg-gray-800/75 backdrop-blur-sm p-3 rounded text-gray-700 dark:text-gray-300 text-sm"
               >
                 • {trigger}
               </div>
@@ -142,7 +142,7 @@ export default function ServiceDiagnostic() {
           <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">
             Timeline & Engagement
           </h2>
-          <div className="bg-gray-50 dark:bg-gray-800 p-6 rounded-lg">
+          <div className="bg-gray-50/75 dark:bg-gray-800/75 backdrop-blur-sm p-6 rounded-lg">
             <div className="grid md:grid-cols-2 gap-6">
               <div>
                 <h3 className="font-semibold mb-2 text-gray-900 dark:text-white">Duration</h3>

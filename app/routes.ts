@@ -28,4 +28,7 @@ export default [
   // SEO
   route('sitemap.xml', 'routes/sitemap[.]xml.tsx'),
   route('robots.txt', 'routes/robots[.]txt.tsx'),
+
+  // Actions
+  route('action/set-theme', 'routes/action.set-theme.tsx'),
 ] satisfies RouteConfig;

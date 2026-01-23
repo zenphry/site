@@ -7,6 +7,7 @@ Complete guide for working with the Zenphry website codebase.
 React Router v7 website for Zenphry Business Restructuring, deployed on Cloudflare Workers.
 
 **Related Documentation:**
+
 - **[development.md](./development.md)** - Commands and local development workflow
 - **[cloudflare-setup.md](./cloudflare-setup.md)** - Cloudflare configuration
 - **[brand.md](./brand.md)** - Brand colors and fonts
@@ -55,15 +56,16 @@ Routes are defined in `app/routes.ts`:
 
 ```typescript
 export default [
-  index('routes/_index.tsx'),              // Homepage at /
-  route('services', 'routes/services._index.tsx'),
-  route('services/diagnostic', 'routes/services.diagnostic.tsx'),
-  route('pricing', 'routes/pricing.tsx'),
+  index("routes/_index.tsx"), // Homepage at /
+  route("services", "routes/services._index.tsx"),
+  route("services/diagnostic", "routes/services.diagnostic.tsx"),
+  route("pricing", "routes/pricing.tsx"),
   // ...
 ] satisfies RouteConfig;
 ```
 
 ### File Naming Conventions
+
 - **Homepage**: `_index.tsx`
 - **Simple routes**: `pricing.tsx`, `about.tsx`
 - **Nested index**: `services._index.tsx`
@@ -76,23 +78,27 @@ export default [
 ### Tailwind CSS v4
 
 **Configuration files**:
+
 - `app/tailwind.config.css` - Tailwind v4 theme configuration
 - `app/app.css` - Main CSS file with CSS variables
 - `postcss.config.js` - PostCSS configuration
 
 **Brand Colors**:
+
 ```css
---color-brand-gold: #cbb26a;  /* Zenphry primary gold */
+--color-brand-gold: #cbb26a; /* Zenphry primary gold */
 --color-brand-dark: #1a1a1a;
 --color-brand-gray: #6b7280;
 ```
 
 **Dark Mode**:
+
 - Class-based: `.dark` class on `<html>` element
 - System preference detection via theme provider
 - Persistent theme stored in localStorage
 
 **Using Tailwind**:
+
 ```tsx
 // Use standard Tailwind classes
 <div className="bg-primary text-primary-foreground">
@@ -109,6 +115,7 @@ export default [
 ### UI Components (shadcn/ui pattern)
 
 Located in `app/components/ui/`:
+
 - `button.tsx` - Button component with variants
 - `card.tsx` - Card, CardHeader, CardContent
 - `accordion.tsx` - Accordion/FAQ component
@@ -117,11 +124,12 @@ Located in `app/components/ui/`:
 - `tabs.tsx` - Tab navigation
 
 **Usage**:
-```tsx
-import { Button } from '~/components/ui/button';
-import { Card } from '~/components/ui/card';
 
-<Button variant="outline">Click me</Button>
+```tsx
+import { Button } from "~/components/ui/button";
+import { Card } from "~/components/ui/card";
+
+<Button variant="outline">Click me</Button>;
 ```
 
 ### Custom Components
@@ -132,9 +140,10 @@ import { Card } from '~/components/ui/card';
 ### Import Aliases
 
 Use `~/` prefix for imports:
+
 ```typescript
-import { Button } from '~/components/ui/button';
-import { cn } from '~/lib/utils';
+import { Button } from "~/components/ui/button";
+import { cn } from "~/lib/utils";
 ```
 
 ## Development Workflow
@@ -177,10 +186,12 @@ Configured in `wrangler.toml`:
 ### SEO Protection
 
 **Dev/Staging**: Blocked from search engines
+
 - `robots.txt` returns `Disallow: /`
 - Meta tags: `noindex, nofollow, noarchive`
 
 **Production**: Fully indexed
+
 - `robots.txt` allows all
 - Sitemap at `/sitemap.xml`
 - Structured data (JSON-LD)
@@ -218,6 +229,7 @@ npm run build
 ```
 
 Output:
+
 - `build/client/` - Static client assets
 - `build/server/` - Server bundle for Cloudflare Workers
 
@@ -246,9 +258,9 @@ Each route exports a `meta` function:
 ```typescript
 export const meta: MetaFunction = () => {
   return [
-    { title: 'Page Title | Zenphry' },
-    { name: 'description', content: 'Page description' },
-    { name: 'keywords', content: 'keywords, here' },
+    { title: "Page Title | Zenphry" },
+    { name: "description", content: "Page description" },
+    { name: "keywords", content: "keywords, here" },
   ];
 };
 ```
@@ -256,6 +268,7 @@ export const meta: MetaFunction = () => {
 ### Structured Data
 
 Global schema in `app/root.tsx`:
+
 - LocalBusiness schema with company info
 - Service offerings
 - Contact information
@@ -267,13 +280,12 @@ Auto-generated at `/sitemap.xml` with all routes.
 ## Adding New Pages
 
 1. **Create route file** in `app/routes/`
+
    ```tsx
    // app/routes/new-page.tsx
-   import type { MetaFunction } from 'react-router';
+   import type { MetaFunction } from "react-router";
 
-   export const meta: MetaFunction = () => [
-     { title: 'New Page | Zenphry' },
-   ];
+   export const meta: MetaFunction = () => [{ title: "New Page | Zenphry" }];
 
    export default function NewPage() {
      return <div>Content</div>;
@@ -281,6 +293,7 @@ Auto-generated at `/sitemap.xml` with all routes.
    ```
 
 2. **Add route to `app/routes.ts`**
+
    ```typescript
    route('new-page', 'routes/new-page.tsx'),
    ```
@@ -294,6 +307,7 @@ Auto-generated at `/sitemap.xml` with all routes.
 ### Update Brand Colors
 
 Edit `app/tailwind.config.css`:
+
 ```css
 --color-brand-gold: #cbb26a;
 ```
@@ -301,6 +315,7 @@ Edit `app/tailwind.config.css`:
 ### Change Logo
 
 Replace files in `app/assets/`:
+
 - `logo-color.svg/png`
 - `logo-white.svg/png`
 - `logo-black.svg/png`
@@ -318,7 +333,7 @@ Replace files in `app/assets/`:
 - All files should be typed
 - Use `type` imports for types:
   ```typescript
-  import type { MetaFunction } from 'react-router';
+  import type { MetaFunction } from "react-router";
   ```
 
 ## File Conventions
@@ -342,11 +357,13 @@ Replace files in `app/assets/`:
 Set in `wrangler.toml`:
 
 **Public** (safe to expose):
+
 - `ENVIRONMENT` - dev/stg/prod
 - `SITE_URL` - Base URL
 - `TURNSTILE_SITE_KEY` - Bot protection public key
 
 **Secret** (via CLI):
+
 ```bash
 npx wrangler secret put TURNSTILE_SECRET_KEY --env prod
 ```
@@ -354,16 +371,19 @@ npx wrangler secret put TURNSTILE_SECRET_KEY --env prod
 ## Troubleshooting
 
 ### Dev server errors
+
 1. Clear Vite cache: `rm -rf node_modules/.vite`
 2. Reinstall: `rm -rf node_modules && npm install`
 3. Check TypeScript: `npm run typecheck`
 
 ### Build errors
+
 1. Run typecheck first: `npm run typecheck`
 2. Check import paths use `~/` prefix
 3. Verify all routes in `routes.ts` have corresponding files
 
 ### Deployment errors
+
 1. Ensure `npm run build` succeeds first
 2. Check `wrangler.toml` configuration
 3. Verify you're logged in: `npx wrangler whoami`

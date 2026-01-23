@@ -5,7 +5,7 @@ import logoWhite from '~/assets/logo-white.svg';
 
 export function Footer() {
   return (
-    <footer className="bg-gray-50 dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
+    <footer className="bg-gray-50/75 dark:bg-gray-800/75 backdrop-blur-sm border-t border-gray-200 dark:border-gray-700">
       <div className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Company Info */}

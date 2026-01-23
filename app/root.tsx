@@ -16,6 +16,7 @@ import { ThemeProvider } from './lib/theme-provider';
 import { ThemeScript } from './components/theme-script';
 import { Navigation } from './components/navigation';
 import { Footer } from './components/footer';
+import { BackgroundPulses } from './components/background-pulses';
 import { criticalCSS } from './lib/critical-css';
 import logoColor from './assets/logo-color.png';
 
@@ -178,7 +179,40 @@ export default function App() {
 
   return (
     <ThemeProvider specifiedTheme={theme || 'system'}>
-      <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors">
+      {/* Pattern Background - Light Mode - Fixed to viewport */}
+      <div
+        className="fixed inset-0 z-0 dark:hidden"
+        style={{
+          background: '#ffffff',
+          backgroundImage: `
+            linear-gradient(to right, rgba(203,178,106,0.08) 1px, transparent 1px),
+            linear-gradient(to bottom, rgba(203,178,106,0.08) 1px, transparent 1px),
+            radial-gradient(circle at 50% 50%, rgba(203,178,106,0.12) 0%, rgba(203,178,106,0.04) 50%, transparent 75%)
+          `,
+          backgroundSize: '40px 40px, 40px 40px, 100% 100%',
+        }}
+      >
+        <BackgroundPulses />
+      </div>
+
+      {/* Pattern Background - Dark Mode - Fixed to viewport */}
+      <div
+        className="fixed inset-0 z-0 hidden dark:block"
+        style={{
+          background: '#0f172a',
+          backgroundImage: `
+            linear-gradient(to right, rgba(203,178,106,0.06) 1px, transparent 1px),
+            linear-gradient(to bottom, rgba(203,178,106,0.06) 1px, transparent 1px),
+            radial-gradient(circle at 50% 50%, rgba(203,178,106,0.08) 0%, rgba(203,178,106,0.03) 50%, transparent 75%)
+          `,
+          backgroundSize: '40px 40px, 40px 40px, 100% 100%',
+        }}
+      >
+        <BackgroundPulses />
+      </div>
+
+      {/* Content */}
+      <div className="min-h-screen w-full relative z-10 transition-colors">
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-primary focus:text-primary-foreground focus:rounded-lg focus:shadow-lg"

@@ -1,5 +1,6 @@
 @import 'tailwindcss/theme' layer(theme);
 @import 'tailwindcss/utilities' layer(utilities);
+@plugin "tailwindcss-animate";
 
 @variant dark (&:is(.dark *));
 
@@ -36,4 +37,31 @@
   --radius-lg: 0.5rem;
   --radius-md: calc(var(--radius-lg) - 2px);
   --radius-sm: calc(var(--radius-lg) - 4px);
+
+  /* Professional Animation Timing - Fast & Precise (150-200ms) */
+  --animate-accordion-down: accordion-down 0.15s ease-out;
+  --animate-accordion-up: accordion-up 0.15s ease-out;
+
+  /* Keyframes for accordion animations */
+  @keyframes accordion-down {
+    from {
+      height: 0;
+      opacity: 0;
+    }
+    to {
+      height: var(--radix-accordion-content-height);
+      opacity: 1;
+    }
+  }
+
+  @keyframes accordion-up {
+    from {
+      height: var(--radix-accordion-content-height);
+      opacity: 1;
+    }
+    to {
+      height: 0;
+      opacity: 0;
+    }
+  }
 }

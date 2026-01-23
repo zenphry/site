@@ -147,6 +147,7 @@ Should show: `CLOUDFLARE_API_TOKEN` + `CLOUDFLARE_ACCOUNT_ID`
 ## Environment Protection
 
 Dev and staging environments are protected from search engines via:
+
 - `robots.txt` returns `Disallow: /` for non-production environments
 - Meta tags: `noindex, nofollow, noarchive` in root.tsx
 
@@ -328,6 +329,7 @@ npx wrangler secret list --env prod
 ```
 
 **Common use cases:**
+
 - API keys for third-party services
 - CRM integration tokens
 - Form submission secrets

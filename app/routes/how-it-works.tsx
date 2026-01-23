@@ -135,7 +135,7 @@ export default function HowItWorks() {
           <h2 className="text-2xl font-bold mb-6 text-center text-gray-900 dark:text-white">
             Governance Cadence
           </h2>
-          <div className="bg-gray-50 dark:bg-gray-800 p-6 rounded-lg space-y-3">
+          <div className="bg-gray-50/75 dark:bg-gray-800/75 backdrop-blur-sm p-6 rounded-lg space-y-3">
             <div className="flex justify-between items-center">
               <span className="font-semibold text-gray-900 dark:text-white">
                 Weekly Working Session

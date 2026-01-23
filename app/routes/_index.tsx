@@ -24,7 +24,7 @@ export default function Index() {
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
-      <section className="py-20 md:py-32 bg-gradient-to-br from-gray-50 to-white dark:from-gray-900 dark:to-gray-800">
+      <section className="py-20 md:py-32 bg-gradient-to-br from-gray-50/60 to-white/60 dark:from-gray-900/60 dark:to-gray-800/60">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-4xl md:text-6xl font-bold mb-6 text-gray-900 dark:text-white">
@@ -53,7 +53,7 @@ export default function Index() {
       </section>
 
       {/* Trust / Proof Section */}
-      <section className="py-12 bg-white dark:bg-gray-900">
+      <section className="py-12 bg-white/50 dark:bg-gray-900/50">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
             <div>
@@ -90,7 +90,7 @@ export default function Index() {
       </section>
 
       {/* Problems We Solve */}
-      <section className="py-16 bg-gray-50 dark:bg-gray-800">
+      <section className="py-16 bg-gray-50/50 dark:bg-gray-800/50">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 text-gray-900 dark:text-white">
             Problems We Solve
@@ -115,7 +115,7 @@ export default function Index() {
       </section>
 
       {/* Service Tiers */}
-      <section className="py-16 bg-white dark:bg-gray-900">
+      <section className="py-16 bg-white/50 dark:bg-gray-900/50">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 text-gray-900 dark:text-white">
             Our Services
@@ -172,7 +172,7 @@ export default function Index() {
       </section>
 
       {/* How It Works - 5 Phase Framework */}
-      <section className="py-16 bg-gray-50 dark:bg-gray-800">
+      <section className="py-16 bg-gray-50/50 dark:bg-gray-800/50">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 text-gray-900 dark:text-white">
             The Zenphry Framework
@@ -207,7 +207,7 @@ export default function Index() {
       </section>
 
       {/* Final CTA */}
-      <section className="py-20 bg-primary text-primary-foreground">
+      <section className="py-20 bg-primary/90 backdrop-blur-sm text-primary-foreground">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">Ready to Get Started?</h2>
           <p className="text-xl mb-8 max-w-2xl mx-auto">
@@ -218,7 +218,11 @@ export default function Index() {
             <Button asChild size="lg" variant="secondary">
               <Link to="/book-a-call">Book a Call</Link>
             </Button>
-            <Button asChild size="lg" variant="outline">
+            <Button
+              asChild
+              size="lg"
+              className="bg-white dark:bg-gray-900 text-gray-900 dark:text-white border-2 border-white dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800"
+            >
               <Link to="/services/diagnostic">Get the Diagnostic</Link>
             </Button>
           </div>

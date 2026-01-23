@@ -93,7 +93,7 @@ export default function About() {
             </div>
           </div>
 
-          <div className="text-center bg-gray-50 dark:bg-gray-800 p-8 rounded-lg">
+          <div className="text-center bg-gray-50/75 dark:bg-gray-800/75 backdrop-blur-sm p-8 rounded-lg">
             <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">
               Ready to Work Together?
             </h2>
