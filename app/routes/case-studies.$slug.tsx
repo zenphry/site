@@ -3,11 +3,21 @@ import { useLoaderData, Link } from 'react-router';
 import { Button } from '~/components/ui/button';
 import { Card, CardContent } from '~/components/ui/card';
 
+interface CaseStudyScenario {
+  title: string;
+  industry: string;
+  companySize: string;
+  situation: string;
+  rootCauses: string[];
+  whatZenphryDid: string[];
+  outcomes: string[];
+}
+
 export async function loader({ params }: LoaderFunctionArgs) {
   const { slug } = params;
 
   // Placeholder data - will be replaced with content system later
-  const scenarios: Record<string, any> = {
+  const scenarios: Record<string, CaseStudyScenario> = {
     'saas-scaling': {
       title: 'SaaS Company Scaling Challenges',
       industry: 'Software (SaaS)',

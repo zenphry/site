@@ -24,7 +24,7 @@ export default function ThankYou() {
           </h1>
 
           <p className="text-xl text-gray-600 dark:text-gray-300 mb-8">
-            We've received your inquiry and will be in touch within 24 hours.
+            We&apos;ve received your inquiry and will be in touch within 24 hours.
           </p>
 
           <div className="bg-gray-50/75 dark:bg-gray-800/75 backdrop-blur-sm p-8 rounded-lg mb-8">

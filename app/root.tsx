@@ -175,7 +175,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  const { theme, turnstileSiteKey } = useLoaderData<typeof loader>();
+  const { theme } = useLoaderData<typeof loader>();
 
   return (
     <ThemeProvider specifiedTheme={theme || 'system'}>

@@ -27,13 +27,12 @@ function generateRandomLinePulse(id: number): LinePulse {
 }
 
 export function BackgroundPulses() {
-  const [pulses, setPulses] = useState<LinePulse[]>([]);
+  const [pulses, setPulses] = useState<LinePulse[]>(() => {
+    const pulseCount = 8 + Math.floor(Math.random() * 5);
+    return Array.from({ length: pulseCount }, (_, i) => generateRandomLinePulse(i));
+  });
 
   useEffect(() => {
-    const pulseCount = 8 + Math.floor(Math.random() * 5);
-    const initialPulses = Array.from({ length: pulseCount }, (_, i) => generateRandomLinePulse(i));
-    setPulses(initialPulses);
-
     const driftInterval = setInterval(() => {
       setPulses((prevPulses) =>
         prevPulses.map((pulse) => generateRandomLinePulse(pulse.id))
