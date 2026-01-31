@@ -70,6 +70,7 @@ jobs:
     name: Quality Checks
     needs: [get-release-sha]
     uses: ./.github/workflows/00-ci.yml
+    secrets: inherit
 
   deploy:
     name: Deploy to stg

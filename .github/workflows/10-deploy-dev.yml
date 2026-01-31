@@ -27,6 +27,7 @@ jobs:
   quality-checks:
     name: Quality Checks
     uses: ./.github/workflows/00-ci.yml
+    secrets: inherit
 
   deploy:
     name: Deploy to dev
