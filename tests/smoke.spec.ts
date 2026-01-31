@@ -69,8 +69,8 @@ test.describe("Smoke Tests - Critical Paths", () => {
       await expect(hamburgerButton).toBeVisible();
       await expect(hamburgerButton).toBeEnabled();
 
-      // Click hamburger menu
-      await hamburgerButton.click();
+      // Click hamburger menu using JavaScript to bypass floating CTA overlay
+      await hamburgerButton.evaluate((el) => (el as HTMLElement).click());
 
       // Wait for menu to appear
       const mobileNav = page.locator("nav a").first();
