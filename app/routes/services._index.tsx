@@ -1,61 +1,67 @@
-import type { MetaFunction } from 'react-router';
-import { Link } from 'react-router';
-import { Button } from '~/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '~/components/ui/card';
+import type { MetaFunction } from "react-router";
+import { Link } from "react-router";
+import { Button } from "~/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "~/components/ui/card";
 
 export const meta: MetaFunction = () => {
   return [
-    { title: 'Services | Zenphry' },
+    { title: "Services | Zenphry" },
     {
-      name: 'description',
+      name: "description",
       content:
-        'Operational, organizational, and technology restructuring services for businesses at every stage.',
+        "Operational, organizational, and technology restructuring services for businesses at every stage.",
     },
   ];
 };
 
 const services = [
   {
-    slug: 'diagnostic',
-    title: 'Restructuring Diagnostic',
-    duration: '2-3 weeks',
-    whoItsFor: 'All businesses needing clarity',
-    description: 'Identify root causes of inefficiency and execution breakdown',
+    slug: "diagnostic",
+    title: "Restructuring Diagnostic",
+    duration: "2-3 weeks",
+    whoItsFor: "All businesses needing clarity",
+    description: "Identify root causes of inefficiency and execution breakdown",
   },
   {
-    slug: 'foundation',
-    title: 'Foundation Restructure',
-    duration: '4-6 weeks',
-    whoItsFor: 'Small businesses, early-stage startups',
-    description: 'Stabilize operations and introduce structure',
+    slug: "foundation",
+    title: "Foundation Restructure",
+    duration: "4-6 weeks",
+    whoItsFor: "Small businesses, early-stage startups",
+    description: "Stabilize operations and introduce structure",
   },
   {
-    slug: 'growth',
-    title: 'Growth Restructure',
-    duration: '8-12 weeks',
-    whoItsFor: 'Scaling companies, agencies',
-    description: 'Redesign operations to support scale',
+    slug: "growth",
+    title: "Growth Restructure",
+    duration: "8-12 weeks",
+    whoItsFor: "Scaling companies, agencies",
+    description: "Redesign operations to support scale",
   },
   {
-    slug: 'enterprise',
-    title: 'Enterprise Transformation',
-    duration: '3-6 months',
-    whoItsFor: 'Mid-market, complex organizations',
-    description: 'Lead full-scale organizational transformation',
+    slug: "enterprise",
+    title: "Enterprise Transformation",
+    duration: "3-6 months",
+    whoItsFor: "Mid-market, complex organizations",
+    description: "Lead full-scale organizational transformation",
   },
   {
-    slug: 'technology',
-    title: 'Technology & Systems',
-    duration: 'Varies',
-    whoItsFor: 'Tech-heavy businesses',
-    description: 'Remove technology inefficiencies slowing execution',
+    slug: "technology",
+    title: "Technology & Systems",
+    duration: "Varies",
+    whoItsFor: "Tech-heavy businesses",
+    description: "Remove technology inefficiencies slowing execution",
   },
   {
-    slug: 'advisory',
-    title: 'Advisory Retainer',
-    duration: 'Ongoing',
-    whoItsFor: 'Post-restructuring optimization',
-    description: 'Sustain performance after restructuring',
+    slug: "advisory",
+    title: "Advisory Retainer",
+    duration: "Ongoing",
+    whoItsFor: "Post-restructuring optimization",
+    description: "Sustain performance after restructuring",
   },
 ];
 
@@ -68,8 +74,9 @@ export default function ServicesIndex() {
             Business Restructuring Services
           </h1>
           <p className="text-xl text-gray-600 dark:text-gray-300">
-            Operational, organizational, and technology restructuring for businesses at every
-            stage. From diagnostic assessments to full-scale transformation.
+            Operational, organizational, and technology restructuring for
+            businesses at every stage. From diagnostic assessments to full-scale
+            transformation.
           </p>
         </div>
 
@@ -84,7 +91,9 @@ export default function ServicesIndex() {
                 <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
                   <strong>Who it is for:</strong> {service.whoItsFor}
                 </p>
-                <p className="mb-4 text-gray-600 dark:text-gray-400">{service.description}</p>
+                <p className="mb-4 text-gray-600 dark:text-gray-400">
+                  {service.description}
+                </p>
                 <Button asChild variant="outline" className="w-full">
                   <Link to={`/services/${service.slug}`}>Learn More</Link>
                 </Button>
@@ -98,7 +107,8 @@ export default function ServicesIndex() {
             Not Sure Where to Start?
           </h2>
           <p className="text-gray-600 dark:text-gray-400 mb-6">
-            The Restructuring Diagnostic is our recommended entry point for all clients.
+            The Restructuring Diagnostic is our recommended entry point for all
+            clients.
           </p>
           <Button asChild size="lg">
             <Link to="/services/diagnostic">Request the Diagnostic</Link>

@@ -1,4 +1,4 @@
-import { defineConfig, devices } from '@playwright/test';
+import { defineConfig, devices } from "@playwright/test";
 
 /**
  * Playwright Configuration for Deployed Environments
@@ -14,31 +14,34 @@ const TEST_URL = process.env.TEST_URL;
 
 if (!TEST_URL) {
   throw new Error(
-    'TEST_URL environment variable is required. Example: TEST_URL=https://dev.zenphry.com'
+    "TEST_URL environment variable is required. Example: TEST_URL=https://dev.zenphry.com",
   );
 }
 
 console.log(`Running smoke tests against: ${TEST_URL}`);
 
 export default defineConfig({
-  testDir: './tests',
+  testDir: "./tests",
 
   // Only run smoke tests
-  testMatch: '**/smoke.spec.ts',
+  testMatch: "**/smoke.spec.ts",
 
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 2 : undefined,
 
-  reporter: [['html', { outputFolder: 'playwright-report-deployed' }], ['list']],
+  reporter: [
+    ["html", { outputFolder: "playwright-report-deployed" }],
+    ["list"],
+  ],
 
   use: {
     // Use the deployed URL as base
     baseURL: TEST_URL,
-    trace: 'retain-on-failure',
-    screenshot: 'only-on-failure',
-    video: 'retain-on-failure',
+    trace: "retain-on-failure",
+    screenshot: "only-on-failure",
+    video: "retain-on-failure",
 
     // Longer timeouts for deployed sites and self-hosted runners
     actionTimeout: 30000, // 30s for click/type actions
@@ -50,24 +53,24 @@ export default defineConfig({
 
   projects: [
     {
-      name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      name: "chromium",
+      use: { ...devices["Desktop Chrome"] },
     },
     {
-      name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
+      name: "firefox",
+      use: { ...devices["Desktop Firefox"] },
     },
     {
-      name: 'webkit',
-      use: { ...devices['Desktop Safari'] },
+      name: "webkit",
+      use: { ...devices["Desktop Safari"] },
     },
     {
-      name: 'mobile-chrome',
-      use: { ...devices['Pixel 5'] },
+      name: "mobile-chrome",
+      use: { ...devices["Pixel 5"] },
     },
     {
-      name: 'mobile-safari',
-      use: { ...devices['iPhone 12'] },
+      name: "mobile-safari",
+      use: { ...devices["iPhone 12"] },
     },
   ],
 

@@ -1,10 +1,10 @@
-import React from 'react';
+import React from "react";
 
 /**
  * Inline script to apply theme before the page renders to prevent flash
  * Follows Tailwind v4 convention: dark mode = 'dark' class, light = no class
  */
-export function ThemeScript({ theme }: { theme: 'light' | 'dark' | 'system' }) {
+export function ThemeScript({ theme }: { theme: "light" | "dark" | "system" }) {
   const themeScript = `
     (function() {
       const theme = ${JSON.stringify(theme)};
@@ -20,5 +20,10 @@ export function ThemeScript({ theme }: { theme: 'light' | 'dark' | 'system' }) {
     })();
   `;
 
-  return <script dangerouslySetInnerHTML={{ __html: themeScript }} suppressHydrationWarning />;
+  return (
+    <script
+      dangerouslySetInnerHTML={{ __html: themeScript }}
+      suppressHydrationWarning
+    />
+  );
 }

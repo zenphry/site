@@ -1,12 +1,13 @@
-import type { MetaFunction } from 'react-router';
-import { Card, CardContent, CardHeader, CardTitle } from '~/components/ui/card';
+import type { MetaFunction } from "react-router";
+import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 
 export const meta: MetaFunction = () => {
   return [
-    { title: 'Book a Call | Zenphry' },
+    { title: "Book a Call | Zenphry" },
     {
-      name: 'description',
-      content: 'Schedule a discovery call with Zenphry to discuss your business needs.',
+      name: "description",
+      content:
+        "Schedule a discovery call with Zenphry to discuss your business needs.",
     },
   ];
 };
@@ -20,8 +21,8 @@ export default function BookACall() {
             Book a Discovery Call
           </h1>
           <p className="text-xl text-center text-gray-600 dark:text-gray-300 mb-12">
-            Schedule a 30-minute call to discuss your business challenges and see how Zenphry can
-            help.
+            Schedule a 30-minute call to discuss your business challenges and
+            see how Zenphry can help.
           </p>
 
           <Card>
@@ -34,7 +35,8 @@ export default function BookACall() {
                   Calendly or scheduling embed will be integrated here.
                 </p>
                 <p className="text-sm text-gray-500 dark:text-gray-500">
-                  Please provide your Calendly URL or preferred scheduling tool link.
+                  Please provide your Calendly URL or preferred scheduling tool
+                  link.
                 </p>
               </div>
             </CardContent>

@@ -1,10 +1,10 @@
-import { Link } from 'react-router';
-import { useState } from 'react';
-import { Menu, X } from 'lucide-react';
-import { Button } from './ui/button';
-import { ThemeToggle } from './theme-toggle';
-import logoColor from '~/assets/logo-color.svg';
-import logoWhite from '~/assets/logo-white.svg';
+import { Link } from "react-router";
+import { useState } from "react";
+import { Menu, X } from "lucide-react";
+import { Button } from "./ui/button";
+import { ThemeToggle } from "./theme-toggle";
+import logoColor from "~/assets/logo-color.svg";
+import logoWhite from "~/assets/logo-white.svg";
 
 export function Navigation() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);

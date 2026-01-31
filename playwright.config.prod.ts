@@ -1,4 +1,4 @@
-import { defineConfig, devices } from '@playwright/test';
+import { defineConfig, devices } from "@playwright/test";
 
 /**
  * Playwright Configuration for Production Smoke Tests
@@ -17,17 +17,17 @@ const TEST_URL = process.env.TEST_URL;
 
 if (!TEST_URL) {
   throw new Error(
-    'TEST_URL environment variable is required for production smoke tests. Example: TEST_URL=https://zenphry.com'
+    "TEST_URL environment variable is required for production smoke tests. Example: TEST_URL=https://zenphry.com",
   );
 }
 
 console.log(`Running production smoke tests against: ${TEST_URL}`);
 
 export default defineConfig({
-  testDir: './tests',
+  testDir: "./tests",
 
   // Only run lightweight production smoke tests
-  testMatch: '**/smoke-prod.spec.ts',
+  testMatch: "**/smoke-prod.spec.ts",
 
   // Sequential execution to reduce Worker load
   fullyParallel: false,
@@ -39,13 +39,16 @@ export default defineConfig({
   // Fail fast on first error
   forbidOnly: !!process.env.CI,
 
-  reporter: [['html', { outputFolder: 'playwright-report-deployed' }], ['list']],
+  reporter: [
+    ["html", { outputFolder: "playwright-report-deployed" }],
+    ["list"],
+  ],
 
   use: {
     baseURL: TEST_URL,
-    trace: 'off', // No traces for lightweight tests
-    screenshot: 'only-on-failure',
-    video: 'off', // No video to reduce overhead
+    trace: "off", // No traces for lightweight tests
+    screenshot: "only-on-failure",
+    video: "off", // No video to reduce overhead
 
     // Reasonable timeouts
     actionTimeout: 15000,
@@ -57,8 +60,8 @@ export default defineConfig({
 
   projects: [
     {
-      name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      name: "chromium",
+      use: { ...devices["Desktop Chrome"] },
     },
   ],
 });

@@ -1,7 +1,7 @@
-import { Link } from 'react-router';
-import { Separator } from './ui/separator';
-import logoColor from '~/assets/logo-color.svg';
-import logoWhite from '~/assets/logo-white.svg';
+import { Link } from "react-router";
+import { Separator } from "./ui/separator";
+import logoColor from "~/assets/logo-color.svg";
+import logoWhite from "~/assets/logo-white.svg";
 
 export function Footer() {
   return (
@@ -29,7 +29,9 @@ export function Footer() {
 
           {/* Services */}
           <div>
-            <h3 className="font-semibold mb-4 text-gray-900 dark:text-white">Services</h3>
+            <h3 className="font-semibold mb-4 text-gray-900 dark:text-white">
+              Services
+            </h3>
             <ul className="space-y-2 text-sm">
               <li>
                 <Link
@@ -68,7 +70,9 @@ export function Footer() {
 
           {/* Company */}
           <div>
-            <h3 className="font-semibold mb-4 text-gray-900 dark:text-white">Company</h3>
+            <h3 className="font-semibold mb-4 text-gray-900 dark:text-white">
+              Company
+            </h3>
             <ul className="space-y-2 text-sm">
               <li>
                 <Link
@@ -107,7 +111,9 @@ export function Footer() {
 
           {/* Contact */}
           <div>
-            <h3 className="font-semibold mb-4 text-gray-900 dark:text-white">Contact</h3>
+            <h3 className="font-semibold mb-4 text-gray-900 dark:text-white">
+              Contact
+            </h3>
             <ul className="space-y-2 text-sm">
               <li>
                 <Link
@@ -135,8 +141,9 @@ export function Footer() {
         <div className="flex flex-col md:flex-row justify-between items-center text-sm text-gray-600 dark:text-gray-400">
           <p>&copy; {new Date().getFullYear()} Zenphry. All rights reserved.</p>
           <p className="mt-4 md:mt-0 text-center md:text-right max-w-2xl">
-            Zenphry provides operational, organizational, and technology restructuring services.
-            Zenphry does not provide legal, tax, or bankruptcy advice.
+            Zenphry provides operational, organizational, and technology
+            restructuring services. Zenphry does not provide legal, tax, or
+            bankruptcy advice.
           </p>
         </div>
       </div>

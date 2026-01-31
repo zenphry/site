@@ -7,108 +7,122 @@ import {
   ScrollRestoration,
   useLoaderData,
   useRouteError,
-} from 'react-router';
+} from "react-router";
 
-import type { LinksFunction, LoaderFunctionArgs, MetaFunction } from 'react-router';
-import stylesheet from './app.css?url';
-import { getTheme } from './lib/theme.server';
-import { ThemeProvider } from './lib/theme-provider';
-import { ThemeScript } from './components/theme-script';
-import { Navigation } from './components/navigation';
-import { Footer } from './components/footer';
-import { BackgroundPulses } from './components/background-pulses';
-import { criticalCSS } from './lib/critical-css';
-import logoColor from './assets/logo-color.png';
+import type {
+  LinksFunction,
+  LoaderFunctionArgs,
+  MetaFunction,
+} from "react-router";
+import stylesheet from "./app.css?url";
+import { getTheme } from "./lib/theme.server";
+import { ThemeProvider } from "./lib/theme-provider";
+import { ThemeScript } from "./components/theme-script";
+import { Navigation } from "./components/navigation";
+import { Footer } from "./components/footer";
+import { BackgroundPulses } from "./components/background-pulses";
+import { criticalCSS } from "./lib/critical-css";
+import logoColor from "./assets/logo-color.png";
 
-const SITE_URL = 'https://zenphry.com';
+const SITE_URL = "https://zenphry.com";
 
 // LocalBusiness JSON-LD structured data
 const localBusinessSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'LocalBusiness',
-  '@id': `${SITE_URL}/#organization`,
-  name: 'Zenphry',
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "@id": `${SITE_URL}/#organization`,
+  name: "Zenphry",
   url: SITE_URL,
   logo: `${SITE_URL}${logoColor}`,
   image: `${SITE_URL}${logoColor}`,
   description:
-    'Operator-led business restructuring and transformation firm helping companies fix broken operations, realign teams, and build execution systems that scale.',
-  slogan: 'Restructure Operations. Realign Teams. Scale with Confidence.',
+    "Operator-led business restructuring and transformation firm helping companies fix broken operations, realign teams, and build execution systems that scale.",
+  slogan: "Restructure Operations. Realign Teams. Scale with Confidence.",
   hasOfferCatalog: {
-    '@type': 'OfferCatalog',
-    name: 'Business Restructuring Services',
+    "@type": "OfferCatalog",
+    name: "Business Restructuring Services",
     itemListElement: [
       {
-        '@type': 'Offer',
+        "@type": "Offer",
         itemOffered: {
-          '@type': 'Service',
-          name: 'Business Restructuring Diagnostic',
-          description: 'Identify root causes of inefficiency and execution breakdown',
+          "@type": "Service",
+          name: "Business Restructuring Diagnostic",
+          description:
+            "Identify root causes of inefficiency and execution breakdown",
         },
       },
       {
-        '@type': 'Offer',
+        "@type": "Offer",
         itemOffered: {
-          '@type': 'Service',
-          name: 'Foundation Restructure',
-          description: 'Stabilize operations and introduce structure for small businesses',
+          "@type": "Service",
+          name: "Foundation Restructure",
+          description:
+            "Stabilize operations and introduce structure for small businesses",
         },
       },
       {
-        '@type': 'Offer',
+        "@type": "Offer",
         itemOffered: {
-          '@type': 'Service',
-          name: 'Growth Restructure',
-          description: 'Redesign operations to support scale for growing companies',
+          "@type": "Service",
+          name: "Growth Restructure",
+          description:
+            "Redesign operations to support scale for growing companies",
         },
       },
       {
-        '@type': 'Offer',
+        "@type": "Offer",
         itemOffered: {
-          '@type': 'Service',
-          name: 'Enterprise Transformation',
-          description: 'Lead full-scale organizational transformation',
+          "@type": "Service",
+          name: "Enterprise Transformation",
+          description: "Lead full-scale organizational transformation",
         },
       },
     ],
   },
   knowsAbout: [
-    'Business Restructuring',
-    'Operational Transformation',
-    'Organizational Alignment',
-    'Execution Systems',
-    'Leadership Coaching',
+    "Business Restructuring",
+    "Operational Transformation",
+    "Organizational Alignment",
+    "Execution Systems",
+    "Leadership Coaching",
   ],
 };
 
 export const links: LinksFunction = () => [
   // DNS prefetch for external domains
-  { rel: 'dns-prefetch', href: 'https://fonts.googleapis.com' },
+  { rel: "dns-prefetch", href: "https://fonts.googleapis.com" },
 
   // Preconnect for critical external resources
-  { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
+  { rel: "preconnect", href: "https://fonts.googleapis.com" },
   {
-    rel: 'preconnect',
-    href: 'https://fonts.gstatic.com',
-    crossOrigin: 'anonymous',
+    rel: "preconnect",
+    href: "https://fonts.gstatic.com",
+    crossOrigin: "anonymous",
   },
 
   // App stylesheet
-  { rel: 'stylesheet', href: stylesheet },
+  { rel: "stylesheet", href: stylesheet },
 
   // Favicons
-  { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-  { rel: 'apple-touch-icon', sizes: '180x180', href: '/apple-touch-icon.png' },
-  { rel: 'icon', type: 'image/png', sizes: '192x192', href: '/android-chrome-192x192.png' },
+  { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
+  { rel: "apple-touch-icon", sizes: "180x180", href: "/apple-touch-icon.png" },
+  {
+    rel: "icon",
+    type: "image/png",
+    sizes: "192x192",
+    href: "/android-chrome-192x192.png",
+  },
 ];
 
 export async function loader({ request, context }: LoaderFunctionArgs) {
   const theme = await getTheme(request);
   const isDev =
-    context.cloudflare?.env?.ENVIRONMENT === 'dev' ||
-    context.cloudflare?.env?.ENVIRONMENT === 'stg';
+    context.cloudflare?.env?.ENVIRONMENT === "dev" ||
+    context.cloudflare?.env?.ENVIRONMENT === "stg";
 
-  const turnstileSiteKey = context.cloudflare?.env?.TURNSTILE_SITE_KEY as string | undefined;
+  const turnstileSiteKey = context.cloudflare?.env?.TURNSTILE_SITE_KEY as
+    | string
+    | undefined;
 
   return { theme, isDev, turnstileSiteKey };
 }
@@ -117,8 +131,8 @@ export async function loader({ request, context }: LoaderFunctionArgs) {
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
   if (data?.isDev) {
     return [
-      { name: 'robots', content: 'noindex, nofollow, noarchive' },
-      { name: 'googlebot', content: 'noindex, nofollow' },
+      { name: "robots", content: "noindex, nofollow, noarchive" },
+      { name: "googlebot", content: "noindex, nofollow" },
     ];
   }
   return [];
@@ -126,16 +140,19 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
 
 export function Layout({ children }: { children: React.ReactNode }) {
   const data = useLoaderData<typeof loader>();
-  const theme = data?.theme || 'system';
+  const theme = data?.theme || "system";
 
   // Tailwind v4 dark mode: only add 'dark' class when needed
-  const htmlClass = theme === 'dark' ? 'dark' : '';
+  const htmlClass = theme === "dark" ? "dark" : "";
 
   return (
     <html lang="en" className={htmlClass} suppressHydrationWarning>
       <head>
         <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, viewport-fit=cover"
+        />
 
         {/* Inline critical CSS for faster FCP */}
         <style dangerouslySetInnerHTML={{ __html: criticalCSS }} />
@@ -158,12 +175,14 @@ export function Layout({ children }: { children: React.ReactNode }) {
         {/* LocalBusiness structured data */}
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(localBusinessSchema),
+          }}
         />
 
         <Meta />
         <Links />
-        <ThemeScript theme={data?.theme || 'system'} />
+        <ThemeScript theme={data?.theme || "system"} />
       </head>
       <body>
         {children}
@@ -178,18 +197,18 @@ export default function App() {
   const { theme } = useLoaderData<typeof loader>();
 
   return (
-    <ThemeProvider specifiedTheme={theme || 'system'}>
+    <ThemeProvider specifiedTheme={theme || "system"}>
       {/* Pattern Background - Light Mode - Fixed to viewport */}
       <div
         className="fixed inset-0 z-0 dark:hidden"
         style={{
-          background: '#ffffff',
+          background: "#ffffff",
           backgroundImage: `
             linear-gradient(to right, rgba(203,178,106,0.08) 1px, transparent 1px),
             linear-gradient(to bottom, rgba(203,178,106,0.08) 1px, transparent 1px),
             radial-gradient(circle at 50% 50%, rgba(203,178,106,0.12) 0%, rgba(203,178,106,0.04) 50%, transparent 75%)
           `,
-          backgroundSize: '40px 40px, 40px 40px, 100% 100%',
+          backgroundSize: "40px 40px, 40px 40px, 100% 100%",
         }}
       >
         <BackgroundPulses />
@@ -199,13 +218,13 @@ export default function App() {
       <div
         className="fixed inset-0 z-0 hidden dark:block"
         style={{
-          background: '#0f172a',
+          background: "#0f172a",
           backgroundImage: `
             linear-gradient(to right, rgba(203,178,106,0.06) 1px, transparent 1px),
             linear-gradient(to bottom, rgba(203,178,106,0.06) 1px, transparent 1px),
             radial-gradient(circle at 50% 50%, rgba(203,178,106,0.08) 0%, rgba(203,178,106,0.03) 50%, transparent 75%)
           `,
-          backgroundSize: '40px 40px, 40px 40px, 100% 100%',
+          backgroundSize: "40px 40px, 40px 40px, 100% 100%",
         }}
       >
         <BackgroundPulses />
@@ -231,14 +250,16 @@ export default function App() {
 
 export function ErrorBoundary() {
   const error = useRouteError();
-  let message = 'Oops!';
-  let details = 'An unexpected error occurred.';
+  let message = "Oops!";
+  let details = "An unexpected error occurred.";
   let stack: string | undefined;
 
   if (isRouteErrorResponse(error)) {
-    message = error.status === 404 ? '404' : 'Error';
+    message = error.status === 404 ? "404" : "Error";
     details =
-      error.status === 404 ? 'The requested page could not be found.' : error.statusText || details;
+      error.status === 404
+        ? "The requested page could not be found."
+        : error.statusText || details;
   } else if (import.meta.env.DEV && error && error instanceof Error) {
     details = error.message;
     stack = error.stack;

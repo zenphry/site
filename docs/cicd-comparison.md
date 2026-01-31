@@ -9,6 +9,7 @@ Comprehensive comparison between zsoftly/website and zenphry/site CI/CD pipeline
 **Pipeline Completeness: 95%** (was 90%, now improved)
 
 The zenphry pipeline successfully implements core CI/CD functionality with intentional simplifications:
+
 - ✅ **Removed:** R2 storage, Google Chat, Vectorize (expected)
 - ✅ **Added:** GitHub artifacts, simplified notifications
 - ✅ **Fixed:** Missing setup-chrome action
@@ -18,13 +19,13 @@ The zenphry pipeline successfully implements core CI/CD functionality with inten
 
 ## Intentional Differences (All Appropriate)
 
-| Feature | zsoftly | zenphry | Reason |
-|---------|---------|---------|--------|
-| Artifact Storage | Cloudflare R2 | GitHub Actions | Simpler, no R2 setup needed |
-| Notifications | Google Chat | None | Not needed for smaller team |
-| Vectorize Indexing | Yes | No | Feature not required |
-| Caching | R2-based | GitHub cache | Built-in, simpler |
-| Runners | Self-hosted EKS | GitHub-hosted | No infrastructure needed |
+| Feature            | zsoftly         | zenphry        | Reason                      |
+| ------------------ | --------------- | -------------- | --------------------------- |
+| Artifact Storage   | Cloudflare R2   | GitHub Actions | Simpler, no R2 setup needed |
+| Notifications      | Google Chat     | None           | Not needed for smaller team |
+| Vectorize Indexing | Yes             | No             | Feature not required        |
+| Caching            | R2-based        | GitHub cache   | Built-in, simpler           |
+| Runners            | Self-hosted EKS | GitHub-hosted  | No infrastructure needed    |
 
 ---
 
@@ -33,6 +34,7 @@ The zenphry pipeline successfully implements core CI/CD functionality with inten
 ### ✅ Critical Issue Resolved
 
 **Missing setup-chrome action:**
+
 - **Issue:** SEO audit workflow referenced `.github/actions/setup-chrome` but it didn't exist
 - **Fix:** Added setup-chrome action (copied from zsoftly)
 - **Status:** ✅ Fixed and pushed (commit 4f31542)
@@ -47,6 +49,7 @@ The zenphry pipeline successfully implements core CI/CD functionality with inten
 The production deployment workflow doesn't validate that artifacts passed CI/tests before deploying.
 
 **zsoftly approach:**
+
 ```bash
 # Download metadata
 BUILD_SHA=$(jq -r '.build_sha' build-metadata.json)
@@ -60,6 +63,7 @@ fi
 ```
 
 **zenphry current approach:**
+
 ```yaml
 - name: Download build artifact
   uses: actions/download-artifact@v4
@@ -96,6 +100,7 @@ Add metadata validation step to `60-deploy-prod.yml`:
 ```
 
 **Why it matters:**
+
 - Security: Ensures only tested artifacts reach production
 - Auditability: Provides clear trail of what was deployed
 - Safety: Prevents accidental deployment of untested code
@@ -110,16 +115,19 @@ Add metadata validation step to `60-deploy-prod.yml`:
 Smoke tests use static port instead of dynamic port assignment.
 
 **zsoftly approach:**
+
 ```bash
 export PLAYWRIGHT_PORT=$((5000 + ${{ github.run_number }} % 10000))
 ```
 
 **zenphry current approach:**
+
 ```bash
 npm run test:smoke  # Uses default port
 ```
 
 **Why it's low priority:**
+
 - GitHub runners are ephemeral (each job gets fresh environment)
 - Port conflicts are unlikely
 
@@ -132,82 +140,82 @@ Add dynamic port assignment only if smoke tests fail intermittently with port co
 
 ### Workflows (7 total)
 
-| Workflow | zsoftly | zenphry | Status |
-|----------|---------|---------|--------|
-| 00-ci.yml | ✅ | ✅ | Adapted (GitHub artifacts, no R2) |
-| 10-deploy-dev.yml | ✅ | ✅ | Adapted (no Vectorize, no Chat) |
-| 20-deploy-stg.yml | ✅ | ✅ | Adapted (GitHub artifacts) |
-| 60-deploy-prod.yml | ✅ | ✅ | Simplified (no metadata check) |
-| 70-e2e-weekly.yml | ✅ | ✅ | Adapted (GitHub cache) |
-| 80-seo-audit.yml | ✅ | ✅ | Adapted (no consolidated notify) |
-| 90-cleanup.yml | ✅ | ✅ | Identical |
+| Workflow           | zsoftly | zenphry | Status                            |
+| ------------------ | ------- | ------- | --------------------------------- |
+| 00-ci.yml          | ✅      | ✅      | Adapted (GitHub artifacts, no R2) |
+| 10-deploy-dev.yml  | ✅      | ✅      | Adapted (no Vectorize, no Chat)   |
+| 20-deploy-stg.yml  | ✅      | ✅      | Adapted (GitHub artifacts)        |
+| 60-deploy-prod.yml | ✅      | ✅      | Simplified (no metadata check)    |
+| 70-e2e-weekly.yml  | ✅      | ✅      | Adapted (GitHub cache)            |
+| 80-seo-audit.yml   | ✅      | ✅      | Adapted (no consolidated notify)  |
+| 90-cleanup.yml     | ✅      | ✅      | Identical                         |
 
 ### Composite Actions (4 total)
 
-| Action | zsoftly | zenphry | Status |
-|--------|---------|---------|--------|
-| deploy-worker | ✅ | ✅ | Identical (URLs updated) |
-| setup-node | ✅ | ✅ | Identical |
-| setup-playwright | ✅ | ✅ | Identical |
-| setup-chrome | ✅ | ✅ | ✅ Added (was missing) |
+| Action           | zsoftly | zenphry | Status                   |
+| ---------------- | ------- | ------- | ------------------------ |
+| deploy-worker    | ✅      | ✅      | Identical (URLs updated) |
+| setup-node       | ✅      | ✅      | Identical                |
+| setup-playwright | ✅      | ✅      | Identical                |
+| setup-chrome     | ✅      | ✅      | ✅ Added (was missing)   |
 
 ### Removed Actions (Intentional)
 
-| Action | Reason |
-|--------|--------|
-| r2-upload | Using GitHub artifacts |
-| r2-download | Using GitHub artifacts |
-| setup-node-cached | Using GitHub cache |
-| setup-playwright-cached | Using GitHub cache |
-| setup-aws-cli | R2-only dependency |
-| google-chat-notify | No notifications needed |
+| Action                  | Reason                  |
+| ----------------------- | ----------------------- |
+| r2-upload               | Using GitHub artifacts  |
+| r2-download             | Using GitHub artifacts  |
+| setup-node-cached       | Using GitHub cache      |
+| setup-playwright-cached | Using GitHub cache      |
+| setup-aws-cli           | R2-only dependency      |
+| google-chat-notify      | No notifications needed |
 
 ### Scripts (3 total)
 
-| Script | zsoftly | zenphry | Status |
-|--------|---------|---------|--------|
-| 01-health-check.sh | ✅ | ✅ | Identical (URLs updated) |
-| 99-delete-gh-actions.sh | ✅ | ✅ | Identical |
-| prebuild-content.ts | ✅ | ✅ | Identical |
+| Script                  | zsoftly | zenphry | Status                   |
+| ----------------------- | ------- | ------- | ------------------------ |
+| 01-health-check.sh      | ✅      | ✅      | Identical (URLs updated) |
+| 99-delete-gh-actions.sh | ✅      | ✅      | Identical                |
+| prebuild-content.ts     | ✅      | ✅      | Identical                |
 
 ### Removed Scripts (Intentional)
 
-| Script | Reason |
-|--------|--------|
-| 02-send-deployment-notification.sh | Google Chat integration |
-| 03-verify-seo.sh | Not used in workflows |
-| upload-vectors.ts | Vectorize integration |
-| index-vectorize.ts | Vectorize integration |
-| generate-whitepapers.ts | zsoftly-specific content |
+| Script                             | Reason                   |
+| ---------------------------------- | ------------------------ |
+| 02-send-deployment-notification.sh | Google Chat integration  |
+| 03-verify-seo.sh                   | Not used in workflows    |
+| upload-vectors.ts                  | Vectorize integration    |
+| index-vectorize.ts                 | Vectorize integration    |
+| generate-whitepapers.ts            | zsoftly-specific content |
 
 ---
 
 ## Pipeline Feature Matrix
 
-| Feature | zsoftly | zenphry | Notes |
-|---------|---------|---------|-------|
-| **Quality Gates** |
-| Format check | ✅ | ✅ | Identical |
-| Lint | ✅ | ✅ | Identical |
-| Type check | ✅ | ✅ | Identical |
-| Security audit | ✅ | ✅ | Identical |
-| Unit tests | ✅ | ✅ | Identical |
-| **Build & Test** |
-| Build verification | ✅ | ✅ | Identical |
-| Smoke tests | ✅ | ✅ | Similar (port handling diff) |
-| E2E tests (weekly) | ✅ | ✅ | Identical |
-| **Deployment** |
-| Dev auto-deploy | ✅ | ✅ | Identical flow |
-| Staging manual | ✅ | ✅ | Identical flow |
-| Prod manual | ✅ | ✅ | Similar (no metadata check) |
-| Health checks | ✅ | ✅ | Identical |
-| Auto-rollback | ✅ | ✅ | Identical |
+| Feature                | zsoftly | zenphry | Notes                        |
+| ---------------------- | ------- | ------- | ---------------------------- |
+| **Quality Gates**      |
+| Format check           | ✅      | ✅      | Identical                    |
+| Lint                   | ✅      | ✅      | Identical                    |
+| Type check             | ✅      | ✅      | Identical                    |
+| Security audit         | ✅      | ✅      | Identical                    |
+| Unit tests             | ✅      | ✅      | Identical                    |
+| **Build & Test**       |
+| Build verification     | ✅      | ✅      | Identical                    |
+| Smoke tests            | ✅      | ✅      | Similar (port handling diff) |
+| E2E tests (weekly)     | ✅      | ✅      | Identical                    |
+| **Deployment**         |
+| Dev auto-deploy        | ✅      | ✅      | Identical flow               |
+| Staging manual         | ✅      | ✅      | Identical flow               |
+| Prod manual            | ✅      | ✅      | Similar (no metadata check)  |
+| Health checks          | ✅      | ✅      | Identical                    |
+| Auto-rollback          | ✅      | ✅      | Identical                    |
 | **Quality Monitoring** |
-| SEO audit | ✅ | ✅ | Identical |
-| Lighthouse reports | ✅ | ✅ | Different storage |
-| **Maintenance** |
-| Artifact cleanup | ✅ | ✅ | Identical |
-| Cache cleanup | ✅ | ✅ | Identical |
+| SEO audit              | ✅      | ✅      | Identical                    |
+| Lighthouse reports     | ✅      | ✅      | Different storage            |
+| **Maintenance**        |
+| Artifact cleanup       | ✅      | ✅      | Identical                    |
+| Cache cleanup          | ✅      | ✅      | Identical                    |
 
 ---
 
@@ -239,6 +247,7 @@ Add dynamic port assignment only if smoke tests fail intermittently with port co
 **The zenphry CI/CD pipeline is production-ready** with intentional, well-reasoned simplifications:
 
 ✅ **Strengths:**
+
 - Simpler architecture (GitHub artifacts vs R2)
 - No external dependencies (Chat, Vectorize)
 - Lower maintenance overhead
@@ -246,6 +255,7 @@ Add dynamic port assignment only if smoke tests fail intermittently with port co
 - Same deployment safety (health checks, rollback)
 
 ⚠️ **Minor Gaps:**
+
 - No artifact metadata validation in prod (recommended to add)
 - No deployment notifications (intentional removal)
 
