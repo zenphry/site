@@ -108,8 +108,6 @@ jobs:
     needs: [lint, typecheck, security-audit, unit-tests]
     runs-on: ubuntu-latest
     timeout-minutes: 20
-    permissions:
-      contents: write
     steps:
       - name: '00: Checkout code'
         uses: actions/checkout@v4
