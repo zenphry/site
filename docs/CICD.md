@@ -191,27 +191,31 @@ git push origin release/$(date +%Y-%m-%d)
 
 ---
 
-## SEO Protection Verification
-
-After each deployment, health checks verify proper SEO configuration for each environment.
+## Health Checks and SEO Protection
 
 **Dev/Staging Environments:**
 
-- `X-Robots-Tag: noindex, nofollow, noarchive` HTTP header present
-- `robots.txt` contains `Disallow: /` (blocks all crawlers)
-- HTML meta tag `<meta name="robots" content="noindex, nofollow, noarchive">` present
+- Health checks are **skipped** (Cloudflare firewall blocks GitHub Actions IPs)
+- Manual verification required after deployment
+- SEO protection configured:
+  - `X-Robots-Tag: noindex, nofollow, noarchive` HTTP header
+  - `robots.txt` contains `Disallow: /` (blocks all crawlers)
+  - HTML meta tag `<meta name="robots" content="noindex, nofollow, noarchive">`
 
-**Prod Environment:**
+**Production Environment:**
 
-- No `X-Robots-Tag` header (allows indexing)
-- `robots.txt` contains `Allow: /` (allows all crawlers)
-- No `noindex` meta tags in HTML
+- Health checks run automatically after deployment
+- Automatic rollback on failure (see below)
+- SEO configuration verified:
+  - No `X-Robots-Tag` header (allows indexing)
+  - `robots.txt` contains `Allow: /` (allows all crawlers)
+  - No `noindex` meta tags in HTML
 
 ---
 
 ## Automatic Rollback on Deployment Failure
 
-Production and dev deployments include automatic rollback capability. If health checks fail after deployment, the system automatically reverts to the previous stable version.
+Production deployments include automatic rollback capability. If health checks fail after deployment, the system automatically reverts to the previous stable version.
 
 ### How It Works
 
