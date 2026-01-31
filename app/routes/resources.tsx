@@ -1,12 +1,13 @@
-import type { MetaFunction } from 'react-router';
-import { Card, CardContent, CardHeader, CardTitle } from '~/components/ui/card';
+import type { MetaFunction } from "react-router";
+import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 
 export const meta: MetaFunction = () => {
   return [
-    { title: 'Resources | Zenphry' },
+    { title: "Resources | Zenphry" },
     {
-      name: 'description',
-      content: 'Business restructuring resources, guides, and insights from Zenphry.',
+      name: "description",
+      content:
+        "Business restructuring resources, guides, and insights from Zenphry.",
     },
   ];
 };
@@ -20,8 +21,8 @@ export default function Resources() {
             Resources
           </h1>
           <p className="text-xl text-gray-600 dark:text-gray-300">
-            Insights, guides, and resources for business restructuring and operational
-            transformation.
+            Insights, guides, and resources for business restructuring and
+            operational transformation.
           </p>
         </div>
 
@@ -32,8 +33,9 @@ export default function Resources() {
             </CardHeader>
             <CardContent>
               <p className="text-gray-600 dark:text-gray-400">
-                Resources, articles, and guides will be published here. Check back soon for content
-                on business restructuring best practices, frameworks, and industry insights.
+                Resources, articles, and guides will be published here. Check
+                back soon for content on business restructuring best practices,
+                frameworks, and industry insights.
               </p>
             </CardContent>
           </Card>

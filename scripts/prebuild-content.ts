@@ -5,7 +5,7 @@
 // Placeholder for future content processing
 // Currently no markdown content to process
 
-console.log('[INFO] Content prebuild: No markdown content to process yet');
-console.log('[INFO] Content prebuild: Complete');
+console.log("[INFO] Content prebuild: No markdown content to process yet");
+console.log("[INFO] Content prebuild: Complete");
 
 export {};

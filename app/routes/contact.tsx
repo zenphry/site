@@ -1,13 +1,14 @@
-import type { MetaFunction } from 'react-router';
-import { Card, CardContent, CardHeader, CardTitle } from '~/components/ui/card';
-import { Mail, Phone, MapPin } from 'lucide-react';
+import type { MetaFunction } from "react-router";
+import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
+import { Mail, Phone, MapPin } from "lucide-react";
 
 export const meta: MetaFunction = () => {
   return [
-    { title: 'Contact | Zenphry' },
+    { title: "Contact | Zenphry" },
     {
-      name: 'description',
-      content: 'Get in touch with Zenphry to discuss your business restructuring needs.',
+      name: "description",
+      content:
+        "Get in touch with Zenphry to discuss your business restructuring needs.",
     },
   ];
 };
@@ -31,8 +32,12 @@ export default function Contact() {
                   <CardContent className="flex items-center p-4">
                     <Mail className="h-5 w-5 text-primary mr-3" />
                     <div>
-                      <p className="font-semibold text-gray-900 dark:text-white">Email</p>
-                      <p className="text-gray-600 dark:text-gray-400">contact@zenphry.com</p>
+                      <p className="font-semibold text-gray-900 dark:text-white">
+                        Email
+                      </p>
+                      <p className="text-gray-600 dark:text-gray-400">
+                        contact@zenphry.com
+                      </p>
                     </div>
                   </CardContent>
                 </Card>
@@ -41,8 +46,12 @@ export default function Contact() {
                   <CardContent className="flex items-center p-4">
                     <Phone className="h-5 w-5 text-primary mr-3" />
                     <div>
-                      <p className="font-semibold text-gray-900 dark:text-white">Phone</p>
-                      <p className="text-gray-600 dark:text-gray-400">[TO BE PROVIDED]</p>
+                      <p className="font-semibold text-gray-900 dark:text-white">
+                        Phone
+                      </p>
+                      <p className="text-gray-600 dark:text-gray-400">
+                        [TO BE PROVIDED]
+                      </p>
                     </div>
                   </CardContent>
                 </Card>
@@ -51,8 +60,12 @@ export default function Contact() {
                   <CardContent className="flex items-center p-4">
                     <MapPin className="h-5 w-5 text-primary mr-3" />
                     <div>
-                      <p className="font-semibold text-gray-900 dark:text-white">Location</p>
-                      <p className="text-gray-600 dark:text-gray-400">[TO BE PROVIDED]</p>
+                      <p className="font-semibold text-gray-900 dark:text-white">
+                        Location
+                      </p>
+                      <p className="text-gray-600 dark:text-gray-400">
+                        [TO BE PROVIDED]
+                      </p>
                     </div>
                   </CardContent>
                 </Card>
@@ -66,10 +79,12 @@ export default function Contact() {
                 </CardHeader>
                 <CardContent>
                   <p className="text-gray-600 dark:text-gray-400 mb-4">
-                    Contact form will be integrated here when CRM URL is provided.
+                    Contact form will be integrated here when CRM URL is
+                    provided.
                   </p>
                   <p className="text-sm text-gray-500 dark:text-gray-500">
-                    For now, please use the Book a Call page to schedule a discovery call.
+                    For now, please use the Book a Call page to schedule a
+                    discovery call.
                   </p>
                 </CardContent>
               </Card>
@@ -81,8 +96,8 @@ export default function Contact() {
               Prefer to Schedule Directly?
             </h2>
             <p className="text-gray-600 dark:text-gray-400 mb-6">
-              Book a discovery call to discuss your specific needs and see if Zenphry is the right
-              fit.
+              Book a discovery call to discuss your specific needs and see if
+              Zenphry is the right fit.
             </p>
             <a
               href="/book-a-call"

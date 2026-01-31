@@ -1,13 +1,13 @@
-import type { MetaFunction } from 'react-router';
-import { Link } from 'react-router';
-import { Button } from '~/components/ui/button';
+import type { MetaFunction } from "react-router";
+import { Link } from "react-router";
+import { Button } from "~/components/ui/button";
 
 export const meta: MetaFunction = () => {
   return [
-    { title: 'Growth Restructure | Zenphry' },
+    { title: "Growth Restructure | Zenphry" },
     {
-      name: 'description',
-      content: 'Redesign operations to support scale. 8-12 week engagement.',
+      name: "description",
+      content: "Redesign operations to support scale. 8-12 week engagement.",
     },
   ];
 };
@@ -30,8 +30,8 @@ export default function ServiceGrowth() {
 
         <div className="max-w-4xl mx-auto">
           <p className="text-lg text-gray-600 dark:text-gray-300 mb-8">
-            Content for Growth Restructure service will be added here following the same pattern as
-            the Diagnostic page.
+            Content for Growth Restructure service will be added here following
+            the same pattern as the Diagnostic page.
           </p>
           <Button asChild variant="outline">
             <Link to="/services">← Back to Services</Link>

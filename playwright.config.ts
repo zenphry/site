@@ -1,4 +1,4 @@
-import { defineConfig, devices } from '@playwright/test';
+import { defineConfig, devices } from "@playwright/test";
 
 // Use dynamic port for self-hosted runners to avoid conflicts
 // Falls back to 5173 if not set
@@ -10,17 +10,17 @@ const baseURL = `http://localhost:${port}`;
  * Tests SEO features, navigation, and user interactions
  */
 export default defineConfig({
-  testDir: './tests',
+  testDir: "./tests",
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 2 : undefined, // Parallel execution for faster smoke tests
-  reporter: 'html',
+  reporter: "html",
 
   use: {
     baseURL,
-    trace: 'on-first-retry',
-    screenshot: 'only-on-failure',
+    trace: "on-first-retry",
+    screenshot: "only-on-failure",
 
     // Increase timeouts for slower self-hosted runners
     actionTimeout: 30000, // 30s for click/type actions
@@ -32,24 +32,24 @@ export default defineConfig({
 
   projects: [
     {
-      name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      name: "chromium",
+      use: { ...devices["Desktop Chrome"] },
     },
     {
-      name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
+      name: "firefox",
+      use: { ...devices["Desktop Firefox"] },
     },
     {
-      name: 'webkit',
-      use: { ...devices['Desktop Safari'] },
+      name: "webkit",
+      use: { ...devices["Desktop Safari"] },
     },
     {
-      name: 'mobile-chrome',
-      use: { ...devices['Pixel 5'] },
+      name: "mobile-chrome",
+      use: { ...devices["Pixel 5"] },
     },
     {
-      name: 'mobile-safari',
-      use: { ...devices['iPhone 12'] },
+      name: "mobile-safari",
+      use: { ...devices["iPhone 12"] },
     },
   ],
 
@@ -63,7 +63,7 @@ export default defineConfig({
     // Allow reusing existing server on self-hosted runners to avoid port conflicts
     reuseExistingServer: true,
     timeout: 120 * 1000, // 2 minutes should be enough
-    stdout: 'pipe',
-    stderr: 'pipe',
+    stdout: "pipe",
+    stderr: "pipe",
   },
 });

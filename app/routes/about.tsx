@@ -1,15 +1,16 @@
-import type { MetaFunction } from 'react-router';
-import { Link } from 'react-router';
-import { Button } from '~/components/ui/button';
-import { Card, CardContent } from '~/components/ui/card';
-import { CheckCircle } from 'lucide-react';
+import type { MetaFunction } from "react-router";
+import { Link } from "react-router";
+import { Button } from "~/components/ui/button";
+import { Card, CardContent } from "~/components/ui/card";
+import { CheckCircle } from "lucide-react";
 
 export const meta: MetaFunction = () => {
   return [
-    { title: 'About | Zenphry' },
+    { title: "About | Zenphry" },
     {
-      name: 'description',
-      content: 'Operator-led business restructuring with practical implementation focus.',
+      name: "description",
+      content:
+        "Operator-led business restructuring with practical implementation focus.",
     },
   ];
 };
@@ -25,19 +26,20 @@ export default function About() {
 
           <div className="prose dark:prose-invert max-w-none mb-12">
             <p className="text-xl text-gray-600 dark:text-gray-300 mb-6">
-              Zenphry works with founders, executives, and leadership teams to restructure how
-              their businesses operate. We focus on operational clarity, organizational alignment,
-              and execution discipline.
+              Zenphry works with founders, executives, and leadership teams to
+              restructure how their businesses operate. We focus on operational
+              clarity, organizational alignment, and execution discipline.
             </p>
 
             <p className="text-lg text-gray-600 dark:text-gray-300 mb-6">
-              Our work removes inefficiencies, restores accountability, and replaces chaos with
-              systems that support growth.
+              Our work removes inefficiencies, restores accountability, and
+              replaces chaos with systems that support growth.
             </p>
 
             <p className="text-lg text-gray-600 dark:text-gray-300 mb-6">
-              We do not deliver slide decks and walk away. We diagnose problems, redesign operating
-              models, and stay involved through implementation so results show up in execution.
+              We do not deliver slide decks and walk away. We diagnose problems,
+              redesign operating models, and stay involved through
+              implementation so results show up in execution.
             </p>
           </div>
 
@@ -46,25 +48,31 @@ export default function About() {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-12">
             {[
-              'Operator-led and execution focused',
-              'Structured frameworks, not generic advice',
-              'Clear scope, measurable outcomes, accountability',
-              'Built for real businesses, not theory',
-              'Implementation support, not just recommendations',
+              "Operator-led and execution focused",
+              "Structured frameworks, not generic advice",
+              "Clear scope, measurable outcomes, accountability",
+              "Built for real businesses, not theory",
+              "Implementation support, not just recommendations",
             ].map((item, index) => (
               <Card key={index}>
                 <CardContent className="flex items-start p-4">
                   <CheckCircle className="h-5 w-5 text-primary mr-3 mt-0.5 flex-shrink-0" />
-                  <span className="text-gray-700 dark:text-gray-300">{item}</span>
+                  <span className="text-gray-700 dark:text-gray-300">
+                    {item}
+                  </span>
                 </CardContent>
               </Card>
             ))}
           </div>
 
-          <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">Our Values</h2>
+          <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">
+            Our Values
+          </h2>
           <div className="space-y-4 mb-12">
             <div>
-              <h3 className="font-semibold text-lg text-gray-900 dark:text-white">Clarity</h3>
+              <h3 className="font-semibold text-lg text-gray-900 dark:text-white">
+                Clarity
+              </h3>
               <p className="text-gray-600 dark:text-gray-400">
                 We bring structure and visibility to chaos.
               </p>
@@ -78,7 +86,9 @@ export default function About() {
               </p>
             </div>
             <div>
-              <h3 className="font-semibold text-lg text-gray-900 dark:text-white">Execution</h3>
+              <h3 className="font-semibold text-lg text-gray-900 dark:text-white">
+                Execution
+              </h3>
               <p className="text-gray-600 dark:text-gray-400">
                 We stay involved until changes show up in results.
               </p>

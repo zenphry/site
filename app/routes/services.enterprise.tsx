@@ -1,13 +1,14 @@
-import type { MetaFunction } from 'react-router';
-import { Link } from 'react-router';
-import { Button } from '~/components/ui/button';
+import type { MetaFunction } from "react-router";
+import { Link } from "react-router";
+import { Button } from "~/components/ui/button";
 
 export const meta: MetaFunction = () => {
   return [
-    { title: 'Enterprise Transformation | Zenphry' },
+    { title: "Enterprise Transformation | Zenphry" },
     {
-      name: 'description',
-      content: 'Lead full-scale organizational transformation. 3-6 month engagement.',
+      name: "description",
+      content:
+        "Lead full-scale organizational transformation. 3-6 month engagement.",
     },
   ];
 };
@@ -30,8 +31,8 @@ export default function ServiceEnterprise() {
 
         <div className="max-w-4xl mx-auto">
           <p className="text-lg text-gray-600 dark:text-gray-300 mb-8">
-            Content for Enterprise Transformation service will be added here following the same
-            pattern as the Diagnostic page.
+            Content for Enterprise Transformation service will be added here
+            following the same pattern as the Diagnostic page.
           </p>
           <Button asChild variant="outline">
             <Link to="/services">← Back to Services</Link>

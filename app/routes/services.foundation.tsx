@@ -1,13 +1,14 @@
-import type { MetaFunction } from 'react-router';
-import { Link } from 'react-router';
-import { Button } from '~/components/ui/button';
+import type { MetaFunction } from "react-router";
+import { Link } from "react-router";
+import { Button } from "~/components/ui/button";
 
 export const meta: MetaFunction = () => {
   return [
-    { title: 'Foundation Restructure | Zenphry' },
+    { title: "Foundation Restructure | Zenphry" },
     {
-      name: 'description',
-      content: 'Stabilize operations and introduce structure for small businesses. 4-6 week engagement.',
+      name: "description",
+      content:
+        "Stabilize operations and introduce structure for small businesses. 4-6 week engagement.",
     },
   ];
 };
@@ -30,8 +31,8 @@ export default function ServiceFoundation() {
 
         <div className="max-w-4xl mx-auto">
           <p className="text-lg text-gray-600 dark:text-gray-300 mb-8">
-            Content for Foundation Restructure service will be added here following the same pattern
-            as the Diagnostic page.
+            Content for Foundation Restructure service will be added here
+            following the same pattern as the Diagnostic page.
           </p>
           <Button asChild variant="outline">
             <Link to="/services">← Back to Services</Link>

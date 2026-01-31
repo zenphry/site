@@ -1,12 +1,12 @@
-import type { MetaFunction } from 'react-router';
-import { Link } from 'react-router';
-import { Button } from '~/components/ui/button';
-import { CheckCircle } from 'lucide-react';
+import type { MetaFunction } from "react-router";
+import { Link } from "react-router";
+import { Button } from "~/components/ui/button";
+import { CheckCircle } from "lucide-react";
 
 export const meta: MetaFunction = () => {
   return [
-    { title: 'Thank You | Zenphry' },
-    { name: 'robots', content: 'noindex, nofollow' },
+    { title: "Thank You | Zenphry" },
+    { name: "robots", content: "noindex, nofollow" },
   ];
 };
 
@@ -24,7 +24,8 @@ export default function ThankYou() {
           </h1>
 
           <p className="text-xl text-gray-600 dark:text-gray-300 mb-8">
-            We&apos;ve received your inquiry and will be in touch within 24 hours.
+            We&apos;ve received your inquiry and will be in touch within 24
+            hours.
           </p>
 
           <div className="bg-gray-50/75 dark:bg-gray-800/75 backdrop-blur-sm p-8 rounded-lg mb-8">
@@ -53,7 +54,8 @@ export default function ThankYou() {
                   3
                 </span>
                 <span className="text-gray-600 dark:text-gray-400">
-                  We will reach out within 24 hours to schedule your discovery call
+                  We will reach out within 24 hours to schedule your discovery
+                  call
                 </span>
               </li>
             </ol>

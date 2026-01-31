@@ -1,15 +1,15 @@
-import type { MetaFunction } from 'react-router';
-import { Link } from 'react-router';
-import { Button } from '~/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '~/components/ui/card';
+import type { MetaFunction } from "react-router";
+import { Link } from "react-router";
+import { Button } from "~/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 
 export const meta: MetaFunction = () => {
   return [
-    { title: 'How It Works | Zenphry' },
+    { title: "How It Works | Zenphry" },
     {
-      name: 'description',
+      name: "description",
       content:
-        'The Zenphry 5-phase framework: Diagnose, Stabilize, Redesign, Implement, Sustain.',
+        "The Zenphry 5-phase framework: Diagnose, Stabilize, Redesign, Implement, Sustain.",
     },
   ];
 };
@@ -17,63 +17,63 @@ export const meta: MetaFunction = () => {
 const phases = [
   {
     number: 1,
-    name: 'Diagnose',
-    description: 'Identify root causes of inefficiency and execution breakdown',
+    name: "Diagnose",
+    description: "Identify root causes of inefficiency and execution breakdown",
     deliverables: [
-      'Business health assessment',
-      'Leadership interviews',
-      'Workflow analysis',
-      'Priority heat map',
+      "Business health assessment",
+      "Leadership interviews",
+      "Workflow analysis",
+      "Priority heat map",
     ],
-    timeline: '1-3 weeks',
+    timeline: "1-3 weeks",
   },
   {
     number: 2,
-    name: 'Stabilize',
-    description: 'Reduce immediate chaos and establish baseline structure',
+    name: "Stabilize",
+    description: "Reduce immediate chaos and establish baseline structure",
     deliverables: [
-      'Quick wins implementation',
-      'Role clarity',
-      'Communication protocols',
-      'Initial KPIs',
+      "Quick wins implementation",
+      "Role clarity",
+      "Communication protocols",
+      "Initial KPIs",
     ],
-    timeline: '2-4 weeks',
+    timeline: "2-4 weeks",
   },
   {
     number: 3,
-    name: 'Redesign',
-    description: 'Build new operating models and organizational structure',
+    name: "Redesign",
+    description: "Build new operating models and organizational structure",
     deliverables: [
-      'Target operating model',
-      'Org structure redesign',
-      'Process maps and SOPs',
-      'Governance framework',
+      "Target operating model",
+      "Org structure redesign",
+      "Process maps and SOPs",
+      "Governance framework",
     ],
-    timeline: '4-8 weeks',
+    timeline: "4-8 weeks",
   },
   {
     number: 4,
-    name: 'Implement',
-    description: 'Execute changes with hands-on support',
+    name: "Implement",
+    description: "Execute changes with hands-on support",
     deliverables: [
-      'Change management plan',
-      'Team training',
-      'System rollout',
-      'Performance monitoring',
+      "Change management plan",
+      "Team training",
+      "System rollout",
+      "Performance monitoring",
     ],
-    timeline: '4-12 weeks',
+    timeline: "4-12 weeks",
   },
   {
     number: 5,
-    name: 'Sustain',
-    description: 'Lock in results and enable continuous improvement',
+    name: "Sustain",
+    description: "Lock in results and enable continuous improvement",
     deliverables: [
-      'Monthly KPI reviews',
-      'Leadership coaching',
-      'Continuous optimization',
-      'Quarterly health checks',
+      "Monthly KPI reviews",
+      "Leadership coaching",
+      "Continuous optimization",
+      "Quarterly health checks",
     ],
-    timeline: 'Ongoing',
+    timeline: "Ongoing",
   },
 ];
 
@@ -86,8 +86,8 @@ export default function HowItWorks() {
             The Zenphry Framework
           </h1>
           <p className="text-xl text-gray-600 dark:text-gray-300">
-            Our 5-phase approach ensures lasting transformation from diagnosis through sustained
-            execution.
+            Our 5-phase approach ensures lasting transformation from diagnosis
+            through sustained execution.
           </p>
         </div>
 
@@ -100,8 +100,12 @@ export default function HowItWorks() {
                     {phase.number}
                   </div>
                   <div>
-                    <CardTitle className="text-2xl mb-2">{phase.name}</CardTitle>
-                    <p className="text-gray-600 dark:text-gray-400">{phase.description}</p>
+                    <CardTitle className="text-2xl mb-2">
+                      {phase.name}
+                    </CardTitle>
+                    <p className="text-gray-600 dark:text-gray-400">
+                      {phase.description}
+                    </p>
                   </div>
                 </div>
               </CardHeader>
@@ -113,7 +117,10 @@ export default function HowItWorks() {
                     </h4>
                     <ul className="space-y-1">
                       {phase.deliverables.map((item, i) => (
-                        <li key={i} className="text-sm text-gray-600 dark:text-gray-400">
+                        <li
+                          key={i}
+                          className="text-sm text-gray-600 dark:text-gray-400"
+                        >
                           • {item}
                         </li>
                       ))}
@@ -123,7 +130,9 @@ export default function HowItWorks() {
                     <h4 className="font-semibold mb-2 text-gray-900 dark:text-white">
                       Typical Timeline:
                     </h4>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">{phase.timeline}</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                      {phase.timeline}
+                    </p>
                   </div>
                 </div>
               </CardContent>
@@ -149,8 +158,12 @@ export default function HowItWorks() {
               <span className="text-gray-600 dark:text-gray-400">30 min</span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="font-semibold text-gray-900 dark:text-white">Monthly KPI Pack</span>
-              <span className="text-gray-600 dark:text-gray-400">Delivered</span>
+              <span className="font-semibold text-gray-900 dark:text-white">
+                Monthly KPI Pack
+              </span>
+              <span className="text-gray-600 dark:text-gray-400">
+                Delivered
+              </span>
             </div>
           </div>
         </div>
@@ -158,7 +171,8 @@ export default function HowItWorks() {
         <div className="text-center bg-primary text-primary-foreground p-8 rounded-lg">
           <h2 className="text-2xl font-bold mb-4">Ready to Begin?</h2>
           <p className="mb-6 text-lg">
-            Start with a Diagnostic to understand where you are and what needs to change.
+            Start with a Diagnostic to understand where you are and what needs
+            to change.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button asChild size="lg" variant="secondary">
