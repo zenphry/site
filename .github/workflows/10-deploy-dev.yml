@@ -71,6 +71,7 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          workingDirectory: "./build/server"
           command: deploy --env dev
 
       - name: Wait for edge propagation with progressive health checks
