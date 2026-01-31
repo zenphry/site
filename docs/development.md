@@ -445,7 +445,7 @@ issue* → main → dev (auto) → release/YYYY-MM-DD-HHMM → staging (manual) 
 10. Test in staging environment (stg.zenphry.com)
 11. Deploy to production: `npm run build && npx wrangler deploy --env prod`
 
-**Note:** CI/CD automation with GitHub Actions can be configured in the future for automated deployments.
+**Note:** CI/CD automation with GitHub Actions is now configured! See [CICD.md](./CICD.md) for automated deployment workflows. The manual commands above are still available for local testing or emergency deployments.
 
 ---
 

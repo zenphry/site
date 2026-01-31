@@ -1,0 +1,147 @@
+name: 'Deploy Cloudflare Worker'
+description: 'Upload and deploy a Cloudflare Worker version with metadata'
+
+inputs:
+  environment:
+    description: 'Deployment environment (dev, stg, prod)'
+    required: true
+  api-token:
+    description: 'Cloudflare API Token'
+    required: true
+  account-id:
+    description: 'Cloudflare Account ID'
+    required: true
+  branch-name:
+    description: 'Branch or release name for deployment message'
+    required: true
+  commit-sha:
+    description: 'Full commit SHA'
+    required: true
+  actor:
+    description: 'GitHub actor who triggered the deployment'
+    required: true
+
+outputs:
+  version-id:
+    description: 'Version ID of the deployed Worker'
+    value: ${{ steps.deploy.outputs.version_id }}
+  deployment-url:
+    description: 'URL of the deployed environment'
+    value: ${{ steps.deploy.outputs.deployment_url }}
+  deployment-timestamp:
+    description: 'Timestamp of the deployment'
+    value: ${{ steps.deploy.outputs.deployment_timestamp }}
+  commit-short:
+    description: 'Short commit SHA (7 chars)'
+    value: ${{ steps.upload.outputs.commit_short }}
+  commit-full:
+    description: 'Full commit SHA (40 chars)'
+    value: ${{ inputs.commit-sha }}
+  commit-message:
+    description: 'Commit message of the deployed version'
+    value: ${{ steps.upload.outputs.commit_message }}
+  commit-author:
+    description: 'Author of the deployed commit'
+    value: ${{ steps.upload.outputs.commit_author }}
+  deployment-actor:
+    description: 'GitHub actor who triggered the deployment'
+    value: ${{ inputs.actor }}
+  branch-name:
+    description: 'Branch or release name that was deployed'
+    value: ${{ inputs.branch-name }}
+  environment:
+    description: 'Deployment environment (dev/stg/prod)'
+    value: ${{ inputs.environment }}
+  worker-name:
+    description: 'Cloudflare Worker project name'
+    value: ${{ steps.upload.outputs.worker_name }}
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Upload Worker version with metadata
+      id: upload
+      shell: bash
+      env:
+        CLOUDFLARE_API_TOKEN: ${{ inputs.api-token }}
+        CLOUDFLARE_ACCOUNT_ID: ${{ inputs.account-id }}
+      run: |
+        # Get commit info for deployment message
+        COMMIT_SHORT="${{ inputs.commit-sha }}"
+        COMMIT_SHORT="${COMMIT_SHORT:0:7}"
+        COMMIT_MSG=$(git log -1 --pretty=%s "${{ inputs.commit-sha }}")
+        COMMIT_AUTHOR=$(git log -1 --pretty=%an "${{ inputs.commit-sha }}")
+        ACTOR="${{ inputs.actor }}"
+        BRANCH="${{ inputs.branch-name }}"
+        ENV="${{ inputs.environment }}"
+
+        # Get Worker name from wrangler.toml
+        WORKER_NAME=$(grep "^name = " wrangler.toml | head -1 | sed 's/name = "\(.*\)"/\1/')
+
+        # Upload version with metadata
+        echo "[INFO] Uploading Worker version with metadata..."
+        OUTPUT=$(npx wrangler versions upload --env "$ENV" \
+          --message "By: $ACTOR | Branch: $BRANCH | $COMMIT_MSG" \
+          --tag "commit-$COMMIT_SHORT" 2>&1)
+
+        # Extract version ID from output
+        VERSION_ID=$(echo "$OUTPUT" | grep -oP 'Version ID:\s+\K[a-f0-9-]+' || echo "$OUTPUT" | grep -oP '[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}' | head -1)
+
+        if [ -z "$VERSION_ID" ]; then
+          echo "[ERROR] Failed to extract version ID from wrangler output"
+          echo "$OUTPUT"
+          exit 1
+        fi
+
+        # Output all metadata for debugging
+        echo "version_id=$VERSION_ID" >> $GITHUB_OUTPUT
+        echo "commit_short=$COMMIT_SHORT" >> $GITHUB_OUTPUT
+        echo "commit_message=$COMMIT_MSG" >> $GITHUB_OUTPUT
+        echo "commit_author=$COMMIT_AUTHOR" >> $GITHUB_OUTPUT
+        echo "worker_name=$WORKER_NAME" >> $GITHUB_OUTPUT
+
+        echo "[ARTIFACT] Uploaded version: $VERSION_ID"
+        echo "[ARTIFACT] Worker: $WORKER_NAME"
+        echo "[ARTIFACT] Commit: $COMMIT_SHORT by $COMMIT_AUTHOR"
+        echo "[ARTIFACT] Tag: commit-$COMMIT_SHORT"
+        echo "[ARTIFACT] Message: $COMMIT_MSG"
+
+    - name: Deploy Worker version to 100% traffic
+      id: deploy
+      shell: bash
+      env:
+        CLOUDFLARE_API_TOKEN: ${{ inputs.api-token }}
+        CLOUDFLARE_ACCOUNT_ID: ${{ inputs.account-id }}
+      run: |
+        VERSION_ID="${{ steps.upload.outputs.version_id }}"
+        ENV="${{ inputs.environment }}"
+        BRANCH="${{ inputs.branch-name }}"
+        TIMESTAMP=$(date -u +"%Y-%m-%d %H:%M:%S UTC")
+
+        # Determine deployment URL based on environment
+        case "$ENV" in
+          dev)
+            DEPLOYMENT_URL="https://dev.zenphry.com"
+            ;;
+          stg)
+            DEPLOYMENT_URL="https://stg.zenphry.com"
+            ;;
+          prod)
+            DEPLOYMENT_URL="https://zenphry.com"
+            ;;
+          *)
+            DEPLOYMENT_URL="https://zenphry.com"
+            ;;
+        esac
+
+        echo "[INFO] Deploying version $VERSION_ID to 100% traffic..."
+        npx wrangler versions deploy "$VERSION_ID@100" --env "$ENV" \
+          --message "Deployment to $ENV from $BRANCH" \
+          --yes
+
+        echo "version_id=$VERSION_ID" >> $GITHUB_OUTPUT
+        echo "deployment_url=$DEPLOYMENT_URL" >> $GITHUB_OUTPUT
+        echo "deployment_timestamp=$TIMESTAMP" >> $GITHUB_OUTPUT
+        echo "[ARTIFACT] Deployed version $VERSION_ID to $ENV environment"
+        echo "[ARTIFACT] Deployment URL: $DEPLOYMENT_URL"
+        echo "[ARTIFACT] Deployment timestamp: $TIMESTAMP"

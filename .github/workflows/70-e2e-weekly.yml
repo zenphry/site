@@ -1,0 +1,116 @@
+name: '70: E2E Weekly'
+
+# Runs comprehensive cross-browser E2E tests weekly against dev.zenphry.com
+# Tests the live deployed site directly (no build/artifact dependencies)
+# Covers all browsers and devices to catch platform-specific issues
+# Does NOT run on push to main (smoke tests in CI are sufficient for deployment validation)
+
+on:
+  schedule:
+    # Run at 2 AM UTC every Sunday (results ready Monday morning)
+    - cron: '0 2 * * 0'
+  workflow_dispatch:
+    inputs:
+      browsers:
+        description: 'Browsers to test (comma-separated: chromium,firefox,webkit,mobile-chrome,mobile-safari)'
+        required: false
+        default: 'all'
+        type: string
+      test_filter:
+        description: 'Test filter (grep pattern, e.g. "team page" or "navigation")'
+        required: false
+        default: ''
+        type: string
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  setup:
+    name: Setup Browser Matrix
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - name: '00: Set browser matrix'
+        id: set-matrix
+        run: |
+          # Default: all browsers
+          ALL_BROWSERS='["chromium","firefox","webkit","mobile-chrome","mobile-safari"]'
+
+          # Get input (empty for scheduled runs)
+          INPUT_BROWSERS="${{ github.event.inputs.browsers }}"
+
+          if [ -z "$INPUT_BROWSERS" ] || [ "$INPUT_BROWSERS" = "all" ]; then
+            echo "matrix={\"browser\":$ALL_BROWSERS}" >> $GITHUB_OUTPUT
+            echo "[INFO] Running all browsers"
+          else
+            # Convert comma-separated input to JSON array using jq (-c for compact output)
+            JSON_ARRAY=$(echo "$INPUT_BROWSERS" | jq -Rc 'split(",")')
+            echo "matrix={\"browser\":$JSON_ARRAY}" >> $GITHUB_OUTPUT
+            echo "[INFO] Running selected browsers: $INPUT_BROWSERS"
+          fi
+
+  e2e-full:
+    name: E2E Tests (${{ matrix.browser }})
+    needs: setup
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      max-parallel: 1 # Run sequentially to avoid overwhelming the runner
+      matrix: ${{ fromJson(needs.setup.outputs.matrix) }}
+    steps:
+      - name: '00: Checkout code'
+        uses: actions/checkout@v4
+        with:
+          ref: main # Need test files from main branch to validate deployed code on dev.zenphry.com
+
+      - name: '01: Setup Node.js environment'
+        uses: ./.github/actions/setup-node
+
+      - name: '02: Determine browser to install'
+        id: browser-install
+        run: |
+          # Map project name to Playwright browser
+          case "${{ matrix.browser }}" in
+            chromium|mobile-chrome) echo "install=chromium" >> $GITHUB_OUTPUT ;;
+            firefox) echo "install=firefox" >> $GITHUB_OUTPUT ;;
+            webkit|mobile-safari) echo "install=webkit" >> $GITHUB_OUTPUT ;;
+            *) echo "[ERROR] Unknown browser: ${{ matrix.browser }}"; exit 1 ;;
+          esac
+
+      - name: '03: Setup Playwright'
+        uses: ./.github/actions/setup-playwright
+        with:
+          browser: ${{ steps.browser-install.outputs.install }}
+
+      - name: '04: Run E2E tests (${{ matrix.browser }})'
+        env:
+          CI: true
+          TEST_URL: https://dev.zenphry.com
+          TEST_FILTER: ${{ github.event.inputs.test_filter }}
+        run: |
+          echo "[INFO] Testing against $TEST_URL"
+          if [ -n "$TEST_FILTER" ]; then
+            echo "[INFO] Filtering tests: $TEST_FILTER"
+          fi
+          npx playwright test --config=playwright.config.deployed.ts --project=${{ matrix.browser }} ${TEST_FILTER:+--grep "$TEST_FILTER"}
+
+      - name: '05: Create issue on failure'
+        if: failure() && github.event_name == 'schedule' && matrix.browser == 'chromium'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const run_url = `https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}`;
+            const message = `Weekly E2E tests failed!\n\n[View test results](${run_url})`;
+
+            // Create an issue for failed weekly tests
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `Weekly E2E Test Failure - ${new Date().toLocaleDateString()}`,
+              body: message,
+              labels: ['test-failure', 'automated']
+            });

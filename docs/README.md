@@ -8,6 +8,7 @@ Documentation for the Zenphry business restructuring website.
 
 - **[contributing.md](./contributing.md)** - Complete technical guide (architecture, routing, components, workflow)
 - **[development.md](./development.md)** - Development commands and local workflow
+- **[CICD.md](./CICD.md)** - CI/CD pipeline documentation (GitHub Actions, deployment, testing)
 - **[cloudflare-setup.md](./cloudflare-setup.md)** - Cloudflare Workers deployment configuration
 - **[brand.md](./brand.md)** - Brand colors, fonts, and visual guidelines
 - **[animations.md](./animations.md)** - Animation system and guidelines
@@ -28,8 +29,9 @@ Documentation for the Zenphry business restructuring website.
 
 **Ready to deploy?**
 
-1. See [../NEXT_STEPS.md](../NEXT_STEPS.md) for deployment checklist
-2. Follow [cloudflare-setup.md](./cloudflare-setup.md) for Cloudflare configuration
+1. See [CICD.md](./CICD.md) for CI/CD pipeline and deployment procedures
+2. See [cicd-setup.md](./cicd-setup.md) for initial pipeline setup
+3. Follow [cloudflare-setup.md](./cloudflare-setup.md) for Cloudflare configuration
 
 **Need development help?**
 
@@ -45,6 +47,7 @@ Documentation for the Zenphry business restructuring website.
 - ✅ SEO (sitemap, robots.txt, structured data)
 - ✅ Multi-environment setup (dev/stg/prod)
 - ✅ Dark mode support
+- ✅ **CI/CD pipeline** (GitHub Actions, automated testing, deployments)
 
 ## What's Missing
 

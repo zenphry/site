@@ -26,7 +26,7 @@ custom_domain = true
 [env.dev.vars]
 ENVIRONMENT = "dev"
 SITE_URL = "https://dev.zenphry.com"
-TURNSTILE_SITE_KEY = "1x00000000000000000000AA"
+# TURNSTILE_SITE_KEY = "1x00000000000000000000AA"  # Commented out - not needed for now
 
 [env.dev.observability]
 enabled = true
@@ -42,7 +42,7 @@ custom_domain = true
 [env.stg.vars]
 ENVIRONMENT = "stg"
 SITE_URL = "https://stg.zenphry.com"
-TURNSTILE_SITE_KEY = "1x00000000000000000000AA"
+# TURNSTILE_SITE_KEY = "1x00000000000000000000AA"  # Commented out - not needed for now
 
 [env.stg.observability]
 enabled = true
@@ -62,7 +62,7 @@ custom_domain = true
 [env.prod.vars]
 ENVIRONMENT = "prod"
 SITE_URL = "https://zenphry.com"
-TURNSTILE_SITE_KEY = ""
+# TURNSTILE_SITE_KEY = ""  # Commented out - not needed for now
 
 [env.prod.observability]
 enabled = true

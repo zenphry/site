@@ -1,0 +1,120 @@
+name: '80: SEO Audit'
+
+# Runs Lighthouse SEO audits weekly on all deployed environments
+# Does NOT block deployments
+
+on:
+  schedule:
+    # Run at 3 AM UTC every Sunday (after e2e tests, results ready Monday morning)
+    - cron: '0 3 * * 0'
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  lighthouse:
+    name: Lighthouse SEO (${{ matrix.env }})
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      max-parallel: 1
+      matrix:
+        include:
+          - env: dev
+            url: https://dev.zenphry.com
+          - env: stg
+            url: https://stg.zenphry.com
+          - env: prod
+            url: https://zenphry.com
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install Lighthouse
+        run: |
+          MAX_RETRIES=3
+          for attempt in $(seq 1 $MAX_RETRIES); do
+            if npm install -g lighthouse@latest; then
+              echo "[OK] Lighthouse installed"
+              break
+            fi
+            if [ "$attempt" -lt "$MAX_RETRIES" ]; then
+              echo "[WARN] Install failed, retrying..."
+              sleep 5
+            else
+              echo "[ERROR] Failed to install Lighthouse"
+              exit 1
+            fi
+          done
+
+      - name: Pre-flight health check
+        run: |
+          HTTP_CODE=$(curl -sS --max-time 30 -o /dev/null -w "%{http_code}" "${{ matrix.url }}" || echo "000")
+          if [ "$HTTP_CODE" != "200" ]; then
+            echo "[ERROR] ${{ matrix.url }} returned HTTP $HTTP_CODE (expected 200)"
+            exit 1
+          fi
+          echo "[OK] ${{ matrix.url }} is reachable (HTTP $HTTP_CODE)"
+
+      - name: Run Lighthouse
+        id: lighthouse
+        continue-on-error: true
+        run: |
+          MAX_RETRIES=3
+          RETRY_DELAY=10
+
+          for attempt in $(seq 1 $MAX_RETRIES); do
+            echo "[INFO] Lighthouse attempt $attempt/$MAX_RETRIES on ${{ matrix.env }}"
+
+            if lighthouse "${{ matrix.url }}" \
+              --only-categories=seo \
+              --output=json \
+              --output=html \
+              --output-path=lighthouse-report \
+              --chrome-flags="--headless --no-sandbox --disable-gpu --disable-dev-shm-usage"; then
+
+              SCORE=$(jq -r '.categories.seo.score * 100' lighthouse-report.report.json)
+              echo "score=$SCORE" >> $GITHUB_OUTPUT
+              echo "[INFO] ${{ matrix.env }} SEO Score: $SCORE/100"
+
+              # Check score thresholds:
+              # - Prod: Pass if >= 90 (should be indexable)
+              # - Dev/Stg: Pass if < 70 (should be blocked from indexing)
+              if [ "${{ matrix.env }}" = "prod" ]; then
+                if [ "$(echo "$SCORE < 90" | bc -l)" -eq 1 ]; then
+                  echo "[FAIL] Prod score $SCORE is below 90 (should be indexable)"
+                  exit 1
+                fi
+                echo "[OK] Prod score meets threshold (>= 90)"
+              else
+                if [ "$(echo "$SCORE >= 70" | bc -l)" -eq 1 ]; then
+                  echo "[FAIL] ${{ matrix.env }} score $SCORE is >= 70 (should be blocked from indexing)"
+                  exit 1
+                fi
+                echo "[OK] ${{ matrix.env }} score is low as expected (< 70, blocked)"
+              fi
+              exit 0
+            fi
+
+            if [ "$attempt" -lt "$MAX_RETRIES" ]; then
+              echo "[WARN] Lighthouse failed, retrying in ${RETRY_DELAY}s..."
+              sleep "$RETRY_DELAY"
+            fi
+          done
+
+          echo "[ERROR] Lighthouse failed after $MAX_RETRIES attempts"
+          exit 1
+
+      - name: Upload Report as artifact
+        if: always() && hashFiles('lighthouse-report.report.html') != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-report-${{ matrix.env }}
+          path: lighthouse-report.report.html
+          retention-days: 7

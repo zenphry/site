@@ -1,0 +1,31 @@
+name: 'Setup Playwright'
+description: 'Cache and install Playwright browsers with automatic dependency handling'
+
+inputs:
+  browser:
+    description: 'Browser to install (chromium, firefox, webkit)'
+    required: false
+    default: 'chromium'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Cache Playwright browsers
+      uses: actions/cache@v4
+      with:
+        path: ~/.cache/ms-playwright
+        key: ${{ runner.os }}-playwright-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-playwright-
+
+    - name: Install Playwright browser
+      shell: bash
+      run: |
+        # Try installing browser without system deps first (faster if deps pre-installed)
+        if npx playwright install ${{ inputs.browser }}; then
+          echo "Browser installed successfully at $HOME/.cache/ms-playwright"
+        else
+          echo "Installing system dependencies..."
+          npx playwright install-deps ${{ inputs.browser }}
+          npx playwright install ${{ inputs.browser }}
+        fi

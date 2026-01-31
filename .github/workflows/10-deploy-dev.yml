@@ -1,0 +1,172 @@
+name: '10: Dev Deployment'
+
+# Deploys to dev environment when main branch is updated
+# Dev environment: zenphry-cf-worker-dev.*.workers.dev (primary: dev.zenphry.com)
+# Use for SEO testing, validating features before production
+# See docs/CICD.md for complete documentation
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+      - 'LICENSE'
+      - '.gitignore'
+      - '.vscode/**'
+      - '.idea/**'
+      - '.editorconfig'
+      - '.github/workflows/70-e2e-weekly.yml'
+      - '.github/workflows/80-seo-audit.yml'
+      - '.github/workflows/90-cleanup.yml'
+  workflow_dispatch: # Allows manual triggering from GitHub UI
+
+jobs:
+  # Run quality checks first
+  quality-checks:
+    name: Quality Checks
+    uses: ./.github/workflows/00-ci.yml
+
+  deploy:
+    name: Deploy to dev
+    needs: [quality-checks]
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js environment
+        uses: ./.github/actions/setup-node
+
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: build-dist-${{ github.sha }}
+
+      - name: Extract build artifact
+        run: |
+          tar -xzf build-dist.tar.gz
+          rm build-dist.tar.gz
+          echo "[OK] Build artifacts extracted"
+          ls -la build/
+
+      - name: Get current dev version for rollback
+        id: backup-version
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          # Get current dev version ID (active version with 100% traffic)
+          # NOTE: Deployments are sorted oldest to newest, so we use .[-1] to get the most recent
+          CURRENT_VERSION=$(npx wrangler deployments list --env dev --json 2>/dev/null | jq -r '.[-1].versions[] | select(.percentage == 100) | .version_id // "none"')
+          echo "version_id=$CURRENT_VERSION" >> $GITHUB_OUTPUT
+          echo "[ARTIFACT] Current dev version for rollback: $CURRENT_VERSION"
+
+      - name: Deploy to dev
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: deploy --env dev
+
+      - name: Wait for edge propagation with progressive health checks
+        run: |
+          echo "[WAIT] Waiting for Cloudflare edge propagation..."
+          echo "[INFO] Starting progressive health checks with linear backoff (max 3 minutes)"
+
+          URL="https://dev.zenphry.com"
+          MAX_WAIT=180
+          ATTEMPT=1
+          TOTAL_WAIT=0
+          CURRENT_WAIT=5
+
+          # Start with minimal initial wait
+          echo "[WAIT] Initial wait: ${CURRENT_WAIT} seconds..."
+          sleep $CURRENT_WAIT
+          TOTAL_WAIT=$CURRENT_WAIT
+
+          while [ $TOTAL_WAIT -lt $MAX_WAIT ]; do
+            echo "[CHECK] Attempt $ATTEMPT - Testing $URL (waited ${TOTAL_WAIT}s total)..."
+            HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" --max-time 10 "$URL" 2>/dev/null || echo "000")
+
+            if [ "$HTTP_CODE" == "200" ]; then
+              echo "[OK] Deployment is live! (HTTP $HTTP_CODE)"
+              echo "[INFO] Total wait time: ${TOTAL_WAIT} seconds"
+              break
+            fi
+
+            # Linear backoff: 5s, 10s, 15s, 20s, 30s, 30s, 30s...
+            CURRENT_WAIT=$(( CURRENT_WAIT < 30 ? CURRENT_WAIT + 5 : 30 ))
+
+            if [ $(( TOTAL_WAIT + CURRENT_WAIT )) -le $MAX_WAIT ]; then
+              echo "[WAIT] Not ready yet (HTTP $HTTP_CODE), waiting ${CURRENT_WAIT}s..."
+              sleep $CURRENT_WAIT
+              TOTAL_WAIT=$(( TOTAL_WAIT + CURRENT_WAIT ))
+            else
+              echo "[WARN] Max wait time reached. Proceeding with health checks..."
+              break
+            fi
+
+            ATTEMPT=$((ATTEMPT + 1))
+          done
+
+      - name: Run dev health checks
+        id: health-check
+        continue-on-error: true
+        run: |
+          chmod +x ./scripts/01-health-check.sh
+          bash ./scripts/01-health-check.sh https://dev.zenphry.com
+
+      - name: Auto-rollback on health check failure
+        if: steps.health-check.outcome == 'failure'
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          BACKUP_VERSION="${{ steps.backup-version.outputs.version_id }}"
+          if [ "$BACKUP_VERSION" != "none" ]; then
+            echo "[ERROR] Health checks failed. Rolling back to version $BACKUP_VERSION"
+            npx wrangler rollback --env dev --message "Auto-rollback after health check failure"
+            echo "[OK] Rollback completed to previous working version"
+          else
+            echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+            echo "[FAIL] DEPLOYMENT FAILED - Health Checks Failed"
+            echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+            echo ""
+            echo "[ERROR] This appears to be the first deployment to dev environment."
+            echo "        No previous version exists for automatic rollback."
+            echo ""
+            echo "[INFO] Recovery Options:"
+            echo "       1. Review health check logs above to identify the issue"
+            echo "       2. Fix the deployment issue in your code"
+            echo "       3. Push a new commit to main to trigger a new deployment"
+            echo ""
+            echo "[INFO] Note: Auto-rollback will be available after the first successful deployment."
+            echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+            exit 1
+          fi
+
+      - name: Verify rollback health
+        if: steps.health-check.outcome == 'failure'
+        run: |
+          echo "[WAIT] Waiting 30 seconds for rollback to propagate..."
+          sleep 30
+          echo "[CHECK] Verifying rolled-back deployment..."
+          chmod +x ./scripts/01-health-check.sh
+          bash ./scripts/01-health-check.sh https://dev.zenphry.com
+
+      - name: Comment deployment URL
+        uses: actions/github-script@v7
+        if: github.event_name == 'push'
+        with:
+          script: |
+            const status = '${{ steps.health-check.outcome }}' === 'failure' ? '[WARN] Rolled back' : '[OK] Deployed';
+            github.rest.repos.createCommitComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              commit_sha: context.sha,
+              body: `${status} to dev: https://dev.zenphry.com\n\nCheck deployment: \`npx wrangler deployments list --env dev\``
+            })

@@ -1,0 +1,182 @@
+name: '00: CI'
+
+# Runs on PRs and via workflow_call from deploy-dev/deploy-prod
+# Push to main triggers deploy-dev workflow which calls this via workflow_call
+# Workflow: issue* → main → release/** → production
+# See docs/CICD.md for complete documentation
+
+on:
+  pull_request:
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+      - 'LICENSE'
+      - '.gitignore'
+      - '.vscode/**'
+      - '.idea/**'
+      - '.editorconfig'
+      - '.github/workflows/70-e2e-weekly.yml'
+      - '.github/workflows/80-seo-audit.yml'
+      - '.github/workflows/90-cleanup.yml'
+  workflow_call: # Allow this workflow to be called by other workflows (deploy-dev, deploy-stg, deploy-prod)
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: '00: Checkout code'
+        uses: actions/checkout@v4
+
+      - name: '01: Setup Node.js environment'
+        uses: ./.github/actions/setup-node
+
+      - name: '02: Check code formatting'
+        run: npm run format:check
+
+      - name: '03: Run ESLint'
+        run: npm run lint
+
+  typecheck:
+    name: Type Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: '00: Checkout code'
+        uses: actions/checkout@v4
+
+      - name: '01: Setup Node.js environment'
+        uses: ./.github/actions/setup-node
+        with:
+          prebuild-content: 'true'
+
+      - name: '02: Run type check'
+        run: npm run typecheck
+
+  security-audit:
+    name: Security Audit
+    runs-on: ubuntu-latest
+    steps:
+      - name: '00: Checkout code'
+        uses: actions/checkout@v4
+
+      - name: '01: Setup Node.js environment'
+        uses: ./.github/actions/setup-node
+
+      - name: '02: Run npm audit'
+        # Only audit production dependencies (devDependencies don't affect deployed code)
+        run: npm audit --audit-level=moderate --omit=dev
+
+  unit-tests:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: '00: Checkout code'
+        uses: actions/checkout@v4
+
+      - name: '01: Setup Node.js environment'
+        uses: ./.github/actions/setup-node
+        with:
+          prebuild-content: 'true'
+
+      - name: '02: Run unit tests with coverage'
+        run: npm run test:unit:coverage -- --reporter=default --reporter=github-actions
+
+      - name: '03: Generate test failure summary'
+        if: failure()
+        run: |
+          echo "::error title=Unit Tests Failed::One or more unit tests failed. Check annotations above for details."
+          echo "### ❌ Unit Test Failures" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Status**: Failed" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Review the annotations in the Files Changed tab for detailed failure information." >> $GITHUB_STEP_SUMMARY
+
+      - name: '04: Upload coverage'
+        uses: actions/upload-artifact@v4
+        if: failure() && hashFiles('coverage/**') != ''
+        with:
+          name: coverage
+          path: coverage/
+          retention-days: 1
+
+  build-and-test:
+    name: Build & Smoke Tests
+    needs: [lint, typecheck, security-audit, unit-tests]
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: write
+    steps:
+      - name: '00: Checkout code'
+        uses: actions/checkout@v4
+
+      - name: '01: Setup Node.js'
+        uses: ./.github/actions/setup-node
+
+      - name: '02: Setup Playwright'
+        uses: ./.github/actions/setup-playwright
+        with:
+          browser: chromium
+
+      - name: '03: Build application'
+        run: npm run build
+
+      - name: '04: Verify build output'
+        run: |
+          ls -la build/
+          if [ ! -d "build/client" ]; then
+            echo "ERROR: Build artifacts not found in build/"
+            exit 1
+          fi
+          echo "[OK] Build artifacts verified"
+
+      - name: '05: Run smoke tests'
+        env:
+          CI: true
+        run: npm run test:smoke
+
+      - name: '06: Create build metadata'
+        run: |
+          cat > build-metadata.json <<EOF
+          {
+            "build_sha": "${{ github.sha }}",
+            "build_timestamp": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
+            "workflow_run_id": "${{ github.run_id }}",
+            "workflow_run_attempt": "${{ github.run_attempt }}",
+            "branch": "${{ github.head_ref || github.ref }}",
+            "ci_passed": true,
+            "smoke_tests_passed": true
+          }
+          EOF
+          echo "[OK] Build metadata created"
+
+      - name: '07: Create build archive'
+        run: |
+          tar -czf build-dist.tar.gz build/
+          echo "[OK] Build archive created"
+
+      - name: '08: Upload build artifacts'
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-dist-${{ github.sha }}
+          path: build-dist.tar.gz
+          retention-days: 7
+
+      - name: '09: Upload metadata'
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-metadata-${{ github.sha }}
+          path: build-metadata.json
+          retention-days: 7
+
+      - name: '10: Upload test results on failure'
+        uses: actions/upload-artifact@v4
+        if: failure() && hashFiles('playwright-report/**') != ''
+        with:
+          name: smoke-test-results-${{ github.sha }}
+          path: playwright-report/
+          retention-days: 1

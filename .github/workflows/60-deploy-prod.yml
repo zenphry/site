@@ -1,0 +1,244 @@
+name: '60: Prod Deployment'
+
+# Production deployment from release branches
+# See docs/CICD.md for complete deployment guide
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Release branch to deploy (e.g., release/2025-01-20-1430)'
+        required: true
+        type: string
+      artifact_sha:
+        description: 'Optional: Specific artifact SHA to deploy (leave empty to use release branch HEAD)'
+        required: false
+        type: string
+
+jobs:
+  # Validate inputs and determine SHA (fail fast)
+  get-artifact-sha:
+    name: Validate & Get SHA
+    runs-on: ubuntu-latest
+    outputs:
+      sha: ${{ steps.determine-sha.outputs.sha }}
+    steps:
+      # Fail fast: validate branch match before anything else
+      - name: Validate workflow branch matches input branch
+        run: |
+          WORKFLOW_REF="${{ github.ref }}"
+          INPUT_BRANCH="${{ github.event.inputs.branch }}"
+
+          # Extract branch name from refs/heads/...
+          WORKFLOW_BRANCH="${WORKFLOW_REF#refs/heads/}"
+
+          echo "[CHECK] Workflow 'Use workflow from': $WORKFLOW_BRANCH"
+          echo "[CHECK] Input branch parameter: $INPUT_BRANCH"
+
+          if [ "$WORKFLOW_BRANCH" != "$INPUT_BRANCH" ]; then
+            echo ""
+            echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+            echo "[ERROR] BRANCH MISMATCH - Deployment blocked"
+            echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+            echo ""
+            echo "The 'Use workflow from' dropdown must match the branch input."
+            echo ""
+            echo "To fix:"
+            echo "  1. Click 'Run workflow' dropdown"
+            echo "  2. Change 'Use workflow from' to: $INPUT_BRANCH"
+            echo "  3. Enter the same branch in the input field"
+            echo "  4. Click 'Run workflow'"
+            echo ""
+            exit 1
+          fi
+
+          echo "[OK] Branch match verified: $WORKFLOW_BRANCH"
+
+      - name: Validate inputs
+        run: |
+          BRANCH="${{ github.event.inputs.branch }}"
+          ARTIFACT_SHA="${{ github.event.inputs.artifact_sha }}"
+
+          if [[ "$BRANCH" =~ \.\. ]]; then
+            echo "[ERROR] Branch must not contain '..'"
+            exit 1
+          fi
+
+          if [[ "$BRANCH" =~ ^/ ]] || [[ "$BRANCH" =~ /$ ]] || [[ "$BRANCH" =~ // ]]; then
+            echo "[ERROR] Branch must not start/end with '/' or contain '//'"
+            exit 1
+          fi
+
+          if [[ "$BRANCH" =~ [^a-zA-Z0-9/_-] ]]; then
+            echo "[ERROR] Branch must only contain: a-z, A-Z, 0-9, _, -, /"
+            exit 1
+          fi
+
+          if ! [[ "$BRANCH" =~ ^[a-zA-Z0-9_-]+(/[a-zA-Z0-9_-]+)*$ ]]; then
+            echo "[ERROR] Branch must follow pattern: word or word/word/word"
+            exit 1
+          fi
+
+          echo "[OK] Branch validated: $BRANCH"
+
+          if [ -n "$ARTIFACT_SHA" ]; then
+            SHA_LEN=${#ARTIFACT_SHA}
+            if ! [[ "$ARTIFACT_SHA" =~ ^[a-fA-F0-9]+$ ]]; then
+              echo "[ERROR] SHA must be hexadecimal (0-9, a-f, A-F)"
+              exit 1
+            fi
+
+            if ! (( (SHA_LEN >= 7 && SHA_LEN <= 12) || SHA_LEN == 40 || SHA_LEN == 64 )); then
+              echo "[ERROR] SHA length must be 7-12 (short), 40 (SHA-1), or 64 (SHA-256)"
+              exit 1
+            fi
+
+            echo "[OK] SHA validated: $ARTIFACT_SHA ($SHA_LEN chars)"
+          fi
+
+      - name: Checkout release branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.branch }}
+
+      - name: Determine artifact SHA
+        id: determine-sha
+        run: |
+          if [ -n "${{ github.event.inputs.artifact_sha }}" ]; then
+            SHA="${{ github.event.inputs.artifact_sha }}"
+            echo "[ARTIFACT] Using provided SHA: $SHA"
+          else
+            SHA=$(git rev-parse HEAD)
+            echo "[ARTIFACT] Using branch HEAD SHA: $SHA"
+          fi
+          echo "sha=$SHA" >> $GITHUB_OUTPUT
+
+  deploy:
+    name: Deploy to prod
+    needs: [get-artifact-sha]
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      PROD_URL: https://zenphry.com
+
+    steps:
+      - name: Re-validate inputs (defense-in-depth)
+        run: |
+          BRANCH="${{ github.event.inputs.branch }}"
+
+          if [[ "$BRANCH" =~ \.\. ]] || [[ "$BRANCH" =~ ^/ ]] || [[ "$BRANCH" =~ /$ ]] || \
+             [[ "$BRANCH" =~ // ]] || [[ "$BRANCH" =~ [^a-zA-Z0-9/_-] ]] || \
+             ! [[ "$BRANCH" =~ ^[a-zA-Z0-9_-]+(/[a-zA-Z0-9_-]+)*$ ]]; then
+            echo "[ERROR] Branch validation failed in deploy job"
+            exit 1
+          fi
+          echo "[OK] Branch re-validated: $BRANCH"
+
+      - name: Checkout release branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.branch }}
+
+      - name: Setup scripts
+        run: |
+          chmod +x ./scripts/01-health-check.sh
+          echo "[OK] Scripts prepared"
+
+      - name: Setup Node.js environment
+        uses: ./.github/actions/setup-node
+
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: build-dist-${{ needs.get-artifact-sha.outputs.sha }}
+
+      - name: Extract build artifact
+        run: |
+          tar -xzf build-dist.tar.gz
+          rm build-dist.tar.gz
+          echo "[OK] Build artifacts extracted"
+          ls -la build/
+
+      - name: Get current prod version for rollback
+        id: backup-version
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          CURRENT_VERSION=$(npx wrangler deployments list --env prod --json 2>/dev/null | jq -r '.[-1].versions[] | select(.percentage == 100) | .version_id // "none"')
+          echo "version_id=$CURRENT_VERSION" >> $GITHUB_OUTPUT
+          echo "[ARTIFACT] Backup version: $CURRENT_VERSION"
+
+      - name: Deploy to prod
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: deploy --env prod
+
+      - name: Wait for edge propagation
+        run: |
+          echo "[WAIT] Waiting for edge propagation (max 3 min, linear backoff with 30s cap)..."
+
+          URL="${{ env.PROD_URL }}"
+          MAX_WAIT=180
+          ATTEMPT=1
+          TOTAL_WAIT=0
+          CURRENT_WAIT=5
+
+          sleep $CURRENT_WAIT
+          TOTAL_WAIT=$CURRENT_WAIT
+
+          while [ $TOTAL_WAIT -lt $MAX_WAIT ]; do
+            echo "[CHECK] Attempt $ATTEMPT (waited ${TOTAL_WAIT}s)..."
+            HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" --max-time 10 "$URL" 2>/dev/null || echo "000")
+
+            if [ "$HTTP_CODE" -eq 200 ]; then
+              echo "[OK] Live (HTTP $HTTP_CODE, ${TOTAL_WAIT}s total)"
+              break
+            fi
+
+            CURRENT_WAIT=$(( CURRENT_WAIT < 30 ? CURRENT_WAIT + 5 : 30 ))
+
+            if [ $(( TOTAL_WAIT + CURRENT_WAIT )) -le $MAX_WAIT ]; then
+              echo "[WAIT] Not ready (HTTP $HTTP_CODE), waiting ${CURRENT_WAIT}s..."
+              sleep $CURRENT_WAIT
+              TOTAL_WAIT=$(( TOTAL_WAIT + CURRENT_WAIT ))
+            else
+              echo "[WARN] Max wait reached"
+              break
+            fi
+
+            ATTEMPT=$((ATTEMPT + 1))
+          done
+
+      - name: Run prod health checks
+        id: health-check
+        continue-on-error: true
+        run: bash ./scripts/01-health-check.sh "${{ env.PROD_URL }}"
+
+      - name: Auto-rollback on health check failure
+        if: steps.health-check.outcome == 'failure'
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          BACKUP_VERSION="${{ steps.backup-version.outputs.version_id }}"
+          if [ "$BACKUP_VERSION" != "none" ]; then
+            echo "[ERROR] Health checks failed. Rolling back to $BACKUP_VERSION"
+            npx wrangler rollback --env prod --message "Auto-rollback after health check failure"
+            echo "[OK] Rollback completed"
+          else
+            echo "[CRITICAL] PRODUCTION DEPLOYMENT FAILED"
+            echo "[ERROR] First deployment - no previous version to rollback"
+            echo "[WARN] PRODUCTION IS DOWN - Immediate action required"
+            echo "[INFO] Fix the issue and re-run workflow or deploy hotfix"
+            exit 1
+          fi
+
+      - name: Verify rollback health
+        if: steps.health-check.outcome == 'failure'
+        run: |
+          echo "[WAIT] Waiting 30s for rollback propagation..."
+          sleep 30
+          bash ./scripts/01-health-check.sh "${{ env.PROD_URL }}"
