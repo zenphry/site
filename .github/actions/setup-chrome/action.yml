@@ -1,0 +1,56 @@
+name: 'Setup Chrome'
+description: 'Install and verify Chrome for Lighthouse'
+
+outputs:
+  chrome-path:
+    description: 'Path to Chrome binary'
+    value: ${{ steps.verify.outputs.chrome-path }}
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Install Chrome if missing
+      id: install
+      shell: bash
+      run: |
+        CHROME_PATH="/usr/bin/google-chrome-stable"
+
+        if [ -f "$CHROME_PATH" ]; then
+          echo "[INFO] Chrome already installed"
+          exit 0
+        fi
+
+        echo "[INFO] Chrome not found, installing..."
+
+        # Add Google Chrome repository (use curl instead of wget - more commonly available)
+        curl -fsSL https://dl.google.com/linux/linux_signing_key.pub | sudo gpg --dearmor -o /usr/share/keyrings/google-chrome.gpg
+        echo 'deb [arch=amd64 signed-by=/usr/share/keyrings/google-chrome.gpg] http://dl.google.com/linux/chrome/deb/ stable main' | sudo tee /etc/apt/sources.list.d/google-chrome.list
+
+        # Install Chrome
+        sudo apt-get update
+        sudo apt-get install -y google-chrome-stable
+
+        echo "[OK] Chrome installed"
+
+    - name: Verify Chrome installation
+      id: verify
+      shell: bash
+      run: |
+        CHROME_PATH="/usr/bin/google-chrome-stable"
+
+        if [ ! -f "$CHROME_PATH" ]; then
+          echo "[ERROR] Chrome installation failed"
+          exit 1
+        fi
+
+        VERSION=$("$CHROME_PATH" --version)
+        echo "[INFO] Chrome found: $VERSION"
+
+        # Verify headless mode (--no-sandbox required when running as root)
+        if ! "$CHROME_PATH" --headless --no-sandbox --disable-gpu --dump-dom https://example.com > /dev/null 2>&1; then
+          echo "[ERROR] Chrome headless mode failed"
+          exit 1
+        fi
+        echo "[OK] Chrome headless mode verified"
+
+        echo "chrome-path=$CHROME_PATH" >> $GITHUB_OUTPUT
