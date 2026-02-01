@@ -34,6 +34,8 @@ jobs:
     needs: [quality-checks]
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    permissions:
+      contents: write  # Required to create commit comments
 
     steps:
       - name: Checkout code
@@ -65,7 +67,7 @@ jobs:
       - name: Deployment summary
         run: |
           echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-          echo "[OK] Deployed to dev environment"
+          echo "✅ Deployed to dev environment"
           echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
           echo ""
           echo "[INFO] URL: https://dev.zenphry.com"
