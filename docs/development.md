@@ -104,12 +104,12 @@ open lighthouse-dev.html  # macOS
 
 ### Testing
 
-| Command                      | Description                                     |
-| ---------------------------- | ----------------------------------------------- |
-| `npm run test:unit`          | Run unit tests (Vitest)                                    |
-| `npm run test:unit:coverage` | Generate coverage report                                   |
-| `npm run test:smoke`         | Run smoke tests (Playwright - Chromium + mobile Chrome)    |
-| `npm run test`               | Run all Playwright E2E tests                               |
+| Command                      | Description                                             |
+| ---------------------------- | ------------------------------------------------------- |
+| `npm run test:unit`          | Run unit tests (Vitest)                                 |
+| `npm run test:unit:coverage` | Generate coverage report                                |
+| `npm run test:smoke`         | Run smoke tests (Playwright - Chromium + mobile Chrome) |
+| `npm run test`               | Run all Playwright E2E tests                            |
 
 **Note:** Playwright Chromium and system dependencies are installed automatically via the `postinstall` script during `npm install`. On Linux, this may require `sudo` for system library installation. If you encounter browser launch errors, run `npx playwright install-deps chromium` manually.
 
