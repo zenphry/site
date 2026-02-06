@@ -1,13 +1,21 @@
 import { Link } from "react-router";
 import { useState } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ChevronDown, ChevronUp } from "lucide-react";
 import { Button } from "./ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "~/components/ui/dropdown-menu";
 import { ThemeToggle } from "./theme-toggle";
 import logoColor from "~/assets/logo-color.svg";
 import logoWhite from "~/assets/logo-white.svg";
 
 export function Navigation() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [resourcesMobileMenuOpen, setResourcesMobileMenuOpen] = useState(false);
+  const [aboutMobileMenuOpen, setAboutMobileMenuOpen] = useState(false);
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-white/75 dark:bg-gray-900/75 backdrop-blur-md border-b border-gray-200 dark:border-gray-800">
@@ -41,24 +49,41 @@ export function Navigation() {
             >
               Pricing
             </Link>
-            <Link
-              to="/how-it-works"
-              className="text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors duration-150"
-            >
-              How It Works
-            </Link>
-            <Link
-              to="/about"
-              className="text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors duration-150"
-            >
-              About
-            </Link>
-            <Link
-              to="/case-studies"
-              className="text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors duration-150"
-            >
-              Case Studies
-            </Link>
+            
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button className="text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors duration-150 focus:outline-none">
+                  Resources
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuItem asChild>
+                  <Link to="/resources/case-studies">Case Studies</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link to="/resources/how-it-works">How It Works</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link to="/resources/blog">Blog</Link>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button className="text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors duration-150 focus:outline-none">
+                  About
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuItem asChild>
+                  <Link to="/about">About</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link to="/about/what-we-do">What We Do</Link>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+            
             <Link
               to="/contact"
               className="text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors duration-150"
@@ -101,27 +126,80 @@ export function Navigation() {
             >
               Pricing
             </Link>
-            <Link
-              to="/how-it-works"
-              className="block text-gray-700 dark:text-gray-300 hover:text-primary transition-colors duration-150"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              How It Works
-            </Link>
-            <Link
-              to="/about"
-              className="block text-gray-700 dark:text-gray-300 hover:text-primary transition-colors duration-150"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              About
-            </Link>
-            <Link
-              to="/case-studies"
-              className="block text-gray-700 dark:text-gray-300 hover:text-primary transition-colors duration-150"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Case Studies
-            </Link>
+
+            {/* Mobile Resources */}
+            <div>
+              <button
+                className="flex items-center justify-between w-full text-gray-700 dark:text-gray-300 hover:text-primary transition-colors duration-150 py-2"
+                onClick={() => setResourcesMobileMenuOpen(!resourcesMobileMenuOpen)}
+              >
+                <span>Resources</span>
+                {resourcesMobileMenuOpen ? (
+                  <ChevronUp size={20} />
+                ) : (
+                  <ChevronDown size={20} />
+                )}
+              </button>
+              {resourcesMobileMenuOpen && (
+                <div className="ml-4 space-y-2 py-2">
+                  <Link
+                    to="/resources/case-studies"
+                    className="block text-gray-700 dark:text-gray-300 hover:text-primary transition-colors duration-150"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    Case Studies
+                  </Link>
+                  <Link
+                    to="/resources/how-it-works"
+                    className="block text-gray-700 dark:text-gray-300 hover:text-primary transition-colors duration-150"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    How It Works
+                  </Link>
+                  <Link
+                    to="/resources/blog"
+                    className="block text-gray-700 dark:text-gray-300 hover:text-primary transition-colors duration-150"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    Blog
+                  </Link>
+                </div>
+              )}
+            </div>
+
+            {/* Mobile About */}
+            <div>
+              <button
+                className="flex items-center justify-between w-full text-gray-700 dark:text-gray-300 hover:text-primary transition-colors duration-150 py-2"
+                onClick={() => setAboutMobileMenuOpen(!aboutMobileMenuOpen)}
+              >
+                <span>About</span>
+                {aboutMobileMenuOpen ? (
+                  <ChevronUp size={20} />
+                ) : (
+                  <ChevronDown size={20} />
+                )}
+              </button>
+              {aboutMobileMenuOpen && (
+                <div className="ml-4 space-y-2 py-2">
+                  <Link
+                    to="/about"
+                    className="block text-gray-700 dark:text-gray-300 hover:text-primary transition-colors duration-150"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    About
+                  </Link>
+                  <Link
+                    to="/about/what-we-do"
+                    className="block text-gray-700 dark:text-gray-300 hover:text-primary transition-colors duration-150"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    What We Do
+                  </Link>
+                </div>
+              )}
+            </div>
+            
             <Link
               to="/contact"
               className="block text-gray-700 dark:text-gray-300 hover:text-primary transition-colors duration-150"
