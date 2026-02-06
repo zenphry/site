@@ -12,7 +12,7 @@ Operator-led business restructuring and transformation website built with React 
 ## Development
 
 ```bash
-# Install dependencies
+# Install dependencies (also installs Playwright Chromium + system deps)
 npm install
 
 # Start dev server (no Cloudflare login required)

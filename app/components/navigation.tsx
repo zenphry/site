@@ -49,7 +49,7 @@ export function Navigation() {
             >
               Pricing
             </Link>
-            
+
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <button className="text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors duration-150 focus:outline-none">
@@ -83,7 +83,7 @@ export function Navigation() {
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
-            
+
             <Link
               to="/contact"
               className="text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors duration-150"
@@ -131,7 +131,9 @@ export function Navigation() {
             <div>
               <button
                 className="flex items-center justify-between w-full text-gray-700 dark:text-gray-300 hover:text-primary transition-colors duration-150 py-2"
-                onClick={() => setResourcesMobileMenuOpen(!resourcesMobileMenuOpen)}
+                onClick={() =>
+                  setResourcesMobileMenuOpen(!resourcesMobileMenuOpen)
+                }
               >
                 <span>Resources</span>
                 {resourcesMobileMenuOpen ? (
@@ -199,7 +201,7 @@ export function Navigation() {
                 </div>
               )}
             </div>
-            
+
             <Link
               to="/contact"
               className="block text-gray-700 dark:text-gray-300 hover:text-primary transition-colors duration-150"

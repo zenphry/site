@@ -20,7 +20,10 @@ export default [
   route("about", "routes/about.tsx"),
   route("about/what-we-do", "routes/about.what-we-do.tsx"),
   route("resources/case-studies", "routes/resources.case-studies._index.tsx"),
-  route("resources/case-studies/:slug", "routes/resources.case-studies.$slug.tsx"),
+  route(
+    "resources/case-studies/:slug",
+    "routes/resources.case-studies.$slug.tsx",
+  ),
   route("resources/how-it-works", "routes/resources.how-it-works.tsx"),
   route("resources/blog", "routes/resources.blog.tsx"),
   route("contact", "routes/contact.tsx"),
