@@ -12,8 +12,11 @@ Operator-led business restructuring and transformation website built with React 
 ## Development
 
 ```bash
-# Install dependencies (also installs Playwright Chromium + system deps)
+# Install dependencies (also installs Playwright Chromium browser)
 npm install
+
+# First time on Linux: install Chromium system dependencies
+sudo npx playwright install-deps chromium
 
 # Start dev server (no Cloudflare login required)
 npm run dev

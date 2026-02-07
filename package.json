@@ -24,7 +24,7 @@
     "test:unit:coverage": "vitest run --coverage",
     "typecheck": "react-router typegen && tsc",
     "typegen": "wrangler types",
-    "postinstall": "playwright install chromium --with-deps"
+    "postinstall": "playwright install chromium"
   },
   "dependencies": {
     "@radix-ui/react-accordion": "^1.2.12",
