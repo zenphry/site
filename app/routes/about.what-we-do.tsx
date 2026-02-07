@@ -186,8 +186,8 @@ export default function WhatWeDo() {
             Ready to Fix What is Broken?
           </h2>
           <p className="text-gray-600 dark:text-gray-400 mb-6">
-            Book a discovery call to discuss your specific situation and find out
-            how Zenphry can help.
+            Book a discovery call to discuss your specific situation and find
+            out how Zenphry can help.
           </p>
           <Button asChild size="lg">
             <Link to="/book-a-call">Book a Call</Link>
