@@ -122,7 +122,7 @@ export default function CaseStudyDetail() {
       <div className="container mx-auto px-4">
         <div className="max-w-4xl mx-auto">
           <Link
-            to="/case-studies"
+            to="/resources/case-studies"
             className="text-primary hover:underline mb-8 inline-block"
           >
             ← Back to Case Studies

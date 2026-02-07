@@ -88,7 +88,7 @@ export default function CaseStudiesIndex() {
                     </p>
                   </div>
                   <Button asChild variant="outline" className="w-full">
-                    <Link to={`/case-studies/${scenario.slug}`}>
+                    <Link to={`/resources/case-studies/${scenario.slug}`}>
                       Read Full Scenario
                     </Link>
                   </Button>

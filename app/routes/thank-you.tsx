@@ -67,10 +67,10 @@ export default function ThankYou() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button asChild variant="outline">
-                <Link to="/how-it-works">How It Works</Link>
+                <Link to="/resources/how-it-works">How It Works</Link>
               </Button>
               <Button asChild variant="outline">
-                <Link to="/case-studies">View Case Studies</Link>
+                <Link to="/resources/case-studies">View Case Studies</Link>
               </Button>
               <Button asChild variant="outline">
                 <Link to="/">Return Home</Link>
