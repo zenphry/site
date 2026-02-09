@@ -30,31 +30,43 @@ const services = [
   },
   {
     slug: "foundation",
-    title: "Foundation Restructure",
-    duration: "4-6 weeks",
-    whoItsFor: "Small businesses, early-stage startups",
-    description: "Stabilize operations and introduce structure",
-  },
-  {
-    slug: "growth",
-    title: "Growth Restructure",
-    duration: "8-12 weeks",
-    whoItsFor: "Scaling companies, agencies",
-    description: "Redesign operations to support scale",
+    title: "Operational Restructuring",
+    duration: "Varies",
+    whoItsFor: "Organizations with inconsistent execution",
+    description:
+      "Fix how work flows through your business with defined processes, execution rhythm, and measurable outcomes",
   },
   {
     slug: "enterprise",
-    title: "Enterprise Transformation",
-    duration: "3-6 months",
-    whoItsFor: "Mid-market, complex organizations",
-    description: "Lead full-scale organizational transformation",
+    title: "Organizational & Team Restructuring",
+    duration: "Varies",
+    whoItsFor: "Organizations with unclear roles or slow decisions",
+    description:
+      "Realign people, roles, and decision-making structures for efficient execution and scale",
   },
   {
     slug: "technology",
-    title: "Technology & Systems",
+    title: "Technology & Systems Restructuring",
     duration: "Varies",
-    whoItsFor: "Tech-heavy businesses",
-    description: "Remove technology inefficiencies slowing execution",
+    whoItsFor: "Businesses with technology inefficiencies",
+    description:
+      "Fix, simplify, and rebuild the digital backbone so systems support execution",
+  },
+  {
+    slug: "financial",
+    title: "Financial Execution Discipline",
+    duration: "Varies",
+    whoItsFor: "Organizations with disconnected spending",
+    description:
+      "Restructure how money is planned, tracked, and governed inside day-to-day operations",
+  },
+  {
+    slug: "growth",
+    title: "Growth & Scale Readiness",
+    duration: "Varies",
+    whoItsFor: "Scaling companies preparing for growth",
+    description:
+      "Prepare your business to grow without losing control by building structure before scale",
   },
   {
     slug: "advisory",

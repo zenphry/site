@@ -46,15 +46,7 @@ export function Footer() {
                   to="/services/foundation"
                   className="text-gray-600 dark:text-gray-400 hover:text-primary"
                 >
-                  Foundation Restructure
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/services/growth"
-                  className="text-gray-600 dark:text-gray-400 hover:text-primary"
-                >
-                  Growth Restructure
+                  Operational Restructuring
                 </Link>
               </li>
               <li>
@@ -62,7 +54,31 @@ export function Footer() {
                   to="/services/enterprise"
                   className="text-gray-600 dark:text-gray-400 hover:text-primary"
                 >
-                  Enterprise Transformation
+                  Organizational & Team Restructuring
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/services/technology"
+                  className="text-gray-600 dark:text-gray-400 hover:text-primary"
+                >
+                  Technology & Systems
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/services/financial"
+                  className="text-gray-600 dark:text-gray-400 hover:text-primary"
+                >
+                  Financial Execution Discipline
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/services/growth"
+                  className="text-gray-600 dark:text-gray-400 hover:text-primary"
+                >
+                  Growth & Scale Readiness
                 </Link>
               </li>
             </ul>
