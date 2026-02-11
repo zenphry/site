@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import type { MetaFunction } from "react-router";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 
@@ -13,6 +14,16 @@ export const meta: MetaFunction = () => {
 };
 
 export default function BookACall() {
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = "https://link.msgsndr.com/js/form_embed.js";
+    script.async = true;
+    document.body.appendChild(script);
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
+
   return (
     <div className="py-16">
       <div className="container mx-auto px-4">
@@ -27,18 +38,20 @@ export default function BookACall() {
 
           <Card>
             <CardHeader>
-              <CardTitle>Scheduling</CardTitle>
+              <CardTitle className="text-center">Scheduling</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="bg-gray-50/75 dark:bg-gray-800/75 backdrop-blur-sm p-8 rounded-lg text-center">
-                <p className="text-gray-600 dark:text-gray-400 mb-4">
-                  Calendly or scheduling embed will be integrated here.
-                </p>
-                <p className="text-sm text-gray-500 dark:text-gray-500">
-                  Please provide your Calendly URL or preferred scheduling tool
-                  link.
-                </p>
-              </div>
+              <iframe
+                src="https://api.leadconnectorhq.com/widget/booking/JBb4ASYOSl1ZM8wqg4X2"
+                style={{
+                  width: "100%",
+                  border: "none",
+                  overflow: "hidden",
+                  scrollbarWidth: "none",
+                }}
+                id="JBb4ASYOSl1ZM8wqg4X2_1770763798288"
+                title="Scheduling"
+              />
             </CardContent>
           </Card>
 
