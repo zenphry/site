@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import type { MetaFunction } from "react-router";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { Mail, Phone, MapPin } from "lucide-react";
@@ -14,6 +15,16 @@ export const meta: MetaFunction = () => {
 };
 
 export default function Contact() {
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = "https://link.msgsndr.com/js/form_embed.js";
+    script.async = true;
+    document.body.appendChild(script);
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
+
   return (
     <div className="py-16">
       <div className="container mx-auto px-4">
@@ -75,17 +86,31 @@ export default function Contact() {
             <div>
               <Card>
                 <CardHeader>
-                  <CardTitle>Contact Form</CardTitle>
+                  <CardTitle className="text-center">Contact Form</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-gray-600 dark:text-gray-400 mb-4">
-                    Contact form will be integrated here when CRM URL is
-                    provided.
-                  </p>
-                  <p className="text-sm text-gray-500 dark:text-gray-500">
-                    For now, please use the Book a Call page to schedule a
-                    discovery call.
-                  </p>
+                  <iframe
+                    src="https://api.leadconnectorhq.com/widget/form/o1zE6H7UvcRONNO02ckQ"
+                    style={{
+                      width: "100%",
+                      height: "460px",
+                      border: "none",
+                      borderRadius: "12px",
+                    }}
+                    id="inline-o1zE6H7UvcRONNO02ckQ"
+                    data-layout="{'id':'INLINE'}"
+                    data-trigger-type="alwaysShow"
+                    data-trigger-value=""
+                    data-activation-type="alwaysActivated"
+                    data-activation-value=""
+                    data-deactivation-type="neverDeactivate"
+                    data-deactivation-value=""
+                    data-form-name="Form 0"
+                    data-height="460"
+                    data-layout-iframe-id="inline-o1zE6H7UvcRONNO02ckQ"
+                    data-form-id="o1zE6H7UvcRONNO02ckQ"
+                    title="Form 0"
+                  />
                 </CardContent>
               </Card>
             </div>
