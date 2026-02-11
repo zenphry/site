@@ -2,7 +2,8 @@ import type { MetaFunction } from "react-router";
 import { Link } from "react-router";
 import { Button } from "~/components/ui/button";
 import { Card, CardContent } from "~/components/ui/card";
-import { Check } from "lucide-react";
+import { PillarSection } from "~/components/pillar-section";
+import { ArrowLeft, Check } from "lucide-react";
 
 export const meta: MetaFunction = () => {
   return [
@@ -91,6 +92,15 @@ export default function ServiceEnterprise() {
   return (
     <div className="py-16">
       <div className="container mx-auto px-4">
+        <div className="fixed bottom-4 left-4 z-50">
+          <Button asChild variant="outline" size="sm" className="shadow-lg bg-white dark:bg-gray-900">
+            <Link to="/services">
+              <ArrowLeft className="h-4 w-4 mr-2" />
+              Back to Services
+            </Link>
+          </Button>
+        </div>
+
         {/* Hero */}
         <div className="max-w-3xl mx-auto text-center mb-16">
           <h1 className="text-4xl md:text-5xl font-bold mb-6 text-gray-900 dark:text-white">
@@ -154,32 +164,7 @@ export default function ServiceEnterprise() {
             Zenphry delivers Organizational and Team Restructuring across core
             pillars.
           </p>
-          <div className="space-y-10">
-            {pillars.map((pillar) => (
-              <div key={pillar.number}>
-                <div className="flex items-start gap-4 mb-4">
-                  <div className="bg-primary text-primary-foreground rounded-full w-10 h-10 flex items-center justify-center font-bold flex-shrink-0">
-                    {pillar.number}
-                  </div>
-                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white pt-1">
-                    {pillar.title}
-                  </h3>
-                </div>
-                <div className="ml-14 grid md:grid-cols-2 gap-3">
-                  {pillar.items.map((item, index) => (
-                    <Card key={index}>
-                      <CardContent className="flex items-center p-3">
-                        <Check className="h-4 w-4 text-primary mr-2 flex-shrink-0" />
-                        <span className="text-gray-700 dark:text-gray-300 text-sm">
-                          {item}
-                        </span>
-                      </CardContent>
-                    </Card>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
+          <PillarSection pillars={pillars} />
         </div>
 
         {/* Final CTA */}
