@@ -108,7 +108,12 @@ export default function ServiceTechnology() {
     <div className="py-16">
       <div className="container mx-auto px-4">
         <div className="fixed bottom-4 left-4 z-50">
-          <Button asChild variant="outline" size="sm" className="shadow-lg bg-white dark:bg-gray-900">
+          <Button
+            asChild
+            variant="outline"
+            size="sm"
+            className="shadow-lg bg-white dark:bg-gray-900"
+          >
             <Link to="/services">
               <ArrowLeft className="h-4 w-4 mr-2" />
               Back to Services
