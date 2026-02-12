@@ -84,7 +84,15 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  to="/how-it-works"
+                  to="/about/what-we-do"
+                  className="text-gray-600 dark:text-gray-400 hover:text-primary"
+                >
+                  What We Do
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/resources/how-it-works"
                   className="text-gray-600 dark:text-gray-400 hover:text-primary"
                 >
                   How It Works
@@ -92,10 +100,18 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  to="/case-studies"
+                  to="/resources/case-studies"
                   className="text-gray-600 dark:text-gray-400 hover:text-primary"
                 >
                   Case Studies
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/resources/blog"
+                  className="text-gray-600 dark:text-gray-400 hover:text-primary"
+                >
+                  Blog
                 </Link>
               </li>
               <li>

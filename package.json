@@ -23,7 +23,8 @@
     "test:unit": "vitest",
     "test:unit:coverage": "vitest run --coverage",
     "typecheck": "react-router typegen && tsc",
-    "typegen": "wrangler types"
+    "typegen": "wrangler types",
+    "postinstall": "playwright install chromium"
   },
   "dependencies": {
     "@radix-ui/react-accordion": "^1.2.12",
@@ -41,6 +42,7 @@
     "date-fns": "^4.1.0",
     "isbot": "^5.1.19",
     "lucide-react": "^0.553.0",
+    "playright": "^0.0.22",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-router": "^7.1.1",

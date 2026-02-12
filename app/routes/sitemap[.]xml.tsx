@@ -13,9 +13,11 @@ export async function loader({ context }: LoaderFunctionArgs) {
     { path: "/services/technology", priority: "0.7", changefreq: "monthly" },
     { path: "/services/advisory", priority: "0.7", changefreq: "monthly" },
     { path: "/pricing", priority: "0.9", changefreq: "weekly" },
-    { path: "/how-it-works", priority: "0.8", changefreq: "monthly" },
     { path: "/about", priority: "0.8", changefreq: "monthly" },
-    { path: "/case-studies", priority: "0.7", changefreq: "weekly" },
+    { path: "/about/what-we-do", priority: "0.8", changefreq: "monthly" },
+    { path: "/resources/how-it-works", priority: "0.8", changefreq: "monthly" },
+    { path: "/resources/case-studies", priority: "0.7", changefreq: "weekly" },
+    { path: "/resources/blog", priority: "0.6", changefreq: "weekly" },
     { path: "/contact", priority: "0.7", changefreq: "monthly" },
   ];
 

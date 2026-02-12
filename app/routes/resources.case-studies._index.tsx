@@ -88,7 +88,7 @@ export default function CaseStudiesIndex() {
                     </p>
                   </div>
                   <Button asChild variant="outline" className="w-full">
-                    <Link to={`/case-studies/${scenario.slug}`}>
+                    <Link to={`/resources/case-studies/${scenario.slug}`}>
                       Read Full Scenario
                     </Link>
                   </Button>
@@ -99,7 +99,7 @@ export default function CaseStudiesIndex() {
         </div>
 
         <div className="bg-gray-50/75 dark:bg-gray-800/75 backdrop-blur-sm p-8 rounded-lg text-center max-w-2xl mx-auto">
-          <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">
+          <h2 className="2xl font-bold mb-4 text-gray-900 dark:text-white">
             See How We Can Help Your Business
           </h2>
           <p className="text-gray-600 dark:text-gray-400 mb-6">

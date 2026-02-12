@@ -3,7 +3,7 @@
 ## Quick Start
 
 ```bash
-# First time setup
+# First time setup (also installs Playwright Chromium + system deps)
 npm install
 
 # Build the application
@@ -104,15 +104,14 @@ open lighthouse-dev.html  # macOS
 
 ### Testing
 
-| Command                      | Description                                     |
-| ---------------------------- | ----------------------------------------------- |
-| `npm run test:unit`          | Run unit tests (Vitest)                         |
-| `npm run test:unit:ui`       | Run unit tests in UI mode                       |
-| `npm run test:unit:coverage` | Generate coverage report                        |
-| `npm run test:unit`          | Run unit tests (Vitest) - Not yet configured    |
-| `npm run test:e2e`           | Run E2E tests (Playwright) - Not yet configured |
+| Command                      | Description                                             |
+| ---------------------------- | ------------------------------------------------------- |
+| `npm run test:unit`          | Run unit tests (Vitest)                                 |
+| `npm run test:unit:coverage` | Generate coverage report                                |
+| `npm run test:smoke`         | Run smoke tests (Playwright - Chromium + mobile Chrome) |
+| `npm run test`               | Run all Playwright E2E tests                            |
 
-**Note:** Test infrastructure not yet set up.
+**Note:** The Playwright Chromium browser is installed automatically via the `postinstall` script during `npm install`. On Linux, you may also need to install system dependencies once: `sudo npx playwright install-deps chromium`.
 
 ---
 
