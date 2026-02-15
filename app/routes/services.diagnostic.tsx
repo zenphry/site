@@ -8,7 +8,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "~/components/ui/accordion";
-import { Check, X } from "lucide-react";
+import { ArrowLeft, Check, X } from "lucide-react";
 
 export const meta: MetaFunction = () => {
   return [
@@ -25,6 +25,20 @@ export default function ServiceDiagnostic() {
   return (
     <div className="py-16">
       <div className="container mx-auto px-4">
+        <div className="fixed bottom-4 left-4 z-50">
+          <Button
+            asChild
+            variant="outline"
+            size="sm"
+            className="shadow-lg bg-white dark:bg-gray-900"
+          >
+            <Link to="/services">
+              <ArrowLeft className="h-4 w-4 mr-2" />
+              Back to Services
+            </Link>
+          </Button>
+        </div>
+
         {/* Above the Fold */}
         <div className="max-w-3xl mx-auto text-center mb-16">
           <h1 className="text-4xl md:text-5xl font-bold mb-6 text-gray-900 dark:text-white">

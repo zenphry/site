@@ -13,6 +13,7 @@ export default [
   route("services/growth", "routes/services.growth.tsx"),
   route("services/enterprise", "routes/services.enterprise.tsx"),
   route("services/technology", "routes/services.technology.tsx"),
+  route("services/financial", "routes/services.financial.tsx"),
   route("services/advisory", "routes/services.advisory.tsx"),
 
   // Core pages

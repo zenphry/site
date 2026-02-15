@@ -55,26 +55,44 @@ const localBusinessSchema = {
         "@type": "Offer",
         itemOffered: {
           "@type": "Service",
-          name: "Foundation Restructure",
+          name: "Operational Restructuring",
           description:
-            "Stabilize operations and introduce structure for small businesses",
+            "Fix how work flows through your business with defined processes and measurable outcomes",
         },
       },
       {
         "@type": "Offer",
         itemOffered: {
           "@type": "Service",
-          name: "Growth Restructure",
+          name: "Organizational & Team Restructuring",
           description:
-            "Redesign operations to support scale for growing companies",
+            "Realign people, roles, and decision-making structures for efficient execution",
         },
       },
       {
         "@type": "Offer",
         itemOffered: {
           "@type": "Service",
-          name: "Enterprise Transformation",
-          description: "Lead full-scale organizational transformation",
+          name: "Technology & Systems Restructuring",
+          description:
+            "Fix, simplify, and rebuild the digital backbone so systems support execution",
+        },
+      },
+      {
+        "@type": "Offer",
+        itemOffered: {
+          "@type": "Service",
+          name: "Financial Execution Discipline",
+          description:
+            "Restructure how money is planned, tracked, and governed inside operations",
+        },
+      },
+      {
+        "@type": "Offer",
+        itemOffered: {
+          "@type": "Service",
+          name: "Growth & Scale Readiness",
+          description: "Prepare your business to grow without losing control",
         },
       },
     ],

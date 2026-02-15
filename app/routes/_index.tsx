@@ -150,32 +150,34 @@ export default function Index() {
 
             <Card>
               <CardHeader>
-                <CardTitle>Foundation & Growth</CardTitle>
-                <CardDescription>4-12 weeks</CardDescription>
+                <CardTitle>Operational Restructuring</CardTitle>
+                <CardDescription>Varies</CardDescription>
               </CardHeader>
               <CardContent>
                 <p className="mb-4 text-gray-600 dark:text-gray-400">
-                  Stabilize operations and introduce structure or redesign
-                  operations to support scale.
+                  Fix how work flows through your business with defined
+                  processes, execution rhythm, and measurable outcomes.
                 </p>
                 <Button asChild variant="outline" className="w-full">
-                  <Link to="/services">View Services</Link>
+                  <Link to="/services/foundation">Learn More</Link>
                 </Button>
               </CardContent>
             </Card>
 
             <Card>
               <CardHeader>
-                <CardTitle>Enterprise Transformation</CardTitle>
-                <CardDescription>3-6 months</CardDescription>
+                <CardTitle>All Services</CardTitle>
+                <CardDescription>
+                  Technology, Financial, Organizational & More
+                </CardDescription>
               </CardHeader>
               <CardContent>
                 <p className="mb-4 text-gray-600 dark:text-gray-400">
-                  Lead full-scale organizational transformation across
-                  departments.
+                  Explore our full range of restructuring services across
+                  operations, technology, finance, and growth.
                 </p>
                 <Button asChild variant="outline" className="w-full">
-                  <Link to="/services/enterprise">Learn More</Link>
+                  <Link to="/services">View All Services</Link>
                 </Button>
               </CardContent>
             </Card>
