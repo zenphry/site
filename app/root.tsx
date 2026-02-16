@@ -97,6 +97,14 @@ const localBusinessSchema = {
       },
     ],
   },
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "6160 Warren Parkway, Suite 100",
+    addressLocality: "Frisco",
+    addressRegion: "TX",
+    postalCode: "75034",
+    addressCountry: "US",
+  },
   knowsAbout: [
     "Business Restructuring",
     "Operational Transformation",
