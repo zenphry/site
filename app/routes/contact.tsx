@@ -75,7 +75,9 @@ export default function Contact() {
                         Location
                       </p>
                       <p className="text-gray-600 dark:text-gray-400">
-                        [TO BE PROVIDED]
+                        6160 Warren Parkway, Suite 100
+                        <br />
+                        Frisco, TX 75034
                       </p>
                     </div>
                   </CardContent>

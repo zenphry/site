@@ -163,6 +163,11 @@ export function Footer() {
                   Book a Call
                 </Link>
               </li>
+              <li className="text-gray-600 dark:text-gray-400">
+                6160 Warren Parkway, Suite 100
+                <br />
+                Frisco, TX 75034
+              </li>
             </ul>
           </div>
         </div>
