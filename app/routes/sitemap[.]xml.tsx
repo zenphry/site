@@ -8,7 +8,11 @@ export async function loader({ context }: LoaderFunctionArgs) {
     { path: "/services", priority: "0.9", changefreq: "weekly" },
     { path: "/services/diagnostic", priority: "0.9", changefreq: "monthly" },
     { path: "/services/operational", priority: "0.8", changefreq: "monthly" },
-    { path: "/services/organizational", priority: "0.8", changefreq: "monthly" },
+    {
+      path: "/services/organizational",
+      priority: "0.8",
+      changefreq: "monthly",
+    },
     { path: "/services/technology", priority: "0.8", changefreq: "monthly" },
     { path: "/services/financial", priority: "0.8", changefreq: "monthly" },
     { path: "/services/scale", priority: "0.8", changefreq: "monthly" },

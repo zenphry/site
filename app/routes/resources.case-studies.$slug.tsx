@@ -185,7 +185,7 @@ export default function CaseStudyDetail() {
                         {action}
                       </p>
                     </div>
-                  )
+                  ),
                 )}
               </div>
             </section>

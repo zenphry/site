@@ -80,10 +80,7 @@ export default function Pricing() {
       <PageHero
         headline="Pricing"
         subtitle="Scoped engagements with clear outcomes. No long-term contracts, no surprise fees."
-        breadcrumbs={[
-          { label: "Home", href: "/" },
-          { label: "Pricing" },
-        ]}
+        breadcrumbs={[{ label: "Home", href: "/" }, { label: "Pricing" }]}
       />
 
       <div className="py-16">

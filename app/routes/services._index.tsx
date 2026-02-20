@@ -89,7 +89,6 @@ export default function ServicesIndex() {
       />
       <div className="py-16">
         <div className="container mx-auto px-4">
-
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
             {services.map((service) => (
               <Card key={service.slug}>
@@ -110,7 +109,9 @@ export default function ServicesIndex() {
                       variant="outline"
                       className="w-full border-primary text-white hover:bg-primary/10 hover:text-white"
                     >
-                      <Link to={`/services/${service.slug}`}>Get the Diagnostic</Link>
+                      <Link to={`/services/${service.slug}`}>
+                        Get the Diagnostic
+                      </Link>
                     </Button>
                   ) : (
                     <Button asChild variant="outline" className="w-full">
@@ -127,8 +128,8 @@ export default function ServicesIndex() {
               Not Sure Where to Start?
             </h2>
             <p className="text-gray-600 dark:text-gray-400 mb-6">
-              The Restructuring Diagnostic is our recommended entry point for all
-              clients.
+              The Restructuring Diagnostic is our recommended entry point for
+              all clients.
             </p>
             <Button asChild size="lg">
               <Link to="/services/diagnostic">Get the Diagnostic</Link>

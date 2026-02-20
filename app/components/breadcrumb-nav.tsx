@@ -11,7 +11,10 @@ interface BreadcrumbNavProps {
 
 export function BreadcrumbNav({ items }: BreadcrumbNavProps) {
   return (
-    <nav aria-label="Breadcrumb" className="flex items-center gap-1.5 text-xs text-gray-500 dark:text-gray-400">
+    <nav
+      aria-label="Breadcrumb"
+      className="flex items-center gap-1.5 text-xs text-gray-500 dark:text-gray-400"
+    >
       {items.map((item, index) => {
         const isLast = index === items.length - 1;
         return (

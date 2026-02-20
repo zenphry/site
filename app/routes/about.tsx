@@ -30,8 +30,8 @@ export default function About() {
               <p>
                 Zenphry is a business restructuring firm that helps operators
                 fix broken operations, realign teams, and build execution
-                systems that scale. Every engagement is led by practitioners
-                who have done this work from inside real organizations — not
+                systems that scale. Every engagement is led by practitioners who
+                have done this work from inside real organizations — not
                 consultants observing from the outside.
               </p>
               <p>

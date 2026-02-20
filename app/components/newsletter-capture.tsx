@@ -31,26 +31,17 @@ export function NewsletterCapture() {
           }}
         >
           {submitted ? (
-            <p
-              className="text-center font-medium"
-              style={{ color: "#cbb26a" }}
-            >
+            <p className="text-center font-medium" style={{ color: "#cbb26a" }}>
               Thanks! Check your inbox for the Restructuring Playbook.
             </p>
           ) : (
             <div className="grid md:grid-cols-2 gap-6 items-center">
               {/* Left: copy */}
               <div>
-                <h3
-                  className="text-lg font-bold"
-                  style={{ color: "#ffffff" }}
-                >
+                <h3 className="text-lg font-bold" style={{ color: "#ffffff" }}>
                   Get the Restructuring Playbook &mdash; Free
                 </h3>
-                <p
-                  className="text-sm mt-1"
-                  style={{ color: "#9ca3af" }}
-                >
+                <p className="text-sm mt-1" style={{ color: "#9ca3af" }}>
                   Operator insights, frameworks, and restructuring strategies.
                 </p>
               </div>

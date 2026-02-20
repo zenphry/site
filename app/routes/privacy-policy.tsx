@@ -6,7 +6,8 @@ export const meta: MetaFunction = () => {
     { title: "Privacy Policy | Zenphry" },
     {
       name: "description",
-      content: "Zenphry Privacy Policy — how we collect, use, and protect your information.",
+      content:
+        "Zenphry Privacy Policy — how we collect, use, and protect your information.",
     },
   ];
 };
@@ -114,8 +115,9 @@ export default function PrivacyPolicy() {
             <p className="mt-4 text-gray-600 dark:text-gray-300">
               Zenphry (&quot;we,&quot; &quot;us,&quot; or &quot;our&quot;) is
               committed to protecting your personal information. This Privacy
-              Policy explains how we collect, use, share, and protect information
-              when you visit our website or engage with our services.
+              Policy explains how we collect, use, share, and protect
+              information when you visit our website or engage with our
+              services.
             </p>
           </div>
 

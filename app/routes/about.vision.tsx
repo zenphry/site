@@ -70,14 +70,15 @@ export default function VisionPage() {
             </h2>
             <div className="bg-gray-50/75 dark:bg-gray-800/75 backdrop-blur-sm p-6 rounded-lg space-y-4">
               <p className="text-gray-700 dark:text-gray-300 text-lg">
-                Zenphry exists to help businesses build the operational foundation
-                to execute with clarity, accountability, and sustainable results.
+                Zenphry exists to help businesses build the operational
+                foundation to execute with clarity, accountability, and
+                sustainable results.
               </p>
               <p className="text-gray-700 dark:text-gray-300">
                 Most businesses do not fail because of bad strategy. They fail
                 because their operations, structure, and systems cannot support
-                consistent execution. Zenphry restructures the foundation so that
-                strategy can actually work.
+                consistent execution. Zenphry restructures the foundation so
+                that strategy can actually work.
               </p>
               <p className="text-gray-700 dark:text-gray-300">
                 We believe every business deserves to operate with the same

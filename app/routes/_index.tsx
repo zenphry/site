@@ -200,7 +200,13 @@ const steps = [
   },
 ];
 
-const filters = ["All", "Diagnostic", "Restructuring", "Technology", "Advisory"];
+const filters = [
+  "All",
+  "Diagnostic",
+  "Restructuring",
+  "Technology",
+  "Advisory",
+];
 
 const phrases = [
   "Scale with Confidence.",
@@ -317,7 +323,8 @@ export default function Index() {
             <ScrollReveal delay={100}>
               <div className="group relative flex flex-col items-center">
                 <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-52 text-xs bg-gray-900 text-white rounded p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-50">
-                  Diagnose &rarr; Stabilize &rarr; Redesign &rarr; Implement &rarr; Sustain
+                  Diagnose &rarr; Stabilize &rarr; Redesign &rarr; Implement
+                  &rarr; Sustain
                 </div>
                 <Target className="h-8 w-8 text-primary mb-2" />
                 <span className="text-3xl font-bold text-gray-900 dark:text-white mb-1">
@@ -369,7 +376,9 @@ export default function Index() {
                       <problem.icon className="h-5 w-5 text-primary shrink-0" />
                       <CardTitle className="text-lg">{problem.title}</CardTitle>
                     </div>
-                    <CardDescription className="text-sm">{problem.desc}</CardDescription>
+                    <CardDescription className="text-sm">
+                      {problem.desc}
+                    </CardDescription>
                   </CardHeader>
                   <CardContent>
                     <Link

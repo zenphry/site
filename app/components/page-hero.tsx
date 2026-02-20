@@ -1,4 +1,7 @@
-import { BreadcrumbNav, type BreadcrumbItem } from "~/components/breadcrumb-nav";
+import {
+  BreadcrumbNav,
+  type BreadcrumbItem,
+} from "~/components/breadcrumb-nav";
 
 interface PageHeroProps {
   headline: string;

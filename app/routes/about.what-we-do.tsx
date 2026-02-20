@@ -110,8 +110,8 @@ export default function WhatWeDo() {
                 When Clients Work With Zenphry
               </h2>
               <p className="text-lg text-gray-600 dark:text-gray-300">
-                Organizations typically engage us when they recognize one or more
-                of these situations.
+                Organizations typically engage us when they recognize one or
+                more of these situations.
               </p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
@@ -137,8 +137,8 @@ export default function WhatWeDo() {
                 What We Actually Do
               </h2>
               <p className="text-lg text-gray-600 dark:text-gray-300">
-                Our work spans six core areas, tailored to each client&apos;s specific
-                situation.
+                Our work spans six core areas, tailored to each client&apos;s
+                specific situation.
               </p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">

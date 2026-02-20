@@ -32,10 +32,7 @@ export default function Contact() {
       <PageHero
         headline="Get in Touch"
         subtitle="Reach out directly or use the form below. We respond within one business day."
-        breadcrumbs={[
-          { label: "Home", href: "/" },
-          { label: "Contact" },
-        ]}
+        breadcrumbs={[{ label: "Home", href: "/" }, { label: "Contact" }]}
       />
 
       <div className="py-16">

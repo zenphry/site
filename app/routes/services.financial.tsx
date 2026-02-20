@@ -122,11 +122,11 @@ export default function ServiceFinancial() {
                 execution problem tied to money.
               </p>
               <p>
-                Costs are approved without context. Budgets are disconnected from
-                operations. Leaders do not see where money is going until it is
-                too late. Zenphry restructures the operational mechanics around
-                financial decisions so spending aligns with priorities and
-                execution stays controlled.
+                Costs are approved without context. Budgets are disconnected
+                from operations. Leaders do not see where money is going until
+                it is too late. Zenphry restructures the operational mechanics
+                around financial decisions so spending aligns with priorities
+                and execution stays controlled.
               </p>
               <p>
                 This service improves financial clarity and discipline, not
@@ -147,7 +147,9 @@ export default function ServiceFinancial() {
               {notIncluded.map((item, index) => (
                 <div key={index} className="flex items-start">
                   <X className="h-5 w-5 text-gray-400 mr-2 mt-0.5 flex-shrink-0" />
-                  <span className="text-gray-600 dark:text-gray-400">{item}</span>
+                  <span className="text-gray-600 dark:text-gray-400">
+                    {item}
+                  </span>
                 </div>
               ))}
             </div>
@@ -184,8 +186,8 @@ export default function ServiceFinancial() {
               What Zenphry Actually Does
             </h2>
             <p className="text-gray-600 dark:text-gray-300 mb-8">
-              Zenphry delivers Financial Execution Discipline across six execution
-              pillars.
+              Zenphry delivers Financial Execution Discipline across six
+              execution pillars.
             </p>
             <PillarSection pillars={pillars} />
           </div>

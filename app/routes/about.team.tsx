@@ -62,10 +62,10 @@ export default function TeamPage() {
             </h2>
             <div className="bg-gray-50/75 dark:bg-gray-800/75 backdrop-blur-sm p-6 rounded-lg space-y-4">
               <p className="text-gray-700 dark:text-gray-300">
-                Zenphry brings together operators, practitioners, and specialists
-                with direct experience leading operational, organizational,
-                technology, and financial restructuring inside businesses at
-                various stages of growth.
+                Zenphry brings together operators, practitioners, and
+                specialists with direct experience leading operational,
+                organizational, technology, and financial restructuring inside
+                businesses at various stages of growth.
               </p>
               <p className="text-gray-700 dark:text-gray-300">
                 Our team does not come from traditional management consulting.

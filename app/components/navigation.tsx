@@ -169,7 +169,8 @@ export function Navigation() {
                               Restructuring Diagnostic
                             </p>
                             <p className="text-xs text-gray-600 dark:text-gray-400 mt-1 leading-snug">
-                              Start here. Identify root causes before restructuring begins.
+                              Start here. Identify root causes before
+                              restructuring begins.
                             </p>
                           </div>
                           <div className="flex items-center gap-1.5 text-xs text-gray-500 dark:text-gray-400">
@@ -340,7 +341,9 @@ export function Navigation() {
               <div>
                 <button
                   className="flex items-center justify-between w-full text-gray-700 dark:text-gray-300 hover:text-primary transition-colors duration-150 py-2"
-                  onClick={() => setResourcesMobileMenuOpen(!resourcesMobileMenuOpen)}
+                  onClick={() =>
+                    setResourcesMobileMenuOpen(!resourcesMobileMenuOpen)
+                  }
                 >
                   <span>Resources</span>
                   {resourcesMobileMenuOpen ? (
@@ -445,7 +448,10 @@ export function Navigation() {
                 Contact
               </Link>
               <BookingModal>
-                <Button className="w-full" onClick={() => setMobileMenuOpen(false)}>
+                <Button
+                  className="w-full"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
                   Book a Call
                 </Button>
               </BookingModal>
