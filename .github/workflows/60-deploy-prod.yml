@@ -159,13 +159,16 @@ jobs:
           echo "[OK] Build artifacts extracted"
           ls -la build/
 
-      - name: Patch wrangler.json configPath for CI environment
+      - name: Prepare wrangler config for deployment
         run: |
-          jq --arg path "$GITHUB_WORKSPACE/wrangler.toml" \
-            '.configPath = $path | .userConfigPath = $path' \
-            build/server/wrangler.json > build/server/wrangler.json.tmp
-          mv build/server/wrangler.json.tmp build/server/wrangler.json
-          echo "[OK] Patched configPath → $GITHUB_WORKSPACE/wrangler.toml"
+          # Copy root wrangler.toml (with all env blocks) into build/server,
+          # adjusting paths for the compiled output, then drop the generated JSON.
+          sed -e 's|main = "workers/app.ts"|main = "index.js"|' \
+              -e 's|directory = "build/client"|directory = "../client"|' \
+              wrangler.toml > build/server/wrangler.toml
+          echo 'no_bundle = true' >> build/server/wrangler.toml
+          rm build/server/wrangler.json
+          echo "[OK] Created deployment config from wrangler.toml"
 
       - name: Get current prod version for rollback
         id: backup-version
