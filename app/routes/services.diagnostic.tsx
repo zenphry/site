@@ -1,6 +1,4 @@
 import type { MetaFunction } from "react-router";
-import { Link } from "react-router";
-import { Button } from "~/components/ui/button";
 import { Card, CardContent } from "~/components/ui/card";
 import {
   Accordion,
@@ -8,7 +6,9 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "~/components/ui/accordion";
-import { ArrowLeft, Check, X } from "lucide-react";
+import { Check, X } from "lucide-react";
+import { PageHero } from "~/components/page-hero";
+import { SectionCTA } from "~/components/section-cta";
 
 export const meta: MetaFunction = () => {
   return [
@@ -23,36 +23,19 @@ export const meta: MetaFunction = () => {
 
 export default function ServiceDiagnostic() {
   return (
-    <div className="py-16">
+    <div>
+      <PageHero
+        headline="Restructuring Diagnostic"
+        subtitle="Identify root causes of inefficiency and execution breakdown before restructuring begins."
+        breadcrumbs={[
+          { label: "Home", href: "/" },
+          { label: "Services", href: "/services" },
+          { label: "Restructuring Diagnostic" },
+        ]}
+      />
+
+      <div className="py-16">
       <div className="container mx-auto px-4">
-        <div className="fixed bottom-4 left-4 z-50">
-          <Button
-            asChild
-            variant="outline"
-            size="sm"
-            className="shadow-lg bg-white dark:bg-gray-900"
-          >
-            <Link to="/services">
-              <ArrowLeft className="h-4 w-4 mr-2" />
-              Back to Services
-            </Link>
-          </Button>
-        </div>
-
-        {/* Above the Fold */}
-        <div className="max-w-3xl mx-auto text-center mb-16">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6 text-gray-900 dark:text-white">
-            Restructuring Diagnostic
-          </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-300 mb-8">
-            Identify root causes of inefficiency and execution breakdown before
-            restructuring begins.
-          </p>
-          <Button asChild size="lg">
-            <Link to="/book-a-call">Request the Diagnostic</Link>
-          </Button>
-        </div>
-
         {/* Who It Is For */}
         <div className="max-w-4xl mx-auto mb-16">
           <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">
@@ -96,7 +79,7 @@ export default function ServiceDiagnostic() {
                 key={index}
                 className="bg-gray-50/75 dark:bg-gray-800/75 backdrop-blur-sm p-3 rounded text-gray-700 dark:text-gray-300 text-sm"
               >
-                • {trigger}
+                &bull; {trigger}
               </div>
             ))}
           </div>
@@ -175,7 +158,7 @@ export default function ServiceDiagnostic() {
         {/* Timeline and Engagement */}
         <div className="max-w-4xl mx-auto mb-16">
           <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">
-            Timeline & Engagement
+            Timeline &amp; Engagement
           </h2>
           <div className="bg-gray-50/75 dark:bg-gray-800/75 backdrop-blur-sm p-6 rounded-lg">
             <div className="grid md:grid-cols-2 gap-6">
@@ -273,21 +256,15 @@ export default function ServiceDiagnostic() {
             </AccordionItem>
           </Accordion>
         </div>
-
-        {/* Final CTA */}
-        <div className="max-w-2xl mx-auto text-center bg-primary text-primary-foreground p-8 rounded-lg">
-          <h2 className="text-2xl font-bold mb-4">
-            Request the Restructuring Diagnostic
-          </h2>
-          <p className="mb-6">
-            Identify what needs to change before committing to full
-            restructuring.
-          </p>
-          <Button asChild size="lg" variant="secondary">
-            <Link to="/book-a-call">Schedule a Call</Link>
-          </Button>
-        </div>
       </div>
+      </div>
+
+      {/* Final CTA */}
+      <SectionCTA
+        headline="Request the Restructuring Diagnostic"
+        supporting="Your first step toward a structured transformation. 2-3 week engagement."
+        showDiagnostic={false}
+      />
     </div>
   );
 }

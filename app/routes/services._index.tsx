@@ -8,6 +8,8 @@ import {
   CardHeader,
   CardTitle,
 } from "~/components/ui/card";
+import { PageHero } from "~/components/page-hero";
+import { SectionCTA } from "~/components/section-cta";
 
 export const meta: MetaFunction = () => {
   return [
@@ -29,7 +31,7 @@ const services = [
     description: "Identify root causes of inefficiency and execution breakdown",
   },
   {
-    slug: "foundation",
+    slug: "operational",
     title: "Operational Restructuring",
     duration: "Varies",
     whoItsFor: "Organizations with inconsistent execution",
@@ -37,7 +39,7 @@ const services = [
       "Fix how work flows through your business with defined processes, execution rhythm, and measurable outcomes",
   },
   {
-    slug: "enterprise",
+    slug: "organizational",
     title: "Organizational & Team Restructuring",
     duration: "Varies",
     whoItsFor: "Organizations with unclear roles or slow decisions",
@@ -61,7 +63,7 @@ const services = [
       "Restructure how money is planned, tracked, and governed inside day-to-day operations",
   },
   {
-    slug: "growth",
+    slug: "scale",
     title: "Growth & Scale Readiness",
     duration: "Varies",
     whoItsFor: "Scaling companies preparing for growth",
@@ -79,54 +81,66 @@ const services = [
 
 export default function ServicesIndex() {
   return (
-    <div className="py-16">
-      <div className="container mx-auto px-4">
-        <div className="max-w-3xl mx-auto text-center mb-16">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6 text-gray-900 dark:text-white">
-            Business Restructuring Services
-          </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-300">
-            Operational, organizational, and technology restructuring for
-            businesses at every stage. From diagnostic assessments to full-scale
-            transformation.
-          </p>
-        </div>
+    <div>
+      <PageHero
+        headline="Our Services"
+        subtitle="Operator-led restructuring across operations, technology, finance, and organizational design."
+        breadcrumbs={[{ label: "Home", href: "/" }, { label: "Services" }]}
+      />
+      <div className="py-16">
+        <div className="container mx-auto px-4">
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-          {services.map((service) => (
-            <Card key={service.slug}>
-              <CardHeader>
-                <CardTitle>{service.title}</CardTitle>
-                <CardDescription>{service.duration}</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
-                  <strong>Who it is for:</strong> {service.whoItsFor}
-                </p>
-                <p className="mb-4 text-gray-600 dark:text-gray-400">
-                  {service.description}
-                </p>
-                <Button asChild variant="outline" className="w-full">
-                  <Link to={`/services/${service.slug}`}>Learn More</Link>
-                </Button>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+            {services.map((service) => (
+              <Card key={service.slug}>
+                <CardHeader>
+                  <CardTitle>{service.title}</CardTitle>
+                  <CardDescription>{service.duration}</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
+                    <strong>Who it is for:</strong> {service.whoItsFor}
+                  </p>
+                  <p className="mb-4 text-gray-600 dark:text-gray-400">
+                    {service.description}
+                  </p>
+                  {service.slug === "diagnostic" ? (
+                    <Button
+                      asChild
+                      variant="outline"
+                      className="w-full border-primary text-white hover:bg-primary/10 hover:text-white"
+                    >
+                      <Link to={`/services/${service.slug}`}>Get the Diagnostic</Link>
+                    </Button>
+                  ) : (
+                    <Button asChild variant="outline" className="w-full">
+                      <Link to={`/services/${service.slug}`}>Learn More</Link>
+                    </Button>
+                  )}
+                </CardContent>
+              </Card>
+            ))}
+          </div>
 
-        <div className="text-center">
-          <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">
-            Not Sure Where to Start?
-          </h2>
-          <p className="text-gray-600 dark:text-gray-400 mb-6">
-            The Restructuring Diagnostic is our recommended entry point for all
-            clients.
-          </p>
-          <Button asChild size="lg">
-            <Link to="/services/diagnostic">Request the Diagnostic</Link>
-          </Button>
+          <div className="text-center">
+            <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">
+              Not Sure Where to Start?
+            </h2>
+            <p className="text-gray-600 dark:text-gray-400 mb-6">
+              The Restructuring Diagnostic is our recommended entry point for all
+              clients.
+            </p>
+            <Button asChild size="lg">
+              <Link to="/services/diagnostic">Get the Diagnostic</Link>
+            </Button>
+          </div>
         </div>
       </div>
+
+      <SectionCTA
+        headline="Ready to Start Restructuring?"
+        supporting="Begin with a diagnostic to identify exactly where execution is breaking down."
+      />
     </div>
   );
 }

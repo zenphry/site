@@ -1,7 +1,8 @@
 import type { MetaFunction } from "react-router";
-import { Link } from "react-router";
-import { Button } from "~/components/ui/button";
+
 import { Card, CardContent } from "~/components/ui/card";
+import { PageHero } from "~/components/page-hero";
+import { SectionCTA } from "~/components/section-cta";
 
 export const meta: MetaFunction = () => {
   return [
@@ -89,111 +90,101 @@ const doNotDoItems = [
 
 export default function WhatWeDo() {
   return (
-    <div className="py-16">
-      <div className="container mx-auto px-4">
-        {/* Hero */}
-        <div className="max-w-3xl mx-auto text-center mb-20">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6 text-gray-900 dark:text-white">
-            What We Do
-          </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-300">
-            Zenphry helps organizations fix execution breakdowns by
-            restructuring how they operate, make decisions, and deliver results.
-            We work with founders, executives, and leadership teams to replace
-            chaos with clarity.
-          </p>
-        </div>
+    <div>
+      <PageHero
+        headline="What We Do"
+        subtitle="Operator-led restructuring across operations, technology, finance, and organizational design."
+        breadcrumbs={[
+          { label: "Home", href: "/" },
+          { label: "About", href: "/about" },
+          { label: "What We Do" },
+        ]}
+      />
 
-        {/* When Clients Work With Zenphry */}
-        <section className="mb-20">
-          <div className="max-w-3xl mx-auto text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4 text-gray-900 dark:text-white">
-              When Clients Work With Zenphry
-            </h2>
-            <p className="text-lg text-gray-600 dark:text-gray-300">
-              Organizations typically engage us when they recognize one or more
-              of these situations.
-            </p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-            {triggerScenarios.map((scenario, index) => (
-              <Card key={index}>
-                <CardContent className="p-6">
-                  <h3 className="font-semibold text-lg text-gray-900 dark:text-white mb-2">
-                    {scenario.title}
-                  </h3>
-                  <p className="text-gray-600 dark:text-gray-400">
-                    {scenario.description}
-                  </p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </section>
-
-        {/* What We Actually Do */}
-        <section className="mb-20">
-          <div className="max-w-3xl mx-auto text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4 text-gray-900 dark:text-white">
-              What We Actually Do
-            </h2>
-            <p className="text-lg text-gray-600 dark:text-gray-300">
-              Our work spans six core areas, tailored to each client's specific
-              situation.
-            </p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
-            {serviceAreas.map((area, index) => (
-              <Card key={index}>
-                <CardContent className="p-6">
-                  <h3 className="font-semibold text-lg text-gray-900 dark:text-white mb-2">
-                    {area.title}
-                  </h3>
-                  <p className="text-gray-600 dark:text-gray-400">
-                    {area.description}
-                  </p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </section>
-
-        {/* What We Do Not Do */}
-        <section className="mb-20">
-          <div className="max-w-3xl mx-auto">
-            <h2 className="text-3xl font-bold mb-8 text-center text-gray-900 dark:text-white">
-              What We Do Not Do
-            </h2>
-            <div className="space-y-4">
-              {doNotDoItems.map((item, index) => (
-                <div
-                  key={index}
-                  className="flex items-start gap-3 p-4 bg-gray-50/75 dark:bg-gray-800/75 rounded-lg"
-                >
-                  <span className="text-gray-400 dark:text-gray-500 mt-0.5 flex-shrink-0">
-                    &mdash;
-                  </span>
-                  <p className="text-gray-700 dark:text-gray-300">{item}</p>
-                </div>
+      <div className="py-16">
+        <div className="container mx-auto px-4">
+          {/* When Clients Work With Zenphry */}
+          <section className="mb-20">
+            <div className="max-w-3xl mx-auto text-center mb-12">
+              <h2 className="text-3xl font-bold mb-4 text-gray-900 dark:text-white">
+                When Clients Work With Zenphry
+              </h2>
+              <p className="text-lg text-gray-600 dark:text-gray-300">
+                Organizations typically engage us when they recognize one or more
+                of these situations.
+              </p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+              {triggerScenarios.map((scenario, index) => (
+                <Card key={index}>
+                  <CardContent className="p-6">
+                    <h3 className="font-semibold text-lg text-gray-900 dark:text-white mb-2">
+                      {scenario.title}
+                    </h3>
+                    <p className="text-gray-600 dark:text-gray-400">
+                      {scenario.description}
+                    </p>
+                  </CardContent>
+                </Card>
               ))}
             </div>
-          </div>
-        </section>
+          </section>
 
-        {/* CTA */}
-        <div className="bg-gray-50/75 dark:bg-gray-800/75 backdrop-blur-sm p-8 rounded-lg text-center max-w-2xl mx-auto">
-          <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">
-            Ready to Fix What is Broken?
-          </h2>
-          <p className="text-gray-600 dark:text-gray-400 mb-6">
-            Book a discovery call to discuss your specific situation and find
-            out how Zenphry can help.
-          </p>
-          <Button asChild size="lg">
-            <Link to="/book-a-call">Book a Call</Link>
-          </Button>
+          {/* What We Actually Do */}
+          <section className="mb-20">
+            <div className="max-w-3xl mx-auto text-center mb-12">
+              <h2 className="text-3xl font-bold mb-4 text-gray-900 dark:text-white">
+                What We Actually Do
+              </h2>
+              <p className="text-lg text-gray-600 dark:text-gray-300">
+                Our work spans six core areas, tailored to each client&apos;s specific
+                situation.
+              </p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+              {serviceAreas.map((area, index) => (
+                <Card key={index}>
+                  <CardContent className="p-6">
+                    <h3 className="font-semibold text-lg text-gray-900 dark:text-white mb-2">
+                      {area.title}
+                    </h3>
+                    <p className="text-gray-600 dark:text-gray-400">
+                      {area.description}
+                    </p>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </section>
+
+          {/* What We Do Not Do */}
+          <section className="mb-20">
+            <div className="max-w-3xl mx-auto">
+              <h2 className="text-3xl font-bold mb-8 text-center text-gray-900 dark:text-white">
+                What We Do Not Do
+              </h2>
+              <div className="space-y-4">
+                {doNotDoItems.map((item, index) => (
+                  <div
+                    key={index}
+                    className="flex items-start gap-3 p-4 bg-gray-50/75 dark:bg-gray-800/75 rounded-lg"
+                  >
+                    <span className="text-gray-400 dark:text-gray-500 mt-0.5 flex-shrink-0">
+                      &mdash;
+                    </span>
+                    <p className="text-gray-700 dark:text-gray-300">{item}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
         </div>
       </div>
+
+      <SectionCTA
+        headline="See How We Work"
+        supporting="Every engagement is scoped, operator-led, and built around measurable outcomes."
+      />
     </div>
   );
 }

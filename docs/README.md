@@ -42,8 +42,8 @@ Documentation for the Zenphry business restructuring website.
 
 - ✅ React Router v7 + Cloudflare Workers
 - ✅ Tailwind CSS v4 with Zenphry branding
-- ✅ 19 pages (homepage, services, pricing, about, case studies, etc.)
-- ✅ Navigation, footer, UI components
+- ✅ 22 pages (homepage, 7 service pages, 4 about pages, 4 resource pages, pricing, contact, privacy policy, etc.)
+- ✅ Navigation (mega-menu), footer, shared PageHero, SectionCTA, BookingModal, UI components
 - ✅ SEO (sitemap, robots.txt, structured data)
 - ✅ Multi-environment setup (dev/stg/prod)
 - ✅ Dark mode support
@@ -53,7 +53,6 @@ Documentation for the Zenphry business restructuring website.
 
 See [../NEXT_STEPS.md](../NEXT_STEPS.md) for:
 
-- Content for 5 service pages (placeholders exist)
-- CRM form integration
-- Calendly scheduling integration
-- Company contact information
+- CRM / email integration for newsletter capture and contact form
+- Live Calendly embed inside BookingModal (currently placeholder)
+- Blog section (`/resources/blog`)

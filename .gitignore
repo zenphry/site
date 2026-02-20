@@ -49,3 +49,6 @@ NEXT_STEPS.md
 *.bak
 *.backup
 *.tmp
+
+
+tmp/

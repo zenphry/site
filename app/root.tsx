@@ -6,6 +6,7 @@ import {
   Scripts,
   ScrollRestoration,
   useLoaderData,
+  useNavigation,
   useRouteError,
 } from "react-router";
 
@@ -20,6 +21,7 @@ import { ThemeProvider } from "./lib/theme-provider";
 import { ThemeScript } from "./components/theme-script";
 import { Navigation } from "./components/navigation";
 import { Footer } from "./components/footer";
+import { NewsletterCapture } from "./components/newsletter-capture";
 import { BackgroundPulses } from "./components/background-pulses";
 import { criticalCSS } from "./lib/critical-css";
 import logoColor from "./assets/logo-color.png";
@@ -221,6 +223,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
 export default function App() {
   const { theme } = useLoaderData<typeof loader>();
+  const navigation = useNavigation();
+  const isNavigating = navigation.state === "loading";
 
   return (
     <ThemeProvider specifiedTheme={theme || "system"}>
@@ -265,10 +269,33 @@ export default function App() {
           Skip to main content
         </a>
         <Navigation />
-        <main id="main-content" className="pt-16">
-          <Outlet />
+        <main id="main-content" className="pt-28">
+          <div
+            className={
+              isNavigating
+                ? "opacity-50 transition-opacity duration-150"
+                : "page-fade-in"
+            }
+          >
+            <Outlet />
+          </div>
         </main>
-        <Footer />
+        {/* Bottom zone — hardcoded dark navy + grid, excluded from theming */}
+        <div
+          style={{
+            background: "#0f172a",
+            backgroundImage: `
+              linear-gradient(to right, rgba(203,178,106,0.06) 1px, transparent 1px),
+              linear-gradient(to bottom, rgba(203,178,106,0.06) 1px, transparent 1px),
+              radial-gradient(circle at 50% 50%, rgba(203,178,106,0.08) 0%, rgba(203,178,106,0.03) 50%, transparent 75%)
+            `,
+            backgroundSize: "40px 40px, 40px 40px, 100% 100%",
+            position: "relative",
+          }}
+        >
+          <NewsletterCapture />
+          <Footer />
+        </div>
       </div>
     </ThemeProvider>
   );
@@ -295,7 +322,7 @@ export function ErrorBoundary() {
     <ThemeProvider specifiedTheme="system">
       <ThemeScript theme="system" />
       <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors">
-        <main id="main-content" className="pt-16 p-4 container mx-auto">
+        <main id="main-content" className="pt-28 p-4 container mx-auto">
           <h1 className="text-4xl font-bold mb-4">{message}</h1>
           <p className="text-lg mb-4">{details}</p>
           {stack && (

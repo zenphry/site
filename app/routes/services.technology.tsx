@@ -1,8 +1,13 @@
 import type { MetaFunction } from "react-router";
-import { Link } from "react-router";
-import { Button } from "~/components/ui/button";
 import { PillarSection } from "~/components/pillar-section";
-import { ArrowLeft } from "lucide-react";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "~/components/ui/accordion";
+import { PageHero } from "~/components/page-hero";
+import { SectionCTA } from "~/components/section-cta";
 
 export const meta: MetaFunction = () => {
   return [
@@ -103,83 +108,112 @@ const pillars = [
   },
 ];
 
+const faqs = [
+  {
+    q: "Do you recommend or resell specific software?",
+    a: "No. Zenphry does not resell software or take vendor commissions. Recommendations are based entirely on your operational needs, existing systems, and budget.",
+  },
+  {
+    q: "Can you work with our existing systems?",
+    a: "Yes. We start with a full assessment of what you have before recommending any changes. Many engagements involve restructuring and optimizing existing tools rather than replacing them.",
+  },
+  {
+    q: "How long does a technology restructuring engagement take?",
+    a: "Duration varies depending on scope. A systems assessment typically takes 2-3 weeks. Implementation engagements range from 6 to 16 weeks depending on complexity.",
+  },
+  {
+    q: "Is this only for large organizations?",
+    a: "No. We work with businesses of all sizes. Early-stage companies often benefit most from getting their systems right before scale exposes the gaps.",
+  },
+];
+
 export default function ServiceTechnology() {
   return (
-    <div className="py-16">
-      <div className="container mx-auto px-4">
-        <div className="fixed bottom-4 left-4 z-50">
-          <Button
-            asChild
-            variant="outline"
-            size="sm"
-            className="shadow-lg bg-white dark:bg-gray-900"
-          >
-            <Link to="/services">
-              <ArrowLeft className="h-4 w-4 mr-2" />
-              Back to Services
-            </Link>
-          </Button>
-        </div>
+    <div>
+      <PageHero
+        headline="Technology & Systems Restructuring"
+        subtitle="Fix, simplify, and rebuild the digital backbone so systems support execution instead of obstructing it."
+        breadcrumbs={[
+          { label: "Home", href: "/" },
+          { label: "Services", href: "/services" },
+          { label: "Technology & Systems Restructuring" },
+        ]}
+      />
 
-        {/* Hero */}
-        <div className="max-w-3xl mx-auto text-center mb-16">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6 text-gray-900 dark:text-white">
-            Technology & Systems Restructuring
-          </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-300 mb-8">
-            Fix, simplify, and rebuild the digital backbone of your business so
-            systems support execution instead of slowing teams down.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button asChild size="lg">
-              <Link to="/book-a-call">Optimize Systems</Link>
-            </Button>
-            <Button asChild size="lg" variant="outline">
-              <Link to="/book-a-call">Book a Strategy Call</Link>
-            </Button>
+      <div className="py-16">
+        <div className="container mx-auto px-4">
+          {/* What This Service Is */}
+          <div className="max-w-4xl mx-auto mb-16">
+            <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">
+              What This Service Is
+            </h2>
+            <div className="space-y-4 text-gray-600 dark:text-gray-300">
+              <p>
+                Zenphry works across infrastructure, cloud, applications,
+                automation, and internal tooling to create stable, scalable, and
+                usable systems aligned with how your business operates.
+              </p>
+              <p>
+                This is not software resale or tool implementation in isolation.
+                It is system design, restructuring, and execution enablement.
+              </p>
+            </div>
           </div>
-        </div>
 
-        {/* What This Service Is */}
-        <div className="max-w-4xl mx-auto mb-16">
-          <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">
-            What This Service Is
-          </h2>
-          <div className="space-y-4 text-gray-600 dark:text-gray-300">
-            <p>
-              Zenphry works across infrastructure, cloud, applications,
-              automation, and internal tooling to create stable, scalable, and
-              usable systems aligned with how your business operates.
-            </p>
-            <p>
-              This is not software resale or tool implementation in isolation.
-              It is system design, restructuring, and execution enablement.
-            </p>
+          {/* Who It Is For */}
+          <div className="max-w-4xl mx-auto mb-16">
+            <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">
+              Who It Is For
+            </h2>
+            <div className="grid md:grid-cols-2 gap-3">
+              {[
+                "Businesses with tools that create more work than they eliminate",
+                "Organizations where teams work around systems instead of through them",
+                "Companies with redundant or disconnected technology stacks",
+                "Leadership teams with no visibility into operational technology costs",
+                "Businesses preparing to scale and needing stable systems to support growth",
+                "Teams where manual work could be automated but never has been",
+              ].map((item, index) => (
+                <div
+                  key={index}
+                  className="bg-gray-50/75 dark:bg-gray-800/75 backdrop-blur-sm p-3 rounded text-gray-700 dark:text-gray-300 text-sm"
+                >
+                  &bull; {item}
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
 
-        {/* Pillars */}
-        <div className="max-w-4xl mx-auto mb-16">
-          <h2 className="text-2xl font-bold mb-8 text-gray-900 dark:text-white">
-            What Zenphry Delivers
-          </h2>
-          <PillarSection pillars={pillars} />
-        </div>
+          {/* Pillars */}
+          <div className="max-w-4xl mx-auto mb-16">
+            <h2 className="text-2xl font-bold mb-8 text-gray-900 dark:text-white">
+              What Zenphry Delivers
+            </h2>
+            <PillarSection pillars={pillars} />
+          </div>
 
-        {/* Final CTA */}
-        <div className="max-w-2xl mx-auto text-center bg-primary text-primary-foreground p-8 rounded-lg">
-          <h2 className="text-2xl font-bold mb-4">
-            Ready to Fix Your Systems?
-          </h2>
-          <p className="mb-6">
-            If technology is slowing execution or creating risk, start with a
-            strategy call to determine what needs to be restructured first.
-          </p>
-          <Button asChild size="lg" variant="secondary">
-            <Link to="/book-a-call">Book a Strategy Call</Link>
-          </Button>
+          {/* FAQ */}
+          <div className="max-w-4xl mx-auto mb-16">
+            <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">
+              Frequently Asked Questions
+            </h2>
+            <Accordion type="single" collapsible className="w-full">
+              {faqs.map((faq, index) => (
+                <AccordionItem key={index} value={`item-${index + 1}`}>
+                  <AccordionTrigger>{faq.q}</AccordionTrigger>
+                  <AccordionContent>{faq.a}</AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          </div>
         </div>
       </div>
+
+      <SectionCTA
+        headline="Ready to Fix Your Systems?"
+        supporting="If technology is slowing execution, we build the systems that remove friction and enable scale."
+        showDiagnostic={true}
+      />
     </div>
   );
 }

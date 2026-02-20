@@ -1,7 +1,8 @@
 import type { MetaFunction, LoaderFunctionArgs } from "react-router";
 import { useLoaderData, Link } from "react-router";
-import { Button } from "~/components/ui/button";
 import { Card, CardContent } from "~/components/ui/card";
+import { PageHero } from "~/components/page-hero";
+import { SectionCTA } from "~/components/section-cta";
 
 interface CaseStudyScenario {
   title: string;
@@ -118,104 +119,101 @@ export default function CaseStudyDetail() {
   const { scenario } = useLoaderData<typeof loader>();
 
   return (
-    <div className="py-16">
-      <div className="container mx-auto px-4">
-        <div className="max-w-4xl mx-auto">
-          <Link
-            to="/resources/case-studies"
-            className="text-primary hover:underline mb-8 inline-block"
-          >
-            ← Back to Case Studies
-          </Link>
+    <div>
+      <PageHero
+        headline={scenario.title}
+        subtitle={`${scenario.industry} · ${scenario.companySize}`}
+        breadcrumbs={[
+          { label: "Home", href: "/" },
+          { label: "Resources", href: "/resources/case-studies" },
+          { label: "Case Studies", href: "/resources/case-studies" },
+          { label: scenario.title },
+        ]}
+      />
 
-          <h1 className="text-4xl md:text-5xl font-bold mb-4 text-gray-900 dark:text-white">
-            {scenario.title}
-          </h1>
+      <div className="py-16">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto">
+            <Link
+              to="/resources/case-studies"
+              className="text-primary hover:underline mb-8 inline-block"
+            >
+              ← Back to Case Studies
+            </Link>
 
-          <div className="flex gap-4 text-sm text-gray-600 dark:text-gray-400 mb-12">
-            <span>Industry: {scenario.industry}</span>
-            <span>•</span>
-            <span>Company Size: {scenario.companySize}</span>
-          </div>
+            {/* Situation */}
+            <section className="mb-12">
+              <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">
+                Situation
+              </h2>
+              <p className="text-lg text-gray-600 dark:text-gray-300">
+                {scenario.situation}
+              </p>
+            </section>
 
-          {/* Situation */}
-          <section className="mb-12">
-            <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">
-              Situation
-            </h2>
-            <p className="text-lg text-gray-600 dark:text-gray-300">
-              {scenario.situation}
-            </p>
-          </section>
+            {/* Root Causes */}
+            <section className="mb-12">
+              <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">
+                Root Causes Identified
+              </h2>
+              <div className="grid md:grid-cols-2 gap-4">
+                {scenario.rootCauses.map((cause: string, index: number) => (
+                  <Card key={index}>
+                    <CardContent className="p-4">
+                      <p className="text-gray-700 dark:text-gray-300">
+                        • {cause}
+                      </p>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </section>
 
-          {/* Root Causes */}
-          <section className="mb-12">
-            <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">
-              Root Causes Identified
-            </h2>
-            <div className="grid md:grid-cols-2 gap-4">
-              {scenario.rootCauses.map((cause: string, index: number) => (
-                <Card key={index}>
-                  <CardContent className="p-4">
-                    <p className="text-gray-700 dark:text-gray-300">
-                      • {cause}
-                    </p>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </section>
+            {/* What Zenphry Did */}
+            <section className="mb-12">
+              <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">
+                What Zenphry Did
+              </h2>
+              <div className="space-y-3">
+                {scenario.whatZenphryDid.map(
+                  (action: string, index: number) => (
+                    <div key={index} className="flex items-start gap-3">
+                      <div className="bg-primary text-primary-foreground rounded-full w-8 h-8 flex items-center justify-center font-bold text-sm flex-shrink-0">
+                        {index + 1}
+                      </div>
+                      <p className="text-gray-700 dark:text-gray-300 pt-1">
+                        {action}
+                      </p>
+                    </div>
+                  )
+                )}
+              </div>
+            </section>
 
-          {/* What Zenphry Did */}
-          <section className="mb-12">
-            <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">
-              What Zenphry Did
-            </h2>
-            <div className="space-y-3">
-              {scenario.whatZenphryDid.map((action: string, index: number) => (
-                <div key={index} className="flex items-start gap-3">
-                  <div className="bg-primary text-primary-foreground rounded-full w-8 h-8 flex items-center justify-center font-bold text-sm flex-shrink-0">
-                    {index + 1}
-                  </div>
-                  <p className="text-gray-700 dark:text-gray-300 pt-1">
-                    {action}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </section>
-
-          {/* Outcomes */}
-          <section className="mb-12">
-            <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">
-              Outcomes & Metrics
-            </h2>
-            <div className="grid md:grid-cols-2 gap-4">
-              {scenario.outcomes.map((outcome: string, index: number) => (
-                <Card key={index} className="border-primary">
-                  <CardContent className="p-4">
-                    <p className="text-primary font-semibold">{outcome}</p>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </section>
-
-          {/* CTA */}
-          <div className="bg-gray-50/75 dark:bg-gray-800/75 backdrop-blur-sm p-8 rounded-lg text-center">
-            <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">
-              Facing Similar Challenges?
-            </h2>
-            <p className="text-gray-600 dark:text-gray-400 mb-6">
-              Book a discovery call to discuss how Zenphry can help your
-              business.
-            </p>
-            <Button asChild size="lg">
-              <Link to="/book-a-call">Schedule a Call</Link>
-            </Button>
+            {/* Outcomes */}
+            <section className="mb-12">
+              <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">
+                Outcomes & Metrics
+              </h2>
+              <div className="grid md:grid-cols-2 gap-4">
+                {scenario.outcomes.map((outcome: string, index: number) => (
+                  <Card key={index} className="border-primary">
+                    <CardContent className="p-4">
+                      <p className="text-primary font-semibold">{outcome}</p>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </section>
           </div>
         </div>
       </div>
+
+      <SectionCTA
+        headline="Facing Similar Challenges?"
+        supporting="Book a call to discuss how Zenphry can help your business achieve the same results."
+        showDiagnostic={true}
+      />
     </div>
   );
 }
