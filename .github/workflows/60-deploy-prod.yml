@@ -159,13 +159,28 @@ jobs:
           echo "[OK] Build artifacts extracted"
           ls -la build/
 
-      - name: Patch wrangler.json configPath for CI environment
+      - name: Merge wrangler.toml environments into build config
         run: |
-          jq --arg path "$GITHUB_WORKSPACE/wrangler.toml" \
-            '.configPath = $path | .userConfigPath = $path' \
-            build/server/wrangler.json > build/server/wrangler.json.tmp
-          mv build/server/wrangler.json.tmp build/server/wrangler.json
-          echo "[OK] Patched configPath → $GITHUB_WORKSPACE/wrangler.toml"
+          # build/server/wrangler.json has no env blocks (routes, custom domains, vars).
+          # Merge them from the root wrangler.toml so wrangler deploy --env finds them.
+          python3 -c "
+          import tomllib, json
+
+          with open('wrangler.toml', 'rb') as f:
+              toml_cfg = tomllib.load(f)
+
+          with open('build/server/wrangler.json') as f:
+              json_cfg = json.load(f)
+
+          if 'env' in toml_cfg:
+              json_cfg['env'] = toml_cfg['env']
+
+          with open('build/server/wrangler.json', 'w') as f:
+              json.dump(json_cfg, f, indent=2)
+
+          envs = list(toml_cfg.get('env', {}).keys())
+          print(f'[OK] Merged environments into wrangler.json: {envs}')
+          "
 
       - name: Get current prod version for rollback
         id: backup-version
