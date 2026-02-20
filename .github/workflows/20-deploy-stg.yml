@@ -98,6 +98,14 @@ jobs:
           echo "[OK] Build artifacts extracted"
           ls -la build/
 
+      - name: Patch wrangler.json configPath for CI environment
+        run: |
+          jq --arg path "$GITHUB_WORKSPACE/wrangler.toml" \
+            '.configPath = $path | .userConfigPath = $path' \
+            build/server/wrangler.json > build/server/wrangler.json.tmp
+          mv build/server/wrangler.json.tmp build/server/wrangler.json
+          echo "[OK] Patched configPath → $GITHUB_WORKSPACE/wrangler.toml"
+
       - name: Deploy to stg
         uses: cloudflare/wrangler-action@v3
         with:
