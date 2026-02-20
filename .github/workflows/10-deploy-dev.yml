@@ -56,28 +56,16 @@ jobs:
           echo "[OK] Build artifacts extracted"
           ls -la build/
 
-      - name: Merge wrangler.toml environments into build config
+      - name: Prepare wrangler config for deployment
         run: |
-          # build/server/wrangler.json has no env blocks (routes, custom domains, vars).
-          # Merge them from the root wrangler.toml so wrangler deploy --env finds them.
-          python3 -c "
-          import tomllib, json
-
-          with open('wrangler.toml', 'rb') as f:
-              toml_cfg = tomllib.load(f)
-
-          with open('build/server/wrangler.json') as f:
-              json_cfg = json.load(f)
-
-          if 'env' in toml_cfg:
-              json_cfg['env'] = toml_cfg['env']
-
-          with open('build/server/wrangler.json', 'w') as f:
-              json.dump(json_cfg, f, indent=2)
-
-          envs = list(toml_cfg.get('env', {}).keys())
-          print(f'[OK] Merged environments into wrangler.json: {envs}')
-          "
+          # Copy root wrangler.toml (with all env blocks) into build/server,
+          # adjusting paths for the compiled output, then drop the generated JSON.
+          sed -e 's|main = "workers/app.ts"|main = "index.js"|' \
+              -e 's|directory = "build/client"|directory = "../client"|' \
+              wrangler.toml > build/server/wrangler.toml
+          echo 'no_bundle = true' >> build/server/wrangler.toml
+          rm build/server/wrangler.json
+          echo "[OK] Created deployment config from wrangler.toml"
 
       - name: Deploy to dev
         uses: cloudflare/wrangler-action@v3
