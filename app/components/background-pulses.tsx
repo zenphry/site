@@ -31,6 +31,7 @@ function generateRandomLinePulse(id: number): LinePulse {
 
 export function BackgroundPulses() {
   const [pulses, setPulses] = useState<LinePulse[]>(() => {
+    if (typeof window === "undefined") return [];
     const pulseCount = 8 + Math.floor(Math.random() * 5);
     return Array.from({ length: pulseCount }, (_, i) =>
       generateRandomLinePulse(i),

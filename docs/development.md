@@ -119,91 +119,62 @@ open lighthouse-dev.html  # macOS
 
 ### Tech Stack
 
-- **Framework**: React Router v7 (Remix)
-- **Data**: Static JSON files (fully static architecture)
+- **Framework**: React Router v7
 - **Deployment**: Cloudflare Workers + Assets
-- **Styling**: Tailwind CSS + shadcn/ui
-- **Validation**: Zod
-- **Forms**: React Hook Form
-- **Data Fetching**: TanStack Query
+- **Styling**: Tailwind CSS v4 + shadcn/ui
+- **Language**: TypeScript (strict)
+- **Build**: Vite 7
 
 ### Project Structure
 
 ```
 app/
 ├── components/
-│   ├── ui/              # shadcn/ui components
-│   ├── navigation.tsx   # Header with theme toggle
-│   └── footer.tsx       # Footer
-├── content/
-│   └── data/            # Static JSON data files
-│       ├── blog-posts.json
-│       ├── team.json
-│       ├── offers.json
-│       └── case-studies.json
+│   ├── ui/                    # shadcn/ui primitives
+│   ├── navigation.tsx         # Header with mega-menu
+│   ├── footer.tsx             # Footer
+│   ├── page-hero.tsx          # Shared inner-page hero
+│   ├── section-cta.tsx        # Bottom CTA strip (dark zone)
+│   ├── newsletter-capture.tsx # Email capture (dark zone)
+│   ├── booking-modal.tsx      # Radix Dialog for booking
+│   ├── announcement-bar.tsx   # Dismissible top banner
+│   ├── breadcrumb-nav.tsx     # Breadcrumbs
+│   ├── scroll-reveal.tsx      # Entrance animation wrapper
+│   └── background-pulses.tsx  # Animated background pulses
 ├── lib/
-│   ├── static-data.server.ts  # Static data client
-│   ├── theme.server.ts        # Theme management
-│   └── utils.js               # Utilities (cn() for classNames)
+│   ├── theme.server.ts        # Theme cookie management
+│   ├── critical-css.ts        # Inlined critical CSS
+│   └── utils.ts               # cn() and other utilities
 ├── routes/
-│   ├── _index.tsx       # Homepage
-│   └── *.tsx            # Other routes
-├── root.tsx             # Root layout
-└── app.css              # Tailwind styles
+│   ├── _index.tsx             # Homepage
+│   └── *.tsx                  # Other routes
+├── assets/                    # Logos and images
+├── root.tsx                   # Root layout
+└── app.css                    # Tailwind + CSS variables
 
-wrangler.toml            # Cloudflare config
-docs/                    # Documentation
+wrangler.toml                  # Cloudflare Workers config
+docs/                          # Documentation
 ```
 
 ### Import Aliases
 
-Use `@/` prefix for all imports:
+Use `~/` prefix for all imports:
 
-```javascript
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
-import { base44 } from "@/api/base44Client";
+```typescript
+import { Button } from "~/components/ui/button";
+import { cn } from "~/lib/utils";
+import { PageHero } from "~/components/page-hero";
 ```
 
-Configured in `vite.config.js` and `jsconfig.json`.
+Configured in `vite.config.ts` (`resolve.alias` → `~` → `./app`).
 
 ---
 
-## Data Management
+## Content & Data
 
-The site uses a fully static data architecture with JSON files:
+Case study data lives in `app/routes/resources.case-studies.$slug.tsx` as a static `scenarios` array. To add or update a case study, edit that array directly.
 
-**Static Data Client:**
-
-```javascript
-// app/lib/static-data.server.ts
-import { getStaticDataClient } from "~/lib/static-data.server";
-
-const client = getStaticDataClient();
-const posts = await client.getBlogPosts("published");
-```
-
-**Content Location:**
-
-```
-app/content/data/
-├── blog-posts.json      # Blog articles
-├── team.json            # Team members
-├── offers.json          # Service offerings
-└── case-studies.json    # Client case studies
-```
-
-**Updating Content:**
-Edit the JSON files directly in `app/content/data/`. Changes are deployed with the application.
-
-**Usage (same API for all modes):**
-
-```javascript
-import { base44 } from "@/api/base44Client";
-
-const posts = await base44.entities.BlogPost.filter({ status: "published" });
-const team = await base44.entities.TeamMember.list();
-```
+All other page content is hardcoded in the route files. There is no CMS or external data source.
 
 ---
 
@@ -233,7 +204,7 @@ const team = await base44.entities.TeamMember.list();
 **Class Merging:**
 
 ```javascript
-import { cn } from "@/lib/utils";
+import { cn } from "~/lib/utils";
 
 <div className={cn("base-classes", isActive && "active-classes")} />;
 ```
@@ -244,61 +215,52 @@ import { cn } from "@/lib/utils";
 
 ### Official Brand Colors
 
-**Primary (Dark Blue):**
+**Gold (Primary):**
 
-- HEX: `#00198a`
-- RGB: `0, 25, 138`
-- CMYK: `100%, 82%, 0%, 46%`
+- HEX: `#cbb26a`
+- Usage: buttons, borders, accents, CTA highlights
 
-**Light (Light Blue):**
+**Dark Navy (Background):**
 
-- HEX: `#dae5fa`
-- RGB: `218, 229, 250`
-- CMYK: `13%, 8.4%, 0%, 2.0%`
+- HEX: `#0f172a`
+- Usage: SectionCTA, NewsletterCapture, footer zone (always dark)
 
-**White:**
+**Gray Text:**
 
-- HEX: `#ffffff`
-- RGB: `255, 255, 255`
-- CMYK: `0%, 0%, 0%, 0%`
+- HEX: `#9ca3af` (supporting copy inside dark zones)
+- HEX: `#6b7280` (placeholder text)
+
+See [brand.md](./brand.md) for full brand guidelines.
 
 ### Logo Usage
 
 **Current Implementation:**
 
-The website uses **black and white logos** for navigation and footer:
-
-- **Light Mode:** Black logo (`logo-black.png`)
-- **Dark Mode:** White logo (`logo-white.png`)
-
-**Why Black/White?**
-
-- ✅ Superior contrast and readability
-- ✅ Clean aesthetic without containers
-- ✅ Professional standard practice
-
-**Implementation:**
+- **Light Mode:** Color logo (`logo-color.svg`)
+- **Dark Mode:** White logo (`logo-white.svg`)
 
 ```tsx
-import logoBlack from "~/assets/logo-black.png";
-import logoWhite from "~/assets/logo-white.png";
+import logoColor from "~/assets/logo-color.svg";
+import logoWhite from "~/assets/logo-white.svg";
 
-<img src={logoBlack} className="h-8 w-auto dark:hidden" />
-<img src={logoWhite} className="h-8 w-auto hidden dark:block" />
+<img src={logoColor} alt="Zenphry" className="h-8 w-auto dark:hidden" />
+<img src={logoWhite} alt="Zenphry" className="h-8 w-auto hidden dark:block" />
 ```
 
-**Brand Color Usage:**
+### Hardcoded Colors in Dark Zones
 
-Use brand colors for UI elements, not logos:
+`SectionCTA` and `NewsletterCapture` always render dark regardless of theme. All color values in these components use hardcoded hex via inline `style` props — **no CSS variables, no `dark:` Tailwind prefixes**. Do not change this pattern.
 
 ```tsx
-// ✅ Good - Brand colors in UI
-<button className="bg-[#00198a] text-white">Contact Us</button>
-<div className="bg-[#dae5fa]/20 p-4">Feature card</div>
-
-// ❌ Avoid - Brand-colored logos (less readable)
-<div className="bg-[#dae5fa]/20 p-2">
-  <img src={logoBrand} />
+// ✅ Correct pattern in dark-zone components
+<div
+  style={{ background: "rgba(15, 23, 42, 0.93)", backdropFilter: "blur(8px)" }}
+>
+  <h2 style={{ color: "#ffffff" }}>Headline</h2>
+  <p style={{ color: "#9ca3af" }}>Supporting text</p>
+  <button style={{ backgroundColor: "#cbb26a", color: "#171717" }}>
+    Book a Call
+  </button>
 </div>
 ```
 
@@ -337,71 +299,6 @@ npm run lint:fix
 - Auto-removes unused imports
 - Enforces React hooks rules
 - Disables prop-types (using JSDoc/TypeScript instead)
-
----
-
-## Static Data
-
-All content is stored as JSON files in `app/content/data/`:
-
-**Data Files:**
-
-- `blog-posts.json` - Blog articles
-- `team.json` - Team member profiles
-- `offers.json` - Service offerings
-- `case-studies.json` - Client case studies
-
-**Usage:**
-
-```javascript
-import { getStaticDataClient } from "~/lib/static-data.server";
-
-// In loader functions
-export async function loader() {
-  const client = getStaticDataClient();
-  const posts = await client.getBlogPosts("published");
-  const team = await client.getTeamMembers();
-  const offers = await client.getOffers(true);
-  const caseStudies = await client.getCaseStudies();
-
-  return { posts, team, offers, caseStudies };
-}
-```
-
-**Editing Content:**
-
-1. Edit the appropriate JSON file in `app/content/data/`
-2. Validate JSON syntax
-3. Commit and push to trigger deployment
-
----
-
-## Data Fetching
-
-All data fetching uses TanStack Query:
-
-```javascript
-import { useQuery } from "@tanstack/react-query";
-import { base44 } from "@/api/base44Client";
-
-export default function BlogList() {
-  const { data, isLoading } = useQuery({
-    queryKey: ["blogPosts"],
-    queryFn: () => base44.entities.BlogPost.filter({ status: "published" }),
-    initialData: [],
-  });
-
-  if (isLoading) return <div>Loading...</div>;
-
-  return (
-    <div>
-      {data.map((post) => (
-        <article key={post.id}>{post.title}</article>
-      ))}
-    </div>
-  );
-}
-```
 
 ---
 
@@ -452,9 +349,9 @@ issue* → main → dev (auto) → release/YYYY-MM-DD-HHMM → staging (manual) 
 
 1. **Use shadcn/ui components** - Don't reinvent the wheel
 2. **Server-only code** - Use `*.server.ts` suffix
-3. **Type safety** - Use JSDoc comments for type hints
-4. **Static data** - Edit JSON files in `app/content/data/` to update content
+3. **Type safety** - Use `import type` for types, no `any`
+4. **Dark-zone components** - `SectionCTA` and `NewsletterCapture` use hardcoded hex colors only; do not add `dark:` variants or CSS variables to them
 5. **CSS utilities** - Use Tailwind classes, avoid custom CSS
-6. **Data fetching** - Use static data client via `getStaticDataClient()`
-7. **Dark mode** - Test both themes before committing
-8. **Test in dev** - Always test changes in dev environment before prod
+6. **Dark mode** - Test both light and dark themes before committing
+7. **Quality gate** - Run `npm run typecheck && npm run lint && npm run build` before pushing
+8. **Test in dev** - Always verify changes in dev environment before staging/prod

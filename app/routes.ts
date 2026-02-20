@@ -1,5 +1,4 @@
 import { route, index } from "@react-router/dev/routes";
-import { redirect } from "react-router";
 import type { RouteConfig } from "@react-router/dev/routes";
 
 export default [
@@ -15,11 +14,16 @@ export default [
   route("services/technology", "routes/services.technology.tsx"),
   route("services/financial", "routes/services.financial.tsx"),
   route("services/advisory", "routes/services.advisory.tsx"),
+  route("services/operational", "routes/services.operational.tsx"),
+  route("services/organizational", "routes/services.organizational.tsx"),
+  route("services/scale", "routes/services.scale.tsx"),
 
   // Core pages
   route("pricing", "routes/pricing.tsx"),
   route("about", "routes/about.tsx"),
   route("about/what-we-do", "routes/about.what-we-do.tsx"),
+  route("about/team", "routes/about.team.tsx"),
+  route("about/vision", "routes/about.vision.tsx"),
   route("resources/case-studies", "routes/resources.case-studies._index.tsx"),
   route(
     "resources/case-studies/:slug",
@@ -27,6 +31,8 @@ export default [
   ),
   route("resources/how-it-works", "routes/resources.how-it-works.tsx"),
   route("resources/blog", "routes/resources.blog.tsx"),
+  route("resources/faq", "routes/resources.faq.tsx"),
+  route("privacy-policy", "routes/privacy-policy.tsx"),
   route("contact", "routes/contact.tsx"),
   route("book-a-call", "routes/book-a-call.tsx"),
   route("thank-you", "routes/thank-you.tsx"),

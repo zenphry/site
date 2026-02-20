@@ -24,13 +24,21 @@ React Router v7 website for Zenphry Business Restructuring, deployed on Cloudfla
 ## Project Structure
 
 ```
-/home/ditahkk/zenphry/site/
+~/zenphry/site/
 ├── app/
 │   ├── routes/              # Route components
 │   ├── components/          # Reusable components
 │   │   ├── ui/             # shadcn/ui primitives (Button, Card, etc.)
-│   │   ├── navigation.tsx  # Header
-│   │   └── footer.tsx      # Footer
+│   │   ├── navigation.tsx  # Header with hover mega-menu + announcement bar
+│   │   ├── footer.tsx      # Footer with social links + BookingModal
+│   │   ├── page-hero.tsx   # Shared hero block for all inner pages
+│   │   ├── section-cta.tsx # Bottom-of-page CTA strip (hardcoded dark navy)
+│   │   ├── newsletter-capture.tsx # Email capture card (hardcoded dark navy)
+│   │   ├── booking-modal.tsx      # Radix Dialog wrapping Calendly placeholder
+│   │   ├── announcement-bar.tsx   # Top-of-page dismissible banner
+│   │   ├── breadcrumb-nav.tsx     # Breadcrumb component
+│   │   ├── scroll-reveal.tsx      # Intersection-Observer animation wrapper
+│   │   └── background-pulses.tsx  # Animated radial pulse SVGs
 │   ├── lib/                # Utilities
 │   ├── assets/             # Logos, images
 │   ├── hooks/              # Custom React hooks
@@ -134,8 +142,16 @@ import { Card } from "~/components/ui/card";
 
 ### Custom Components
 
-- `navigation.tsx` - Site header with mobile menu
-- `footer.tsx` - Site footer with links and disclaimer
+- `navigation.tsx` - Header with hover mega-menu, mobile menu, announcement bar, BookingModal
+- `footer.tsx` - Footer with address, social links, BookingModal CTA
+- `page-hero.tsx` - Shared hero for all inner pages (headline, subtitle, breadcrumbs)
+- `section-cta.tsx` - Bottom-of-page CTA strip; hardcoded dark navy, always dark
+- `newsletter-capture.tsx` - Email capture bar; hardcoded dark navy, always dark
+- `booking-modal.tsx` - Radix Dialog modal wrapping the booking/Calendly UI
+- `announcement-bar.tsx` - Dismissible top-of-page banner
+- `breadcrumb-nav.tsx` - Reusable breadcrumb component
+- `scroll-reveal.tsx` - Intersection-Observer wrapper for entrance animations
+- `background-pulses.tsx` - Animated radial pulse SVG for page background
 
 ### Import Aliases
 
@@ -200,25 +216,19 @@ Configured in `wrangler.toml`:
 
 ### Implemented Pages
 
-1. **/** - Homepage with hero, services, framework
-2. **/services** - Services overview
-3. **/services/diagnostic** - Restructuring Diagnostic (fully detailed)
-4. **/services/foundation** - Foundation Restructure (placeholder)
-5. **/services/growth** - Growth Restructure (placeholder)
-6. **/services/enterprise** - Enterprise Transformation (placeholder)
-7. **/services/technology** - Technology & Systems (placeholder)
-8. **/services/advisory** - Advisory Retainer (placeholder)
-9. **/pricing** - Pricing tiers
-10. **/how-it-works** - 5-phase framework
-11. **/about** - Company info
-12. **/case-studies** - Case studies overview
-13. **/case-studies/:slug** - Individual scenarios
-14. **/contact** - Contact page (form placeholder)
-15. **/book-a-call** - Scheduling page (Calendly placeholder)
-16. **/thank-you** - Post-submission confirmation
-17. **/resources** - Resources (placeholder)
-18. **/sitemap.xml** - Dynamic sitemap
-19. **/robots.txt** - Environment-aware robots.txt
+**Homepage**
+
+1. **/** - Homepage with hero, services overview, framework, testimonials
+
+**Services** (7 detail pages) 2. **/services** - Services overview grid 3. **/services/diagnostic** - Restructuring Diagnostic (entry-point service) 4. **/services/operational** - Operational Restructuring 5. **/services/organizational** - Organizational & Team Restructuring 6. **/services/scale** - Growth & Scale Readiness 7. **/services/technology** - Technology & Systems Restructuring 8. **/services/financial** - Financial Execution Discipline 9. **/services/advisory** - Advisory Retainer
+
+> **301 Redirects**: `/services/foundation` → `operational`, `/services/enterprise` → `organizational`, `/services/growth` → `scale`
+
+**About** 10. **/about** - Company overview with nav cards 11. **/about/what-we-do** - Methodology and approach 12. **/about/team** - Leadership team 13. **/about/vision** - Vision and values
+
+**Resources** 14. **/resources/how-it-works** - 5-phase engagement framework 15. **/resources/case-studies** - Case studies index 16. **/resources/case-studies/:slug** - Individual case study 17. **/resources/faq** - Frequently asked questions
+
+**Other** 18. **/pricing** - Pricing tiers 19. **/contact** - Contact page 20. **/privacy-policy** - Privacy policy 21. **/sitemap.xml** - Dynamic sitemap 22. **/robots.txt** - Environment-aware robots.txt
 
 ## Build & Deploy
 
@@ -316,16 +326,16 @@ Edit `app/tailwind.config.css`:
 
 Replace files in `app/assets/`:
 
-- `logo-color.svg/png`
-- `logo-white.svg/png`
-- `logo-black.svg/png`
+- `logo-color.svg` / `logo-color.png` — used in light mode
+- `logo-white.svg` — used in dark mode
 
 ### Add New Service Page
 
-1. Copy `app/routes/services.diagnostic.tsx` as template
-2. Update content
-3. Ensure route exists in `app/routes.ts`
-4. Add to services list in `app/routes/services._index.tsx`
+1. Copy `app/routes/services.operational.tsx` as template (it has PageHero + SectionCTA pattern)
+2. Update content and meta
+3. Add route to `app/routes.ts`
+4. Add to services array in `app/routes/services._index.tsx`
+5. Add to sitemap in `app/routes/sitemap[.]xml.tsx`
 
 ## TypeScript
 
@@ -379,7 +389,7 @@ npx wrangler secret put TURNSTILE_SECRET_KEY --env prod
 ### Build errors
 
 1. Run typecheck first: `npm run typecheck`
-2. Check import paths use `~/` prefix
+2. Check import paths — use `~/` prefix (e.g. `~/components/ui/button`)
 3. Verify all routes in `routes.ts` have corresponding files
 
 ### Deployment errors

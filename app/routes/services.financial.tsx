@@ -1,9 +1,9 @@
 import type { MetaFunction } from "react-router";
-import { Link } from "react-router";
-import { Button } from "~/components/ui/button";
 import { Card, CardContent } from "~/components/ui/card";
 import { PillarSection } from "~/components/pillar-section";
-import { ArrowLeft, Check, X } from "lucide-react";
+import { Check, X } from "lucide-react";
+import { PageHero } from "~/components/page-hero";
+import { SectionCTA } from "~/components/section-cta";
 
 export const meta: MetaFunction = () => {
   return [
@@ -98,130 +98,107 @@ const pillars = [
 
 export default function ServiceFinancial() {
   return (
-    <div className="py-16">
-      <div className="container mx-auto px-4">
-        <div className="fixed bottom-4 left-4 z-50">
-          <Button
-            asChild
-            variant="outline"
-            size="sm"
-            className="shadow-lg bg-white dark:bg-gray-900"
-          >
-            <Link to="/services">
-              <ArrowLeft className="h-4 w-4 mr-2" />
-              Back to Services
-            </Link>
-          </Button>
-        </div>
+    <div>
+      <PageHero
+        headline="Financial Execution Discipline"
+        subtitle="Build budgeting systems, cost visibility, and financial review rhythms that give leadership real control."
+        breadcrumbs={[
+          { label: "Home", href: "/" },
+          { label: "Services", href: "/services" },
+          { label: "Financial Execution Discipline" },
+        ]}
+      />
 
-        {/* Hero */}
-        <div className="max-w-3xl mx-auto text-center mb-16">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6 text-gray-900 dark:text-white">
-            Financial Execution Discipline
-          </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-300 mb-8">
-            Restructure how money is planned, tracked, and governed inside
-            day-to-day operations so spending aligns with priorities and
-            execution stays controlled.
-          </p>
-          <Button asChild size="lg">
-            <Link to="/book-a-call">Book a Strategy Call</Link>
-          </Button>
-        </div>
-
-        {/* What This Service Is */}
-        <div className="max-w-4xl mx-auto mb-16">
-          <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">
-            What This Service Is
-          </h2>
-          <div className="space-y-4 text-gray-600 dark:text-gray-300">
-            <p>
-              Many businesses do not have a finance problem. They have an
-              execution problem tied to money.
-            </p>
-            <p>
-              Costs are approved without context. Budgets are disconnected from
-              operations. Leaders do not see where money is going until it is
-              too late. Zenphry restructures the operational mechanics around
-              financial decisions so spending aligns with priorities and
-              execution stays controlled.
-            </p>
-            <p>
-              This service improves financial clarity and discipline, not
-              financial advisory outcomes.
-            </p>
+      <div className="py-16">
+        <div className="container mx-auto px-4">
+          {/* What This Service Is */}
+          <div className="max-w-4xl mx-auto mb-16">
+            <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">
+              What This Service Is
+            </h2>
+            <div className="space-y-4 text-gray-600 dark:text-gray-300">
+              <p>
+                Many businesses do not have a finance problem. They have an
+                execution problem tied to money.
+              </p>
+              <p>
+                Costs are approved without context. Budgets are disconnected
+                from operations. Leaders do not see where money is going until
+                it is too late. Zenphry restructures the operational mechanics
+                around financial decisions so spending aligns with priorities
+                and execution stays controlled.
+              </p>
+              <p>
+                This service improves financial clarity and discipline, not
+                financial advisory outcomes.
+              </p>
+            </div>
           </div>
-        </div>
 
-        {/* What This Service Is Not */}
-        <div className="max-w-4xl mx-auto mb-16">
-          <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">
-            What This Service Is Not
-          </h2>
-          <p className="text-gray-600 dark:text-gray-300 mb-4">
-            To be explicit and transparent, Zenphry does not provide:
-          </p>
-          <div className="space-y-2">
-            {notIncluded.map((item, index) => (
-              <div key={index} className="flex items-start">
-                <X className="h-5 w-5 text-gray-400 mr-2 mt-0.5 flex-shrink-0" />
-                <span className="text-gray-600 dark:text-gray-400">{item}</span>
-              </div>
-            ))}
-          </div>
-          <p className="mt-4 text-sm text-gray-500 dark:text-gray-500">
-            We focus exclusively on operational financial execution.
-          </p>
-        </div>
-
-        {/* Who This Service Is For */}
-        <div className="max-w-4xl mx-auto mb-16">
-          <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">
-            Who This Service Is For
-          </h2>
-          <p className="text-gray-600 dark:text-gray-300 mb-4">
-            This service is designed for organizations that:
-          </p>
-          <div className="grid md:grid-cols-2 gap-3">
-            {whoItsFor.map((item, index) => (
-              <Card key={index}>
-                <CardContent className="flex items-center p-3">
-                  <Check className="h-4 w-4 text-primary mr-2 flex-shrink-0" />
-                  <span className="text-gray-700 dark:text-gray-300 text-sm">
+          {/* What This Service Is Not */}
+          <div className="max-w-4xl mx-auto mb-16">
+            <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">
+              What This Service Is Not
+            </h2>
+            <p className="text-gray-600 dark:text-gray-300 mb-4">
+              To be explicit and transparent, Zenphry does not provide:
+            </p>
+            <div className="space-y-2">
+              {notIncluded.map((item, index) => (
+                <div key={index} className="flex items-start">
+                  <X className="h-5 w-5 text-gray-400 mr-2 mt-0.5 flex-shrink-0" />
+                  <span className="text-gray-600 dark:text-gray-400">
                     {item}
                   </span>
-                </CardContent>
-              </Card>
-            ))}
+                </div>
+              ))}
+            </div>
+            <p className="mt-4 text-sm text-gray-500 dark:text-gray-500">
+              We focus exclusively on operational financial execution.
+            </p>
+          </div>
+
+          {/* Who This Service Is For */}
+          <div className="max-w-4xl mx-auto mb-16">
+            <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">
+              Who This Service Is For
+            </h2>
+            <p className="text-gray-600 dark:text-gray-300 mb-4">
+              This service is designed for organizations that:
+            </p>
+            <div className="grid md:grid-cols-2 gap-3">
+              {whoItsFor.map((item, index) => (
+                <Card key={index}>
+                  <CardContent className="flex items-center p-3">
+                    <Check className="h-4 w-4 text-primary mr-2 flex-shrink-0" />
+                    <span className="text-gray-700 dark:text-gray-300 text-sm">
+                      {item}
+                    </span>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+
+          {/* Pillars */}
+          <div className="max-w-4xl mx-auto mb-16">
+            <h2 className="text-2xl font-bold mb-2 text-gray-900 dark:text-white">
+              What Zenphry Actually Does
+            </h2>
+            <p className="text-gray-600 dark:text-gray-300 mb-8">
+              Zenphry delivers Financial Execution Discipline across six
+              execution pillars.
+            </p>
+            <PillarSection pillars={pillars} />
           </div>
         </div>
-
-        {/* Pillars */}
-        <div className="max-w-4xl mx-auto mb-16">
-          <h2 className="text-2xl font-bold mb-2 text-gray-900 dark:text-white">
-            What Zenphry Actually Does
-          </h2>
-          <p className="text-gray-600 dark:text-gray-300 mb-8">
-            Zenphry delivers Financial Execution Discipline across six execution
-            pillars.
-          </p>
-          <PillarSection pillars={pillars} />
-        </div>
-
-        {/* Final CTA */}
-        <div className="max-w-2xl mx-auto text-center bg-primary text-primary-foreground p-8 rounded-lg">
-          <h2 className="text-2xl font-bold mb-4">
-            Ready to Take Control of Financial Execution?
-          </h2>
-          <p className="mb-6">
-            If spending is disconnected from priorities and budgets do not
-            reflect real operations, start with a strategy call.
-          </p>
-          <Button asChild size="lg" variant="secondary">
-            <Link to="/book-a-call">Book a Strategy Call</Link>
-          </Button>
-        </div>
       </div>
+
+      <SectionCTA
+        headline="Ready to Take Control of Financial Execution?"
+        supporting="If spending is disconnected from strategy, we build the systems that close that gap."
+        showDiagnostic={true}
+      />
     </div>
   );
 }

@@ -1,7 +1,7 @@
 import type { MetaFunction } from "react-router";
-import { Link } from "react-router";
-import { Button } from "~/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
+import { PageHero } from "~/components/page-hero";
+import { SectionCTA } from "~/components/section-cta";
 
 export const meta: MetaFunction = () => {
   return [
@@ -79,111 +79,102 @@ const phases = [
 
 export default function HowItWorks() {
   return (
-    <div className="py-16">
-      <div className="container mx-auto px-4">
-        <div className="max-w-3xl mx-auto text-center mb-16">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6 text-gray-900 dark:text-white">
-            The Zenphry Framework
-          </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-300">
-            Our 5-phase approach ensures lasting transformation from diagnosis
-            through sustained execution.
-          </p>
-        </div>
+    <div>
+      <PageHero
+        headline="How It Works"
+        subtitle="The five-phase framework Zenphry uses on every engagement — from diagnosis through sustained results."
+        breadcrumbs={[
+          { label: "Home", href: "/" },
+          { label: "Resources", href: "/resources/how-it-works" },
+          { label: "How It Works" },
+        ]}
+      />
 
-        <div className="max-w-4xl mx-auto space-y-8 mb-16">
-          {phases.map((phase) => (
-            <Card key={phase.number}>
-              <CardHeader>
-                <div className="flex items-start gap-4">
-                  <div className="bg-primary text-primary-foreground rounded-full w-12 h-12 flex items-center justify-center font-bold text-xl flex-shrink-0">
-                    {phase.number}
+      <div className="py-16">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto space-y-8 mb-16">
+            {phases.map((phase) => (
+              <Card key={phase.number}>
+                <CardHeader>
+                  <div className="flex items-start gap-4">
+                    <div className="bg-primary text-primary-foreground rounded-full w-12 h-12 flex items-center justify-center font-bold text-xl flex-shrink-0">
+                      {phase.number}
+                    </div>
+                    <div>
+                      <CardTitle className="text-2xl mb-2">
+                        {phase.name}
+                      </CardTitle>
+                      <p className="text-gray-600 dark:text-gray-400">
+                        {phase.description}
+                      </p>
+                    </div>
                   </div>
-                  <div>
-                    <CardTitle className="text-2xl mb-2">
-                      {phase.name}
-                    </CardTitle>
-                    <p className="text-gray-600 dark:text-gray-400">
-                      {phase.description}
-                    </p>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <div>
+                      <h4 className="font-semibold mb-2 text-gray-900 dark:text-white">
+                        Deliverables:
+                      </h4>
+                      <ul className="space-y-1">
+                        {phase.deliverables.map((item, i) => (
+                          <li
+                            key={i}
+                            className="text-sm text-gray-600 dark:text-gray-400"
+                          >
+                            &bull; {item}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold mb-2 text-gray-900 dark:text-white">
+                        Typical Timeline:
+                      </h4>
+                      <p className="text-sm text-gray-600 dark:text-gray-400">
+                        {phase.timeline}
+                      </p>
+                    </div>
                   </div>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div>
-                    <h4 className="font-semibold mb-2 text-gray-900 dark:text-white">
-                      Deliverables:
-                    </h4>
-                    <ul className="space-y-1">
-                      {phase.deliverables.map((item, i) => (
-                        <li
-                          key={i}
-                          className="text-sm text-gray-600 dark:text-gray-400"
-                        >
-                          • {item}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold mb-2 text-gray-900 dark:text-white">
-                      Typical Timeline:
-                    </h4>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
-                      {phase.timeline}
-                    </p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-
-        <div className="max-w-2xl mx-auto mb-16">
-          <h2 className="text-2xl font-bold mb-6 text-center text-gray-900 dark:text-white">
-            Governance Cadence
-          </h2>
-          <div className="bg-gray-50/75 dark:bg-gray-800/75 backdrop-blur-sm p-6 rounded-lg space-y-3">
-            <div className="flex justify-between items-center">
-              <span className="font-semibold text-gray-900 dark:text-white">
-                Weekly Working Session
-              </span>
-              <span className="text-gray-600 dark:text-gray-400">60 min</span>
-            </div>
-            <div className="flex justify-between items-center">
-              <span className="font-semibold text-gray-900 dark:text-white">
-                Biweekly Executive Review
-              </span>
-              <span className="text-gray-600 dark:text-gray-400">30 min</span>
-            </div>
-            <div className="flex justify-between items-center">
-              <span className="font-semibold text-gray-900 dark:text-white">
-                Monthly KPI Pack
-              </span>
-              <span className="text-gray-600 dark:text-gray-400">
-                Delivered
-              </span>
-            </div>
+                </CardContent>
+              </Card>
+            ))}
           </div>
-        </div>
 
-        <div className="text-center bg-primary text-primary-foreground p-8 rounded-lg">
-          <h2 className="text-2xl font-bold mb-4">Ready to Begin?</h2>
-          <p className="mb-6 text-lg">
-            Start with a Diagnostic to understand where you are and what needs
-            to change.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button asChild size="lg" variant="secondary">
-              <Link to="/services/diagnostic">Request Diagnostic</Link>
-            </Button>
-            <Button asChild size="lg" variant="outline">
-              <Link to="/book-a-call">Book a Call</Link>
-            </Button>
+          <div className="max-w-2xl mx-auto mb-16">
+            <h2 className="text-2xl font-bold mb-6 text-center text-gray-900 dark:text-white">
+              Governance Cadence
+            </h2>
+            <div className="bg-gray-50/75 dark:bg-gray-800/75 backdrop-blur-sm p-6 rounded-lg space-y-3">
+              <div className="flex justify-between items-center">
+                <span className="font-semibold text-gray-900 dark:text-white">
+                  Weekly Working Session
+                </span>
+                <span className="text-gray-600 dark:text-gray-400">60 min</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="font-semibold text-gray-900 dark:text-white">
+                  Biweekly Executive Review
+                </span>
+                <span className="text-gray-600 dark:text-gray-400">30 min</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="font-semibold text-gray-900 dark:text-white">
+                  Monthly KPI Pack
+                </span>
+                <span className="text-gray-600 dark:text-gray-400">
+                  Delivered
+                </span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
+
+      <SectionCTA
+        headline="Ready to Implement This Framework?"
+        supporting="Work with Zenphry to apply this methodology to your specific business challenges."
+      />
     </div>
   );
 }
