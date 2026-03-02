@@ -272,7 +272,7 @@ export default function Index() {
                 asChild
                 variant="outline"
                 size="lg"
-                className="px-8 py-4 text-base border-primary text-white hover:bg-primary/10 hover:text-white"
+                className="px-8 py-4 text-base border-primary text-primary dark:text-white hover:bg-primary/10 hover:text-primary dark:hover:text-white"
               >
                 <Link to="/services/diagnostic">Get the Diagnostic</Link>
               </Button>
