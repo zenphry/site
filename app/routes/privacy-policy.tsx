@@ -92,7 +92,7 @@ To exercise any of these rights, please contact us using the details below. We w
     content: `If you have questions about this Privacy Policy or how we handle your personal information, please contact us:
 
 Zenphry
-6160 Warren Parkway, Suite 100
+6160 Warren Parkway
 Frisco, TX 75034
 +1 972-362-9878
 contact@zenphry.com`,
