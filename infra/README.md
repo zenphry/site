@@ -16,10 +16,10 @@ infra/
 
 ## CI Artifacts
 
-| Environment | Bucket                       | Protection            | Retention |
-| ----------- | ---------------------------- | --------------------- | --------- |
-| **Dev**     | `zenphry-ci-artifacts-dev`   | No                    | 1 day     |
-| **Prod**    | `zenphry-ci-artifacts`       | Yes (prevent_destroy) | 7 days    |
+| Environment | Bucket                     | Protection            | Retention |
+| ----------- | -------------------------- | --------------------- | --------- |
+| **Dev**     | `zenphry-ci-artifacts-dev` | No                    | 1 day     |
+| **Prod**    | `zenphry-ci-artifacts`     | Yes (prevent_destroy) | 7 days    |
 
 ## Setup
 
@@ -82,11 +82,11 @@ wrangler r2 bucket lifecycle list zenphry-ci-artifacts
 
 Go to: GitHub repo → Settings → Secrets and variables → Actions
 
-| Secret                 | Value                          |
-| ---------------------- | ------------------------------ |
+| Secret                 | Value                              |
+| ---------------------- | ---------------------------------- |
 | `R2_ACCOUNT_ID`        | `9026a4d04de960fa0247f5fbca200be7` |
-| `R2_ACCESS_KEY_ID`     | From step 3                    |
-| `R2_SECRET_ACCESS_KEY` | From step 3                    |
+| `R2_ACCESS_KEY_ID`     | From step 3                        |
+| `R2_SECRET_ACCESS_KEY` | From step 3                        |
 
 ## State
 
