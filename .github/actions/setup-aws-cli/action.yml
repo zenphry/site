@@ -1,0 +1,166 @@
+name: 'Setup AWS CLI'
+description: 'Install AWS CLI v2 from R2 cache (fast) or fallback to AWS (slow)'
+
+# Downloads AWS CLI from R2 cache using curl with S3 signature.
+# Falls back to AWS download if R2 cache miss.
+# Caches to R2 on first download for subsequent runs.
+
+inputs:
+  bucket:
+    description: 'R2 bucket name for cached tools'
+    required: true
+  account-id:
+    description: 'Cloudflare account ID'
+    required: true
+  access-key-id:
+    description: 'R2 access key ID'
+    required: true
+  secret-access-key:
+    description: 'R2 secret access key'
+    required: true
+
+outputs:
+  cache-hit:
+    description: 'Whether AWS CLI was found in R2 cache'
+    value: ${{ steps.install.outputs.cache-hit }}
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Install AWS CLI
+      id: install
+      shell: bash
+      run: |
+        # Check if already installed
+        if command -v aws &> /dev/null; then
+          echo "[OK] AWS CLI already installed: $(aws --version)"
+          echo "cache-hit=skip" >> $GITHUB_OUTPUT
+          exit 0
+        fi
+
+        echo "[INFO] AWS CLI not found, installing..."
+
+        # Detect architecture
+        ARCH=$(uname -m)
+        if [ "$ARCH" = "aarch64" ]; then
+          ARCH_SUFFIX="aarch64"
+        else
+          ARCH_SUFFIX="x86_64"
+        fi
+        echo "[INFO] Architecture: $ARCH ($ARCH_SUFFIX)"
+
+        # R2 configuration (architecture-aware cache key)
+        R2_ENDPOINT="${{ inputs.account-id }}.r2.cloudflarestorage.com"
+        R2_BUCKET="${{ inputs.bucket }}"
+        R2_KEY="tools/awscli-exe-linux-${ARCH_SUFFIX}.zip"
+        AWS_ACCESS_KEY="${{ inputs.access-key-id }}"
+        AWS_SECRET_KEY="${{ inputs.secret-access-key }}"
+
+        # S3 Signature V4 signing function
+        # Args: method, path, amz_date, date_stamp
+        sign_request() {
+          local method="$1"
+          local path="$2"
+          local amz_date="$3"
+          local date_stamp="$4"
+          local region="auto"
+          local service="s3"
+          local host="${R2_ENDPOINT}"
+
+          # Create canonical request
+          local canonical_uri="/${R2_BUCKET}/${path}"
+          local canonical_querystring=""
+          local canonical_headers="host:${host}\nx-amz-content-sha256:UNSIGNED-PAYLOAD\nx-amz-date:${amz_date}\n"
+          local signed_headers="host;x-amz-content-sha256;x-amz-date"
+          local payload_hash="UNSIGNED-PAYLOAD"
+
+          local canonical_request="${method}\n${canonical_uri}\n${canonical_querystring}\n${canonical_headers}\n${signed_headers}\n${payload_hash}"
+          local canonical_request_hash=$(echo -en "${canonical_request}" | openssl dgst -sha256 | sed 's/^.* //')
+
+          # Create string to sign
+          local algorithm="AWS4-HMAC-SHA256"
+          local credential_scope="${date_stamp}/${region}/${service}/aws4_request"
+          local string_to_sign="${algorithm}\n${amz_date}\n${credential_scope}\n${canonical_request_hash}"
+
+          # Calculate signature
+          local k_date=$(echo -n "${date_stamp}" | openssl dgst -sha256 -mac HMAC -macopt "key:AWS4${AWS_SECRET_KEY}" | sed 's/^.* //')
+          local k_region=$(echo -n "${region}" | openssl dgst -sha256 -mac HMAC -macopt "hexkey:${k_date}" | sed 's/^.* //')
+          local k_service=$(echo -n "${service}" | openssl dgst -sha256 -mac HMAC -macopt "hexkey:${k_region}" | sed 's/^.* //')
+          local k_signing=$(echo -n "aws4_request" | openssl dgst -sha256 -mac HMAC -macopt "hexkey:${k_service}" | sed 's/^.* //')
+          local signature=$(echo -en "${string_to_sign}" | openssl dgst -sha256 -mac HMAC -macopt "hexkey:${k_signing}" | sed 's/^.* //')
+
+          # Return authorization header
+          echo "AWS4-HMAC-SHA256 Credential=${AWS_ACCESS_KEY}/${credential_scope}, SignedHeaders=${signed_headers}, Signature=${signature}"
+        }
+
+        # Try to download from R2 cache first
+        echo "[INFO] Checking R2 cache..."
+        AMZ_DATE=$(date -u +%Y%m%dT%H%M%SZ)
+        DATE_STAMP=$(date -u +%Y%m%d)
+        AUTH_HEADER=$(sign_request "GET" "${R2_KEY}" "${AMZ_DATE}" "${DATE_STAMP}")
+
+        HTTP_CODE=$(curl -s --max-time 30 -o awscliv2.zip -w "%{http_code}" \
+          -H "Host: ${R2_ENDPOINT}" \
+          -H "x-amz-date: ${AMZ_DATE}" \
+          -H "x-amz-content-sha256: UNSIGNED-PAYLOAD" \
+          -H "Authorization: ${AUTH_HEADER}" \
+          "https://${R2_ENDPOINT}/${R2_BUCKET}/${R2_KEY}")
+
+        if [ "$HTTP_CODE" = "200" ] && [ -f awscliv2.zip ] && [ -s awscliv2.zip ]; then
+          echo "[OK] Downloaded from R2 cache"
+          echo "cache-hit=true" >> $GITHUB_OUTPUT
+        else
+          echo "[INFO] R2 cache miss (HTTP ${HTTP_CODE}), downloading from AWS..."
+          rm -f awscliv2.zip
+          curl -fsSL --max-time 120 "https://awscli.amazonaws.com/awscli-exe-linux-${ARCH_SUFFIX}.zip" -o awscliv2.zip
+          echo "cache-hit=false" >> $GITHUB_OUTPUT
+
+          # Upload to R2 for future runs (best effort, background, don't block)
+          echo "[INFO] Caching to R2 for future runs (background)..."
+          (
+            AMZ_DATE=$(date -u +%Y%m%dT%H%M%SZ)
+            DATE_STAMP=$(date -u +%Y%m%d)
+            AUTH_HEADER=$(sign_request "PUT" "${R2_KEY}" "${AMZ_DATE}" "${DATE_STAMP}")
+            curl -s --max-time 120 -X PUT \
+              -H "Host: ${R2_ENDPOINT}" \
+              -H "x-amz-date: ${AMZ_DATE}" \
+              -H "x-amz-content-sha256: UNSIGNED-PAYLOAD" \
+              -H "Authorization: ${AUTH_HEADER}" \
+              -H "Content-Type: application/zip" \
+              -T awscliv2.zip \
+              "https://${R2_ENDPOINT}/${R2_BUCKET}/${R2_KEY}" && echo "[OK] Cached to R2" || echo "[WARN] Failed to cache to R2"
+          ) &
+          CACHE_PID=$!
+        fi
+
+        # Install AWS CLI (use sudo if available and not root, otherwise run directly)
+        unzip -q awscliv2.zip
+        if [ "$(id -u)" = "0" ]; then
+          ./aws/install --update
+        elif command -v sudo &> /dev/null; then
+          sudo ./aws/install --update
+        else
+          ./aws/install --update --install-dir "$HOME/.local/aws-cli" --bin-dir "$HOME/.local/bin"
+          export PATH="$HOME/.local/bin:$PATH"
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+        fi
+        rm -rf aws
+        echo "[OK] AWS CLI installed: $(aws --version)"
+
+        # Wait for background cache upload if it was started (with timeout)
+        if [ -n "${CACHE_PID:-}" ]; then
+          echo "[INFO] Waiting for R2 cache upload to complete..."
+          # Wait up to 60 seconds for the background upload
+          for i in {1..60}; do
+            if ! kill -0 $CACHE_PID 2>/dev/null; then
+              break
+            fi
+            sleep 1
+          done
+          # Kill if still running
+          if kill -0 $CACHE_PID 2>/dev/null; then
+            echo "[WARN] R2 cache upload timed out, killing..."
+            kill $CACHE_PID 2>/dev/null || true
+          fi
+          rm -f awscliv2.zip
+        fi

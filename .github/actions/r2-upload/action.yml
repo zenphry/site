@@ -1,0 +1,126 @@
+name: 'Upload to Cloudflare R2'
+description: 'Upload artifacts to Cloudflare R2 (S3-compatible)'
+
+# AWS CLI v2 is installed automatically if not present on the runner
+
+inputs:
+  name:
+    description: 'Artifact name (used as S3 key prefix)'
+    required: true
+  path:
+    description: 'Path to file or directory to upload'
+    required: true
+  bucket:
+    description: 'R2 bucket name'
+    required: true
+  account-id:
+    description: 'Cloudflare account ID'
+    required: true
+  access-key-id:
+    description: 'R2 access key ID'
+    required: true
+  secret-access-key:
+    description: 'R2 secret access key'
+    required: true
+  retention-days:
+    description: 'Number of days to retain (metadata only, not enforced by this action)'
+    required: false
+    default: '1'
+  sha:
+    description: 'Git commit SHA for artifact naming (enables cross-workflow retrieval)'
+    required: false
+    default: ''
+  branch-name:
+    description: 'Git branch name (used to determine main vs release path)'
+    required: false
+    default: ''
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Setup AWS CLI
+      uses: ./.github/actions/setup-aws-cli
+      with:
+        bucket: ${{ inputs.bucket }}
+        account-id: ${{ inputs.account-id }}
+        access-key-id: ${{ inputs.access-key-id }}
+        secret-access-key: ${{ inputs.secret-access-key }}
+
+    - name: Upload to R2
+      shell: bash
+      env:
+        AWS_ACCESS_KEY_ID: ${{ inputs.access-key-id }}
+        AWS_SECRET_ACCESS_KEY: ${{ inputs.secret-access-key }}
+        AWS_DEFAULT_REGION: auto
+      run: |
+        # Construct R2 endpoint
+        ENDPOINT="https://${{ inputs.account-id }}.r2.cloudflarestorage.com"
+
+        # Determine path prefix based on branch name and SHA availability
+        BRANCH_NAME="${{ inputs.branch-name }}"
+        SHA="${{ inputs.sha }}"
+
+        # Main and release branches: SHA-based naming (cross-workflow retrieval)
+        if [[ "$BRANCH_NAME" == "main" ]] || [[ "$BRANCH_NAME" == "refs/heads/main" ]]; then
+          if [ -z "$SHA" ]; then
+            echo "[ERROR] SHA is required for main branch artifacts"
+            exit 1
+          fi
+          # Main branch: build-dist/main-abc123/
+          PATH_PREFIX="${{ inputs.name }}/main-${SHA}"
+          echo "[ARTIFACT] Main branch artifact (cross-workflow): ${PATH_PREFIX}"
+
+        elif [[ "$BRANCH_NAME" =~ ^(refs/heads/)?release/([0-9]{4}-[0-9]{2}-[0-9]{2}(-[0-9]{4})?)$ ]]; then
+          if [ -z "$SHA" ]; then
+            echo "[ERROR] SHA is required for release branch artifacts"
+            exit 1
+          fi
+          # Release branch: build-dist/release-2025-01-22-1430-abc123/ (or release-2025-01-22-abc123/ for old format)
+          RELEASE_SUFFIX="${BASH_REMATCH[2]}"
+          PATH_PREFIX="${{ inputs.name }}/release-${RELEASE_SUFFIX}-${SHA}"
+          echo "[ARTIFACT] Release branch artifact (cross-workflow): ${PATH_PREFIX}"
+
+        elif [[ "$BRANCH_NAME" =~ ^(refs/heads/)?(issue|issues)/ ]]; then
+          # Issue branches: RUN_ID-based naming (same-workflow use only)
+          # Note: Don't include run_attempt - breaks reruns of failed jobs
+          RUN_ID="${{ github.run_id }}"
+          PATH_PREFIX="${{ inputs.name }}/${RUN_ID}"
+          echo "[ARTIFACT] Issue branch artifact (same-workflow): ${PATH_PREFIX}"
+
+        else
+          # Unsupported branch pattern
+          echo "[ERROR] Unsupported branch: ${BRANCH_NAME}"
+          echo "Supported patterns:"
+          echo "  - main (uses SHA)"
+          echo "  - release/YYYY-MM-DD-HHMM (uses SHA)"
+          echo "  - issue/* or issues/* (uses RUN_ID)"
+          exit 1
+        fi
+
+        # Check if path is a directory
+        if [ -d "${{ inputs.path }}" ]; then
+          # For directories, use recursive copy
+          S3_KEY="${PATH_PREFIX}/"
+          RECURSIVE_FLAG="--recursive"
+        else
+          # For files, use the basename as the key
+          S3_KEY="${PATH_PREFIX}/$(basename ${{ inputs.path }})"
+          RECURSIVE_FLAG=""
+        fi
+
+        echo "Uploading to R2..."
+        echo "Endpoint: $ENDPOINT"
+        echo "Bucket: ${{ inputs.bucket }}"
+        echo "S3 Key: $S3_KEY"
+        echo "Path type: $([ -d "${{ inputs.path }}" ] && echo "directory" || echo "file")"
+
+        # Upload using AWS CLI with R2 endpoint
+        aws s3 cp "${{ inputs.path }}" \
+          "s3://${{ inputs.bucket }}/$S3_KEY" \
+          --endpoint-url "$ENDPOINT" \
+          --no-verify-ssl \
+          $RECURSIVE_FLAG
+
+        echo "[OK] Upload complete: $S3_KEY"
+        echo "R2_S3_KEY=$S3_KEY" >> $GITHUB_ENV
+        echo "R2_PATH_PREFIX=$PATH_PREFIX" >> $GITHUB_ENV

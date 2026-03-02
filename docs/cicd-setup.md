@@ -14,11 +14,14 @@ The CI/CD pipeline has been successfully copied from zsoftly/website and adapted
 - `80-seo-audit.yml` - Weekly Lighthouse audits
 - `90-cleanup.yml` - Cleanup old artifacts/caches
 
-### Composite Actions (3 actions)
+### Composite Actions (6 actions)
 
 - `setup-node/` - Node.js setup with npm ci
 - `setup-playwright/` - Playwright browser installation with caching
 - `deploy-worker/` - Cloudflare Workers deployment
+- `r2-upload/` - Upload build artifacts to Cloudflare R2
+- `r2-download/` - Download build artifacts from Cloudflare R2
+- `setup-aws-cli/` - AWS CLI v2 setup (used for R2 via S3-compatible API)
 
 ### Scripts (2 files)
 
@@ -40,11 +43,10 @@ The CI/CD pipeline has been successfully copied from zsoftly/website and adapted
 ## Key Adaptations Made
 
 1. **Removed:** Google Chat notifications
-2. **Removed:** R2 artifact storage (replaced with GitHub Actions artifacts)
-3. **Removed:** Vectorize content indexing
-4. **Changed:** Runners from eks-arm64-linux/eks-amd64-linux → ubuntu-latest
-5. **Updated:** All URLs from zsoftly.com → zenphry.com (dev, stg, prod)
-6. **Updated:** Worker names from zsoftly-cf-worker → zenphry-cf-worker
+2. **Removed:** Vectorize content indexing
+3. **Changed:** Runners from eks-arm64-linux/eks-amd64-linux → ubuntu-latest
+4. **Updated:** All URLs from zsoftly.com → zenphry.com (dev, stg, prod)
+5. **Updated:** Worker names from zsoftly-cf-worker → zenphry-cf-worker
 
 ## Next Steps
 
@@ -56,6 +58,9 @@ Add these secrets:
 
 - `CLOUDFLARE_API_TOKEN` - Your Cloudflare API token
 - `CLOUDFLARE_ACCOUNT_ID` - Your Cloudflare account ID
+- `R2_ACCOUNT_ID` - Same value as `CLOUDFLARE_ACCOUNT_ID`
+- `R2_ACCESS_KEY_ID` - R2 API token access key (Cloudflare dashboard → R2 → Manage API Tokens)
+- `R2_SECRET_ACCESS_KEY` - R2 API token secret key
 <!-- - `TURNSTILE_SECRET_KEY` - (Not enabled - Turnstile commented out) -->
 
 ### 2. Test the Pipeline
@@ -100,7 +105,7 @@ See `docs/CICD.md` for complete pipeline documentation including:
 
 | Feature           | zsoftly         | zenphry          |
 | ----------------- | --------------- | ---------------- |
-| Artifact Storage  | Cloudflare R2   | GitHub Actions   |
+| Artifact Storage  | Cloudflare R2   | Cloudflare R2    |
 | Notifications     | Google Chat     | None             |
 | Runners           | Self-hosted EKS | GitHub-hosted    |
 | Vectorize         | Yes             | No               |
