@@ -103,7 +103,10 @@ export function Navigation() {
             </div>
 
             {/* Logo */}
-            <Link to="/" className="flex items-center absolute left-1/2 -translate-x-1/2 md:static md:translate-x-0">
+            <Link
+              to="/"
+              className="flex items-center absolute left-1/2 -translate-x-1/2 md:static md:translate-x-0"
+            >
               <img
                 src={logoColor}
                 alt="Zenphry"
@@ -295,7 +298,6 @@ export function Navigation() {
                 <Button>Book a Call</Button>
               </BookingModal>
             </div>
-
           </div>
 
           {/* Mobile Navigation */}
@@ -463,7 +465,6 @@ export function Navigation() {
             </div>
           )}
         </nav>
-
       </header>
     </div>
   );
