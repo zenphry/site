@@ -464,14 +464,6 @@ export function Navigation() {
           )}
         </nav>
 
-        {/* Sticky Mobile CTA */}
-        <div className="md:hidden fixed bottom-4 right-4 z-50">
-          <BookingModal>
-            <Button size="lg" className="shadow-lg">
-              Book a Call
-            </Button>
-          </BookingModal>
-        </div>
       </header>
     </div>
   );
