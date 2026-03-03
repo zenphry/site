@@ -83,7 +83,7 @@ export default function Contact() {
                           Location
                         </p>
                         <p className="text-gray-600 dark:text-gray-400">
-                          6160 Warren Parkway, Suite 100
+                          6160 Warren Parkway
                           <br />
                           Frisco, TX 75034
                         </p>
