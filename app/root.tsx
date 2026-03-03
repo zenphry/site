@@ -101,7 +101,7 @@ const localBusinessSchema = {
   },
   address: {
     "@type": "PostalAddress",
-    streetAddress: "6160 Warren Parkway, Suite 100",
+    streetAddress: "6160 Warren Parkway",
     addressLocality: "Frisco",
     addressRegion: "TX",
     postalCode: "75034",

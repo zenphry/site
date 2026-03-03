@@ -30,7 +30,7 @@ export function Footer() {
             </p>
             <ul className="space-y-2 text-sm">
               <li className="text-gray-600 dark:text-gray-400">
-                6160 Warren Parkway, Suite 100
+                6160 Warren Parkway
                 <br />
                 Frisco, TX 75034
               </li>
@@ -44,7 +44,7 @@ export function Footer() {
               </li>
               <li className="flex items-center gap-3 pt-1">
                 <a
-                  href="https://linkedin.com/company/zenphry"
+                  href="https://www.linkedin.com/in/zenphry-it"
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="LinkedIn"
@@ -53,7 +53,7 @@ export function Footer() {
                   <Linkedin className="h-4 w-4" />
                 </a>
                 <a
-                  href="https://twitter.com/zenphry"
+                  href="https://x.com/zenphry?s=11"
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Twitter / X"

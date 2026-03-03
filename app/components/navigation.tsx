@@ -90,9 +90,23 @@ export function Navigation() {
         }`}
       >
         <nav className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
+          <div className="relative flex items-center justify-between">
+            {/* Mobile: hamburger left */}
+            <div className="md:hidden flex items-center">
+              <button
+                className="p-2 text-gray-700 dark:text-gray-300"
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                aria-label="Toggle menu"
+              >
+                {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+              </button>
+            </div>
+
             {/* Logo */}
-            <Link to="/" className="flex items-center">
+            <Link
+              to="/"
+              className="flex items-center absolute left-1/2 -translate-x-1/2 md:static md:translate-x-0"
+            >
               <img
                 src={logoColor}
                 alt="Zenphry"
@@ -104,6 +118,11 @@ export function Navigation() {
                 className={`w-auto hidden dark:block transition-all duration-200 ${scrolled ? "h-8" : "h-10"}`}
               />
             </Link>
+
+            {/* Mobile: theme toggle right */}
+            <div className="md:hidden flex items-center">
+              <ThemeToggle />
+            </div>
 
             {/* Desktop Navigation — 4 items + CTA */}
             <div className="hidden md:flex items-center space-x-8">
@@ -279,18 +298,6 @@ export function Navigation() {
                 <Button>Book a Call</Button>
               </BookingModal>
             </div>
-
-            {/* Mobile Menu Button */}
-            <div className="md:hidden flex items-center gap-2">
-              <ThemeToggle />
-              <button
-                className="p-2"
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                aria-label="Toggle menu"
-              >
-                {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-              </button>
-            </div>
           </div>
 
           {/* Mobile Navigation */}
@@ -458,15 +465,6 @@ export function Navigation() {
             </div>
           )}
         </nav>
-
-        {/* Sticky Mobile CTA */}
-        <div className="md:hidden fixed bottom-4 right-4 z-50">
-          <BookingModal>
-            <Button size="lg" className="shadow-lg">
-              Book a Call
-            </Button>
-          </BookingModal>
-        </div>
       </header>
     </div>
   );

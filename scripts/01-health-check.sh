@@ -4,7 +4,7 @@
 # Usage: ./scripts/01-health-check.sh <url>
 # Example: ./scripts/01-health-check.sh https://zenphry.com
 
-set -e
+set +e
 
 URL="${1:-https://zenphry.com}"
 MAX_RETRIES=3
@@ -101,7 +101,7 @@ echo ""
 # Check 1/7: Homepage loads successfully
 # ============================================================
 log_check "1" "Homepage loads"
-HTTP_CODE=$(curl_with_retry "$URL")
+HTTP_CODE=$(curl_with_retry "$URL") || true
 
 if [ "$HTTP_CODE" == "200" ]; then
   log_success "Homepage accessible (HTTP $HTTP_CODE)"
@@ -120,7 +120,7 @@ ALL_PAGES_OK=true
 
 for page in "${CRITICAL_PAGES[@]}"; do
   PAGE_URL="$URL$page"
-  PAGE_CODE=$(curl_with_retry "$PAGE_URL")
+  PAGE_CODE=$(curl_with_retry "$PAGE_URL") || true
 
   if [ "$PAGE_CODE" == "200" ]; then
     log_info "[OK] $page (HTTP $PAGE_CODE)"
@@ -166,7 +166,7 @@ fetch_html_with_retry() {
   return 1
 }
 
-HTML_CONTENT=$(fetch_html_with_retry "$URL")
+HTML_CONTENT=$(fetch_html_with_retry "$URL") || true
 
 # Extract JS bundle (React Router v7 uses modulepreload)
 JS_BUNDLE=$(echo "$HTML_CONTENT" | grep -oP 'rel="modulepreload" href="(/assets/[^"]+\.js)"' | head -1 | sed 's/.*href="//;s/".*//')
@@ -249,7 +249,7 @@ fetch_robots_header_with_retry() {
   return 1
 }
 
-ROBOTS_HEADER=$(fetch_robots_header_with_retry "$URL")
+ROBOTS_HEADER=$(fetch_robots_header_with_retry "$URL") || true
 
 if [[ "$ENV" == "dev" || "$ENV" == "stg" ]]; then
   # dev and stg should have noindex header
@@ -298,7 +298,7 @@ fetch_robots_txt_with_retry() {
   return 1
 }
 
-ROBOTS_TXT=$(fetch_robots_txt_with_retry "$URL")
+ROBOTS_TXT=$(fetch_robots_txt_with_retry "$URL") || true
 
 if [[ "$ENV" == "dev" || "$ENV" == "stg" ]]; then
   # dev and stg should disallow all
