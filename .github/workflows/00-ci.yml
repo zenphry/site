@@ -19,6 +19,26 @@ on:
       - '.github/workflows/80-seo-audit.yml'
       - '.github/workflows/90-cleanup.yml'
   workflow_call: # Allow this workflow to be called by other workflows (deploy-dev, deploy-stg, deploy-prod)
+    inputs:
+      r2_bucket:
+        description: 'R2 bucket name for artifacts (defaults to dev bucket)'
+        required: false
+        type: string
+      override_sha:
+        description: 'Override commit SHA for artifact naming (for cross-workflow retrieval, see docs/CICD.md#cross-workflow-artifact-management)'
+        required: false
+        type: string
+      override_branch:
+        description: 'Override branch name for artifact naming (for cross-workflow retrieval, see docs/CICD.md#cross-workflow-artifact-management)'
+        required: false
+        type: string
+    secrets:
+      R2_ACCOUNT_ID:
+        required: true
+      R2_ACCESS_KEY_ID:
+        required: true
+      R2_SECRET_ACCESS_KEY:
+        required: true
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -90,19 +110,25 @@ jobs:
         if: failure()
         run: |
           echo "::error title=Unit Tests Failed::One or more unit tests failed. Check annotations above for details."
-          echo "### ❌ Unit Test Failures" >> $GITHUB_STEP_SUMMARY
+          echo "### Unit Test Failures" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "**Status**: Failed" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "Review the annotations in the Files Changed tab for detailed failure information." >> $GITHUB_STEP_SUMMARY
 
-      - name: '04: Upload coverage'
-        uses: actions/upload-artifact@v4
+      - name: '04: Upload coverage to R2'
+        uses: ./.github/actions/r2-upload
         if: failure() && hashFiles('coverage/**') != ''
         with:
           name: coverage
           path: coverage/
+          bucket: ${{ inputs.r2_bucket || 'zenphry-ci-artifacts-dev' }}
+          account-id: ${{ secrets.R2_ACCOUNT_ID }}
+          access-key-id: ${{ secrets.R2_ACCESS_KEY_ID }}
+          secret-access-key: ${{ secrets.R2_SECRET_ACCESS_KEY }}
           retention-days: 1
+          sha: ${{ inputs.override_sha || github.sha }}
+          branch-name: ${{ inputs.override_branch || github.head_ref || github.ref }}
 
   build-and-test:
     name: Build & Smoke Tests
@@ -142,11 +168,11 @@ jobs:
         run: |
           cat > build-metadata.json <<EOF
           {
-            "build_sha": "${{ github.sha }}",
+            "build_sha": "${{ inputs.override_sha || github.sha }}",
             "build_timestamp": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
             "workflow_run_id": "${{ github.run_id }}",
             "workflow_run_attempt": "${{ github.run_attempt }}",
-            "branch": "${{ github.head_ref || github.ref }}",
+            "branch": "${{ inputs.override_branch || github.head_ref || github.ref }}",
             "ci_passed": true,
             "smoke_tests_passed": true
           }
@@ -158,24 +184,42 @@ jobs:
           tar -czf build-dist.tar.gz build/
           echo "[OK] Build archive created"
 
-      - name: '08: Upload build artifacts'
-        uses: actions/upload-artifact@v4
+      - name: '08: Upload build to R2'
+        uses: ./.github/actions/r2-upload
         with:
-          name: build-dist-${{ github.sha }}
+          name: build-dist
           path: build-dist.tar.gz
+          bucket: ${{ inputs.r2_bucket || 'zenphry-ci-artifacts-dev' }}
+          account-id: ${{ secrets.R2_ACCOUNT_ID }}
+          access-key-id: ${{ secrets.R2_ACCESS_KEY_ID }}
+          secret-access-key: ${{ secrets.R2_SECRET_ACCESS_KEY }}
           retention-days: 7
+          sha: ${{ inputs.override_sha || github.sha }}
+          branch-name: ${{ inputs.override_branch || github.head_ref || github.ref }}
 
-      - name: '09: Upload metadata'
-        uses: actions/upload-artifact@v4
+      - name: '09: Upload metadata to R2'
+        uses: ./.github/actions/r2-upload
         with:
-          name: build-metadata-${{ github.sha }}
+          name: build-metadata
           path: build-metadata.json
+          bucket: ${{ inputs.r2_bucket || 'zenphry-ci-artifacts-dev' }}
+          account-id: ${{ secrets.R2_ACCOUNT_ID }}
+          access-key-id: ${{ secrets.R2_ACCESS_KEY_ID }}
+          secret-access-key: ${{ secrets.R2_SECRET_ACCESS_KEY }}
           retention-days: 7
+          sha: ${{ inputs.override_sha || github.sha }}
+          branch-name: ${{ inputs.override_branch || github.head_ref || github.ref }}
 
       - name: '10: Upload test results on failure'
-        uses: actions/upload-artifact@v4
+        uses: ./.github/actions/r2-upload
         if: failure() && hashFiles('playwright-report/**') != ''
         with:
-          name: smoke-test-results-${{ github.sha }}
+          name: smoke-test-results
           path: playwright-report/
+          bucket: ${{ inputs.r2_bucket || 'zenphry-ci-artifacts-dev' }}
+          account-id: ${{ secrets.R2_ACCOUNT_ID }}
+          access-key-id: ${{ secrets.R2_ACCESS_KEY_ID }}
+          secret-access-key: ${{ secrets.R2_SECRET_ACCESS_KEY }}
           retention-days: 1
+          sha: ${{ inputs.override_sha || github.sha }}
+          branch-name: ${{ inputs.override_branch || github.head_ref || github.ref }}

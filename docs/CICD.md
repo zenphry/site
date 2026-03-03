@@ -262,23 +262,34 @@ npx wrangler rollback --env prod --message "Manual rollback: issue description"
 
 ## Artifact Storage
 
-All CI/CD workflows use **GitHub Actions artifacts** for build artifacts, test results, and coverage reports.
+All CI/CD workflows use **Cloudflare R2** for build artifacts and test results. R2 solves the cross-workflow artifact problem — artifacts uploaded by the CI run are retrievable by any subsequent deployment run using the branch+SHA path key.
 
-**Artifact Retention:**
+**Buckets:**
 
-- Build artifacts: 7 days
-- Test results: 1 day
-- Coverage reports: 1 day
+| Bucket                     | Used By      | Retention (lifecycle) |
+| -------------------------- | ------------ | --------------------- |
+| `zenphry-ci-artifacts-dev` | Dev pipeline | 1 day (auto-deleted)  |
+| `zenphry-ci-artifacts`     | Stg + Prod   | 7 days (auto-deleted) |
+
+**Artifact Path Convention:**
+
+```
+build-dist/release-YYYY-MM-DD-HHMM-{sha}/build-dist.tar.gz
+build-metadata/release-YYYY-MM-DD-HHMM-{sha}/build-metadata.json
+```
 
 **What Gets Stored:**
 
-| Artifact                | Source Workflow     | Retention |
-| ----------------------- | ------------------- | --------- |
-| `build-dist-{sha}`      | CI (build-and-test) | 7 days    |
-| `build-metadata-{sha}`  | CI (build-and-test) | 7 days    |
-| `coverage`              | CI (unit-tests)     | 1 day     |
-| `smoke-test-results`    | CI (build-and-test) | 1 day     |
-| `lighthouse-report-env` | SEO Audit           | 7 days    |
+| Artifact         | Source Workflow     | Bucket                 |
+| ---------------- | ------------------- | ---------------------- |
+| `build-dist`     | CI (build-and-test) | Bucket for current env |
+| `build-metadata` | CI (build-and-test) | Bucket for current env |
+| `test-results`   | CI (build-and-test) | Bucket for current env |
+
+**Why R2 over GitHub Actions artifacts:**
+GitHub Actions artifacts are scoped to a single workflow run. The prod pipeline has no build step — it deploys the artifact built by the stg CI run. R2 stores artifacts by branch+SHA, making them accessible to any run without needing the original run ID.
+
+**Infrastructure:** See `infra/ci-artifacts/` for Terraform config and `infra/ci-artifacts/setup-lifecycle.sh` for lifecycle policy setup.
 
 ---
 
@@ -286,11 +297,15 @@ All CI/CD workflows use **GitHub Actions artifacts** for build artifacts, test r
 
 ### Automated Cleanup
 
-The cleanup workflow prevents storage bloat by automatically removing stale data:
+**R2 artifacts** are cleaned automatically via lifecycle policies (no workflow needed):
+
+- `zenphry-ci-artifacts-dev`: 1-day expiry
+- `zenphry-ci-artifacts`: 7-day expiry
+
+The cleanup workflow handles remaining GitHub-hosted data:
 
 **What gets cleaned:**
 
-- **Artifacts:** Test reports, coverage outputs older than 7 days
 - **Caches:** npm/Playwright caches not accessed in 1 day
 - **Automated releases:** Pre-releases tagged `build-*` or `e2e-*` older than 7 days
 
@@ -302,10 +317,15 @@ The cleanup workflow prevents storage bloat by automatically removing stale data
 
 Add these secrets to your repository (Settings → Secrets and variables → Actions):
 
-| Secret                  | Description           | Required? | How to Get                        |
-| ----------------------- | --------------------- | --------- | --------------------------------- |
-| `CLOUDFLARE_API_TOKEN`  | Cloudflare API Token  | Yes       | Cloudflare dashboard → API Tokens |
-| `CLOUDFLARE_ACCOUNT_ID` | Cloudflare Account ID | Yes       | Cloudflare dashboard → Account ID |
+| Secret                  | Description                    | Required? | How to Get                                    |
+| ----------------------- | ------------------------------ | --------- | --------------------------------------------- |
+| `CLOUDFLARE_API_TOKEN`  | Cloudflare API Token           | Yes       | Cloudflare dashboard → API Tokens             |
+| `CLOUDFLARE_ACCOUNT_ID` | Cloudflare Account ID          | Yes       | Cloudflare dashboard → Account ID             |
+| `R2_ACCOUNT_ID`         | Cloudflare Account ID (for R2) | Yes       | Same value as `CLOUDFLARE_ACCOUNT_ID`         |
+| `R2_ACCESS_KEY_ID`      | R2 API Token Access Key        | Yes       | Cloudflare dashboard → R2 → Manage API Tokens |
+| `R2_SECRET_ACCESS_KEY`  | R2 API Token Secret Key        | Yes       | Cloudflare dashboard → R2 → Manage API Tokens |
+
+**Note:** `R2_ACCOUNT_ID` and `CLOUDFLARE_ACCOUNT_ID` are the same value — they are kept separate because they are used by different tools (AWS CLI for R2 vs wrangler-action for Workers).
 
 <!-- Turnstile not enabled
 | `TURNSTILE_SECRET_KEY`    | Turnstile verification key | No        | Cloudflare dashboard → Turnstile (not enabled)   |

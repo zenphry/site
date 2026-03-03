@@ -68,7 +68,16 @@ The admin token has all permissions needed for deployments:
 
 ---
 
-## Step 3: Add to GitHub Secrets
+## Step 3: Create R2 API Token (for CI/CD artifact storage)
+
+1. **Go to**: Cloudflare Dashboard → **R2** → **Manage R2 API Tokens**
+2. Click **Create API Token**
+3. Set permissions: **Admin Read & Write**
+4. Copy the **Access Key ID** and **Secret Access Key** immediately (shown only once)
+
+---
+
+## Step 4: Add to GitHub Secrets
 
 **✅ COMPLETED** - Secrets already configured.
 
@@ -78,13 +87,16 @@ The admin token has all permissions needed for deployments:
 
 - `CLOUDFLARE_API_TOKEN` - Your Account API Token
 - `CLOUDFLARE_ACCOUNT_ID` - Your Account ID from Step 1
+- `R2_ACCOUNT_ID` - Same value as `CLOUDFLARE_ACCOUNT_ID`
+- `R2_ACCESS_KEY_ID` - Access Key ID from Step 3
+- `R2_SECRET_ACCESS_KEY` - Secret Access Key from Step 3
 
 ---
 
 ## Verify Setup
 
 **Quick check:** GitHub → Settings → Secrets → Actions
-Should show: `CLOUDFLARE_API_TOKEN` + `CLOUDFLARE_ACCOUNT_ID`
+Should show: `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`, `R2_ACCOUNT_ID`, `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY`
 
 **Test:** Deploy manually with `npx wrangler deploy --env dev` to verify setup
 

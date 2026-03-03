@@ -1,6 +1,6 @@
 name: '60: Prod Deployment'
 
-# Production deployment from release branches
+# Production NEVER builds - only deploys artifacts built by staging
 # See docs/CICD.md for complete deployment guide
 
 on:
@@ -16,9 +16,9 @@ on:
         type: string
 
 jobs:
-  # Validate inputs and determine SHA (fail fast)
+  # Validate inputs, verify artifact exists in R2, determine SHA (fail fast)
   get-artifact-sha:
-    name: Validate & Get SHA
+    name: Validate & Verify Artifact
     runs-on: ubuntu-latest
     outputs:
       sha: ${{ steps.determine-sha.outputs.sha }}
@@ -113,6 +113,96 @@ jobs:
           fi
           echo "sha=$SHA" >> $GITHUB_OUTPUT
 
+      - name: Setup AWS CLI
+        uses: ./.github/actions/setup-aws-cli
+        with:
+          bucket: zenphry-ci-artifacts
+          account-id: ${{ secrets.R2_ACCOUNT_ID }}
+          access-key-id: ${{ secrets.R2_ACCESS_KEY_ID }}
+          secret-access-key: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+
+      - name: Verify artifact exists in R2 (fail fast)
+        env:
+          R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
+        run: |
+          set +x  # Prevent credential exposure
+          SHA="${{ steps.determine-sha.outputs.sha }}"
+          BRANCH="${{ github.event.inputs.branch }}"
+
+          # Construct artifact paths
+          if [[ "$BRANCH" =~ ^release/([0-9]{4}-[0-9]{2}-[0-9]{2}(-[0-9]{4})?)$ ]]; then
+            RELEASE_SUFFIX="${BASH_REMATCH[1]}"
+            ARTIFACT_PATH="build-dist/release-${RELEASE_SUFFIX}-${SHA}/build-dist.tar.gz"
+            METADATA_PATH="build-metadata/release-${RELEASE_SUFFIX}-${SHA}/build-metadata.json"
+          else
+            echo "[ERROR] Unsupported branch: $BRANCH"
+            echo "Supported patterns: release/YYYY-MM-DD, release/YYYY-MM-DD-HHMM"
+            exit 1
+          fi
+
+          echo "[CHECK] Verifying artifact provenance (fail fast)"
+          echo "[INFO] SHA: $SHA"
+          echo "[INFO] Branch: $BRANCH"
+
+          ENDPOINT="https://${R2_ACCOUNT_ID}.r2.cloudflarestorage.com"
+
+          # Check artifact exists
+          if ! AWS_ACCESS_KEY_ID="$R2_ACCESS_KEY_ID" AWS_SECRET_ACCESS_KEY="$R2_SECRET_ACCESS_KEY" \
+               aws s3 ls "s3://zenphry-ci-artifacts/$ARTIFACT_PATH" \
+               --endpoint-url "$ENDPOINT" --region auto >/dev/null 2>&1; then
+            echo ""
+            echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+            echo "[ERROR] PRODUCTION DEPLOYMENT BLOCKED"
+            echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+            echo ""
+            echo "[CRITICAL] No artifact found: $ARTIFACT_PATH"
+            echo "[INFO] Production NEVER builds. Deploy to staging first."
+            echo ""
+            exit 1
+          fi
+
+          # Check metadata exists
+          if ! AWS_ACCESS_KEY_ID="$R2_ACCESS_KEY_ID" AWS_SECRET_ACCESS_KEY="$R2_SECRET_ACCESS_KEY" \
+               aws s3 ls "s3://zenphry-ci-artifacts/$METADATA_PATH" \
+               --endpoint-url "$ENDPOINT" --region auto >/dev/null 2>&1; then
+            echo ""
+            echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+            echo "[ERROR] PRODUCTION DEPLOYMENT BLOCKED"
+            echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+            echo ""
+            echo "[CRITICAL] No metadata found: $METADATA_PATH"
+            echo "[INFO] Artifact has no provenance - may be compromised"
+            echo ""
+            exit 1
+          fi
+
+          # Download and validate metadata
+          AWS_ACCESS_KEY_ID="$R2_ACCESS_KEY_ID" AWS_SECRET_ACCESS_KEY="$R2_SECRET_ACCESS_KEY" \
+            aws s3 cp "s3://zenphry-ci-artifacts/$METADATA_PATH" build-metadata.json \
+            --endpoint-url "$ENDPOINT" --region auto
+
+          BUILD_SHA=$(jq -r '.build_sha' build-metadata.json)
+          CI_PASSED=$(jq -r '.ci_passed' build-metadata.json)
+          TESTS_PASSED=$(jq -r '.smoke_tests_passed' build-metadata.json)
+          BUILD_TIME=$(jq -r '.build_timestamp' build-metadata.json)
+          RUN_ID=$(jq -r '.workflow_run_id' build-metadata.json)
+
+          if [ "$BUILD_SHA" != "$SHA" ]; then
+            echo "[ERROR] SHA mismatch: expected $SHA, got $BUILD_SHA"
+            exit 1
+          fi
+
+          if [ "$CI_PASSED" != "true" ] || [ "$TESTS_PASSED" != "true" ]; then
+            echo "[ERROR] CI or tests failed for this artifact"
+            exit 1
+          fi
+
+          echo "[OK] Artifact provenance verified"
+          echo "[INFO] Build time: $BUILD_TIME"
+          echo "[INFO] Workflow: $RUN_ID"
+
   deploy:
     name: Deploy to prod
     needs: [get-artifact-sha]
@@ -147,26 +237,30 @@ jobs:
       - name: Setup Node.js environment
         uses: ./.github/actions/setup-node
 
-      - name: Download build artifact
-        uses: actions/download-artifact@v4
+      # Artifact provenance already verified in get-artifact-sha job (fail fast)
+      - name: Download build artifact from R2
+        uses: ./.github/actions/r2-download
         with:
-          name: build-dist-${{ needs.get-artifact-sha.outputs.sha }}
+          name: build-dist
+          bucket: zenphry-ci-artifacts
+          account-id: ${{ secrets.R2_ACCOUNT_ID }}
+          access-key-id: ${{ secrets.R2_ACCESS_KEY_ID }}
+          secret-access-key: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          sha: ${{ needs.get-artifact-sha.outputs.sha }}
+          branch-name: ${{ github.event.inputs.branch }}
 
       - name: Extract build artifact
         run: |
           tar -xzf build-dist.tar.gz
           rm build-dist.tar.gz
-          echo "[OK] Build artifacts extracted"
+          echo "[OK] Build artifacts extracted from R2"
           ls -la build/
 
       - name: Prepare wrangler config for deployment
         run: |
-          # Copy root wrangler.toml (with all env blocks) into build/server,
-          # adjusting paths for the compiled output, then drop the generated JSON.
           sed -e 's|main = "workers/app.ts"|main = "index.js"|' \
               -e 's|directory = "build/client"|directory = "../client"|' \
               wrangler.toml > build/server/wrangler.toml
-          echo 'no_bundle = true' >> build/server/wrangler.toml
           rm build/server/wrangler.json
           echo "[OK] Created deployment config from wrangler.toml"
 

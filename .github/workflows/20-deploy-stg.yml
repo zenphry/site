@@ -16,6 +16,7 @@ on:
 
 jobs:
   # Validate inputs and get release branch SHA (fail fast)
+  # Required for cross-workflow artifact management (see docs/CICD.md#cross-workflow-artifact-management)
   get-release-sha:
     name: Validate & Get SHA
     runs-on: ubuntu-latest
@@ -65,11 +66,15 @@ jobs:
           echo "sha=$SHA" >> $GITHUB_OUTPUT
           echo "[ARTIFACT] Release branch SHA: $SHA"
 
-  # Run quality checks with release branch context
+  # Run quality checks with release branch context (override SHA and branch for artifact paths)
   quality-checks:
     name: Quality Checks
     needs: [get-release-sha]
     uses: ./.github/workflows/00-ci.yml
+    with:
+      r2_bucket: zenphry-ci-artifacts
+      override_sha: ${{ needs.get-release-sha.outputs.sha }}
+      override_branch: ${{ github.event.inputs.branch }}
     secrets: inherit
 
   deploy:
@@ -86,28 +91,41 @@ jobs:
       - name: Setup Node.js environment
         uses: ./.github/actions/setup-node
 
-      - name: Download build artifact
-        uses: actions/download-artifact@v4
+      - name: Download build artifact from R2
+        uses: ./.github/actions/r2-download
         with:
-          name: build-dist-${{ needs.get-release-sha.outputs.sha }}
+          name: build-dist
+          bucket: zenphry-ci-artifacts
+          account-id: ${{ secrets.R2_ACCOUNT_ID }}
+          access-key-id: ${{ secrets.R2_ACCESS_KEY_ID }}
+          secret-access-key: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          sha: ${{ needs.get-release-sha.outputs.sha }}
+          branch-name: ${{ github.event.inputs.branch }}
 
       - name: Extract build artifact
         run: |
           tar -xzf build-dist.tar.gz
           rm build-dist.tar.gz
-          echo "[OK] Build artifacts extracted"
+          echo "[OK] Build artifacts extracted from R2"
           ls -la build/
 
       - name: Prepare wrangler config for deployment
         run: |
-          # Copy root wrangler.toml (with all env blocks) into build/server,
-          # adjusting paths for the compiled output, then drop the generated JSON.
           sed -e 's|main = "workers/app.ts"|main = "index.js"|' \
               -e 's|directory = "build/client"|directory = "../client"|' \
               wrangler.toml > build/server/wrangler.toml
-          echo 'no_bundle = true' >> build/server/wrangler.toml
           rm build/server/wrangler.json
           echo "[OK] Created deployment config from wrangler.toml"
+
+      - name: Get current stg version for rollback
+        id: backup-version
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          CURRENT_VERSION=$(npx wrangler deployments list --env stg --json 2>/dev/null | jq -r '.[-1].versions[] | select(.percentage == 100) | .version_id // "none"')
+          echo "version_id=$CURRENT_VERSION" >> $GITHUB_OUTPUT
+          echo "[ARTIFACT] Current stg version for rollback: $CURRENT_VERSION"
 
       - name: Deploy to stg
         uses: cloudflare/wrangler-action@v3
@@ -117,19 +135,87 @@ jobs:
           workingDirectory: "./build/server"
           command: deploy --env stg
 
-      - name: Deployment summary
+      - name: Wait for edge propagation with progressive health checks
         run: |
-          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-          echo "[OK] Deployed to stg environment"
-          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-          echo ""
-          echo "[INFO] URL: https://stg.zenphry.com"
-          echo "[INFO] Health checks skipped (Cloudflare firewall blocks GitHub IPs)"
-          echo "[INFO] Manually verify deployment before promoting to production"
-          echo ""
-          echo "[INFO] To check deployment status:"
-          echo "       npx wrangler deployments list --env stg"
-          echo ""
-          echo "[INFO] To rollback if needed:"
-          echo "       npx wrangler rollback --env stg"
-          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo "[WAIT] Waiting for Cloudflare edge propagation..."
+          echo "[INFO] Starting progressive health checks with linear backoff (max 3 minutes)"
+
+          URL="https://stg.zenphry.com"
+          MAX_WAIT=180
+          ATTEMPT=1
+          TOTAL_WAIT=0
+          CURRENT_WAIT=5
+
+          echo "[WAIT] Initial wait: ${CURRENT_WAIT} seconds..."
+          sleep $CURRENT_WAIT
+          TOTAL_WAIT=$CURRENT_WAIT
+
+          while [ $TOTAL_WAIT -lt $MAX_WAIT ]; do
+            echo "[CHECK] Attempt $ATTEMPT - Testing $URL (waited ${TOTAL_WAIT}s total)..."
+            HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" --max-time 10 "$URL" 2>/dev/null || echo "000")
+
+            if [ "$HTTP_CODE" == "200" ]; then
+              echo "[OK] Deployment is live! (HTTP $HTTP_CODE)"
+              echo "[INFO] Total wait time: ${TOTAL_WAIT} seconds"
+              break
+            fi
+
+            CURRENT_WAIT=$(( CURRENT_WAIT < 30 ? CURRENT_WAIT + 5 : 30 ))
+
+            if [ $(( TOTAL_WAIT + CURRENT_WAIT )) -le $MAX_WAIT ]; then
+              echo "[WAIT] Not ready yet (HTTP $HTTP_CODE), waiting ${CURRENT_WAIT}s..."
+              sleep $CURRENT_WAIT
+              TOTAL_WAIT=$(( TOTAL_WAIT + CURRENT_WAIT ))
+            else
+              echo "[WARN] Max wait time reached. Proceeding with health checks..."
+              break
+            fi
+
+            ATTEMPT=$((ATTEMPT + 1))
+          done
+
+      - name: Run stg health checks
+        id: health-check
+        continue-on-error: true
+        run: |
+          chmod +x ./scripts/01-health-check.sh
+          bash ./scripts/01-health-check.sh https://stg.zenphry.com
+
+      - name: Auto-rollback on health check failure
+        if: steps.health-check.outcome == 'failure'
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          BACKUP_VERSION="${{ steps.backup-version.outputs.version_id }}"
+          if [ "$BACKUP_VERSION" != "none" ]; then
+            echo "[ERROR] Health checks failed. Rolling back to version $BACKUP_VERSION"
+            npx wrangler rollback --env stg --message "Auto-rollback after health check failure"
+            echo "[OK] Rollback completed to previous working version"
+          else
+            echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+            echo "[FAIL] DEPLOYMENT FAILED - Health Checks Failed"
+            echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+            echo ""
+            echo "[ERROR] This appears to be the first deployment to stg environment."
+            echo "        No previous version exists for automatic rollback."
+            echo ""
+            echo "[INFO] Recovery Options:"
+            echo "       1. Review health check logs above to identify the issue"
+            echo "       2. Fix the deployment issue in the release branch"
+            echo "       3. Re-run this workflow after fixing the issue"
+            echo "       4. If critical, deploy a hotfix release branch"
+            echo ""
+            echo "[INFO] Note: Auto-rollback will be available after the first successful deployment."
+            echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+            exit 1
+          fi
+
+      - name: Verify rollback health
+        if: steps.health-check.outcome == 'failure'
+        run: |
+          echo "[WAIT] Waiting 30 seconds for rollback to propagate..."
+          sleep 30
+          echo "[CHECK] Verifying rolled-back deployment..."
+          chmod +x ./scripts/01-health-check.sh
+          bash ./scripts/01-health-check.sh https://stg.zenphry.com
