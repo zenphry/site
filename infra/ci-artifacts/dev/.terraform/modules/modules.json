@@ -1,0 +1,10 @@
+{
+  "Modules": [
+    { "Key": "", "Source": "", "Dir": "." },
+    {
+      "Key": "ci_artifacts",
+      "Source": "../../modules/r2-ci-artifacts",
+      "Dir": "../../modules/r2-ci-artifacts"
+    }
+  ]
+}
