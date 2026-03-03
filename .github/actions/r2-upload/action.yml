@@ -53,6 +53,16 @@ runs:
         AWS_SECRET_ACCESS_KEY: ${{ inputs.secret-access-key }}
         AWS_DEFAULT_REGION: auto
       run: |
+        # Validate required inputs
+        if [ -z "${{ inputs.account-id }}" ]; then
+          echo "[ERROR] R2 account-id is empty. Set the R2_ACCOUNT_ID secret in GitHub repository settings."
+          exit 1
+        fi
+        if [ -z "${{ inputs.access-key-id }}" ] || [ -z "${{ inputs.secret-access-key }}" ]; then
+          echo "[ERROR] R2 credentials are empty. Set R2_ACCESS_KEY_ID and R2_SECRET_ACCESS_KEY secrets."
+          exit 1
+        fi
+
         # Construct R2 endpoint
         ENDPOINT="https://${{ inputs.account-id }}.r2.cloudflarestorage.com"
 

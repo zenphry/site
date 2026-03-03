@@ -38,6 +38,11 @@ runs:
           exit 0
         fi
 
+        # Validate R2 configuration (warn only — AWS CLI can still install from AWS directly)
+        if [ -z "${{ inputs.account-id }}" ]; then
+          echo "[WARN] R2 account-id is empty — R2 cache will be skipped"
+        fi
+
         echo "[INFO] AWS CLI not found, installing..."
 
         # Detect architecture
