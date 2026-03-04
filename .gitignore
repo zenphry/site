@@ -52,3 +52,8 @@ NEXT_STEPS.md
 
 
 tmp/
+
+# Terraform
+**/.terraform/
+*.tfstate
+*.tfstate.backup
