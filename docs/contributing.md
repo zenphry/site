@@ -67,7 +67,7 @@ export default [
   index("routes/_index.tsx"), // Homepage at /
   route("services", "routes/services._index.tsx"),
   route("services/diagnostic", "routes/services.diagnostic.tsx"),
-  route("pricing", "routes/pricing.tsx"),
+  route("resources/pricing", "routes/pricing.tsx"),
   // ...
 ] satisfies RouteConfig;
 ```
@@ -228,7 +228,7 @@ Configured in `wrangler.toml`:
 
 **Resources** 14. **/resources/how-it-works** - 5-phase engagement framework 15. **/resources/case-studies** - Case studies index 16. **/resources/case-studies/:slug** - Individual case study 17. **/resources/faq** - Frequently asked questions
 
-**Other** 18. **/pricing** - Pricing tiers 19. **/contact** - Contact page 20. **/privacy-policy** - Privacy policy 21. **/sitemap.xml** - Dynamic sitemap 22. **/robots.txt** - Environment-aware robots.txt
+**Other** 18. **/resources/pricing** - Pricing tiers 19. **/contact** - Contact page 20. **/privacy-policy** - Privacy policy 21. **/sitemap.xml** - Dynamic sitemap 22. **/robots.txt** - Environment-aware robots.txt
 
 ## Build & Deploy
 

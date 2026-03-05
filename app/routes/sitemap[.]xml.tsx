@@ -17,7 +17,7 @@ export async function loader({ context }: LoaderFunctionArgs) {
     { path: "/services/financial", priority: "0.8", changefreq: "monthly" },
     { path: "/services/scale", priority: "0.8", changefreq: "monthly" },
     { path: "/services/advisory", priority: "0.7", changefreq: "monthly" },
-    { path: "/pricing", priority: "0.9", changefreq: "weekly" },
+    { path: "/resources/pricing", priority: "0.9", changefreq: "weekly" },
     { path: "/about", priority: "0.8", changefreq: "monthly" },
     { path: "/about/what-we-do", priority: "0.8", changefreq: "monthly" },
     { path: "/about/team", priority: "0.7", changefreq: "monthly" },

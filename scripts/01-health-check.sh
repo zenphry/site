@@ -115,7 +115,7 @@ echo ""
 # ============================================================
 log_check "2" "Critical pages load"
 
-CRITICAL_PAGES=("/about" "/services" "/contact" "/pricing" "/blog")
+CRITICAL_PAGES=("/about" "/services" "/contact" "/resources/pricing" "/resources/blog")
 ALL_PAGES_OK=true
 
 for page in "${CRITICAL_PAGES[@]}"; do
