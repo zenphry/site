@@ -231,7 +231,7 @@ Production deployments include automatic rollback capability. If health checks f
 **Critical Pages:**
 
 - Homepage loads successfully (HTTP 200)
-- Essential pages accessible: /about, /services, /contact, /pricing, /blog
+- Essential pages accessible: /about, /services, /contact, /resources/pricing, /resources/blog
 
 **Asset Integrity:**
 

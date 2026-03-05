@@ -19,7 +19,7 @@ export default [
   route("services/scale", "routes/services.scale.tsx"),
 
   // Core pages
-  route("pricing", "routes/pricing.tsx"),
+  route("resources/pricing", "routes/pricing.tsx"),
   route("about", "routes/about.tsx"),
   route("about/what-we-do", "routes/about.what-we-do.tsx"),
   route("about/team", "routes/about.team.tsx"),
@@ -38,6 +38,7 @@ export default [
   route("thank-you", "routes/thank-you.tsx"),
 
   // Redirects
+  route("pricing", "routes/pricing-redirect.tsx"),
   route("case-studies", "routes/case-studies.tsx"),
   route("case-studies/:slug", "routes/case-studies.$slug.tsx"),
   route("how-it-works", "routes/how-it-works.tsx"),

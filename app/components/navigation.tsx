@@ -234,7 +234,7 @@ export function Navigation() {
                       { to: "/resources/how-it-works", label: "How It Works" },
                       { to: "/resources/blog", label: "Blog" },
                       { to: "/resources/faq", label: "FAQ" },
-                      { to: "/pricing", label: "Pricing" },
+                      { to: "/resources/pricing", label: "Pricing" },
                     ].map((link) => (
                       <Link
                         key={link.to}
@@ -390,7 +390,7 @@ export function Navigation() {
                       FAQ
                     </Link>
                     <Link
-                      to="/pricing"
+                      to="/resources/pricing"
                       className="block text-gray-700 dark:text-gray-300 hover:text-primary transition-colors duration-150"
                       onClick={() => setMobileMenuOpen(false)}
                     >

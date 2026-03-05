@@ -174,7 +174,7 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  to="/pricing"
+                  to="/resources/pricing"
                   className="text-gray-600 dark:text-gray-400 hover:text-primary hover:underline underline-offset-2"
                 >
                   Pricing

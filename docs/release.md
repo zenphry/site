@@ -53,7 +53,7 @@ bash ./scripts/01-health-check.sh https://stg.zenphry.com
 open https://stg.zenphry.com
 ```
 
-**Check:** Homepage, /about, /services, /contact, /pricing, /blog, console errors, SEO `noindex` present
+**Check:** Homepage, /about, /services, /contact, /resources/pricing, /resources/blog, console errors, SEO `noindex` present
 
 ---
 

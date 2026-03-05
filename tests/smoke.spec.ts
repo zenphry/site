@@ -37,7 +37,7 @@ test.describe("Smoke Tests - Critical Paths", () => {
       { url: "/services/enterprise", name: "Enterprise Service" },
       { url: "/services/technology", name: "Technology Service" },
       { url: "/services/advisory", name: "Advisory Service" },
-      { url: "/pricing", name: "Pricing" },
+      { url: "/resources/pricing", name: "Pricing" },
       { url: "/how-it-works", name: "How It Works" },
       { url: "/case-studies", name: "Case Studies" },
       { url: "/resources", name: "Resources" },
@@ -173,7 +173,7 @@ test.describe("Smoke Tests - Critical Paths", () => {
   });
 
   test("pricing page displays service tiers", async ({ page }) => {
-    await page.goto("/pricing");
+    await page.goto("/resources/pricing");
     await expect(page.locator("h1")).toBeVisible();
 
     // Verify pricing content exists
