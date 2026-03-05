@@ -100,7 +100,7 @@ const faqs = [
 
 export default function ServiceOperational() {
   return (
-    <div className="py-16">
+    <div>
       <PageHero
         headline="Operational Restructuring"
         subtitle="Fix how work flows through your business with defined processes, execution rhythm, and measurable outcomes."
@@ -111,7 +111,8 @@ export default function ServiceOperational() {
         ]}
       />
 
-      <div className="container mx-auto px-4">
+      <div className="py-16">
+        <div className="container mx-auto px-4">
         {/* What This Service Is */}
         <div className="max-w-4xl mx-auto mb-16">
           <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">
@@ -196,6 +197,7 @@ export default function ServiceOperational() {
               </AccordionItem>
             ))}
           </Accordion>
+        </div>
         </div>
       </div>
 
