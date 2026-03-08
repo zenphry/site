@@ -107,7 +107,7 @@ export default function ServicesIndex() {
                     <Button
                       asChild
                       variant="outline"
-                      className="w-full border-primary text-white hover:bg-primary/10 hover:text-white"
+                      className="w-full border-primary text-foreground hover:bg-primary/10 hover:text-foreground"
                     >
                       <Link to={`/services/${service.slug}`}>
                         Get the Diagnostic
