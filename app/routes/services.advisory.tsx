@@ -38,7 +38,7 @@ export default function ServiceAdvisory() {
             <Button
               asChild
               variant="outline"
-              className="border-primary text-white hover:bg-primary/10 hover:text-white"
+              className="border-primary text-foreground hover:bg-primary/10 hover:text-foreground"
             >
               <Link to="/services">&larr; Back to Services</Link>
             </Button>
