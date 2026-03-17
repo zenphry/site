@@ -29,7 +29,7 @@ export function BookingModal({ children }: BookingModalProps) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className="max-w-2xl w-full p-0 overflow-hidden">
+      <DialogContent className="max-w-2xl w-full p-0">
         <DialogHeader className="px-6 pt-6 pb-2">
           <DialogTitle className="text-center text-xl">
             Book a Discovery Call
@@ -41,9 +41,7 @@ export function BookingModal({ children }: BookingModalProps) {
             style={{
               width: "100%",
               border: "none",
-              overflow: "hidden",
-              scrollbarWidth: "none",
-              minHeight: "620px",
+              minHeight: "min(620px, 70dvh)",
             }}
             id="JBb4ASYOSl1ZM8wqg4X2_modal"
             sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox"
