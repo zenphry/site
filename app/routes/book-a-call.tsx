@@ -46,8 +46,7 @@ export default function BookACall() {
                 style={{
                   width: "100%",
                   border: "none",
-                  overflow: "hidden",
-                  scrollbarWidth: "none",
+                  minHeight: "620px",
                 }}
                 id="JBb4ASYOSl1ZM8wqg4X2_1770763798288"
                 title="Scheduling"
