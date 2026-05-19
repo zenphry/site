@@ -136,6 +136,16 @@ const services = [
     accent: "border-l-4 border-l-cyan-500",
   },
   {
+    title: "White-Label Private Cloud",
+    duration: "Scoped",
+    tag: "Technology",
+    badge: null,
+    desc: "Dedicated private cloud environments for US clients, branded and managed end to end.",
+    cta: "Scope Private Cloud",
+    link: "/services/private-cloud",
+    accent: "border-l-4 border-l-sky-500",
+  },
+  {
     title: "Growth & Scale Readiness",
     duration: "6–10 weeks",
     tag: "Restructuring",

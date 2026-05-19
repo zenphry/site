@@ -36,6 +36,7 @@ test.describe("Smoke Tests - Critical Paths", () => {
       { url: "/services/growth", name: "Growth Service" },
       { url: "/services/enterprise", name: "Enterprise Service" },
       { url: "/services/technology", name: "Technology Service" },
+      { url: "/services/private-cloud", name: "Private Cloud Service" },
       { url: "/services/advisory", name: "Advisory Service" },
       { url: "/resources/pricing", name: "Pricing" },
       { url: "/how-it-works", name: "How It Works" },

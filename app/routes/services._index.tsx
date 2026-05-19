@@ -55,6 +55,14 @@ const services = [
       "Fix, simplify, and rebuild the digital backbone so systems support execution",
   },
   {
+    slug: "private-cloud",
+    title: "White-Label Private Cloud",
+    duration: "Scoped",
+    whoItsFor: "US clients needing dedicated cloud infrastructure",
+    description:
+      "Design, deploy, brand, and manage private cloud environments for internal platforms, customer workloads, and MSP offers",
+  },
+  {
     slug: "financial",
     title: "Financial Execution Discipline",
     duration: "Varies",

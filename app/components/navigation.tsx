@@ -10,6 +10,7 @@ import {
   Users,
   BarChart3,
   TrendingUp,
+  Cloud,
 } from "lucide-react";
 import { Button } from "./ui/button";
 import { BookingModal } from "./booking-modal";
@@ -24,6 +25,12 @@ const serviceLinks = [
     label: "Technology & Systems",
     description: "Modernise tech stacks and eliminate bottlenecks.",
     Icon: Cpu,
+  },
+  {
+    to: "/services/private-cloud",
+    label: "Private Cloud",
+    description: "White-label private cloud for US-based clients.",
+    Icon: Cloud,
   },
   {
     to: "/services/operational",
