@@ -14,6 +14,11 @@ export async function loader({ context }: LoaderFunctionArgs) {
       changefreq: "monthly",
     },
     { path: "/services/technology", priority: "0.8", changefreq: "monthly" },
+    {
+      path: "/services/private-cloud",
+      priority: "0.8",
+      changefreq: "monthly",
+    },
     { path: "/services/financial", priority: "0.8", changefreq: "monthly" },
     { path: "/services/scale", priority: "0.8", changefreq: "monthly" },
     { path: "/services/advisory", priority: "0.7", changefreq: "monthly" },
