@@ -86,7 +86,7 @@ export function Navigation() {
     (key: string, setter: (v: boolean) => void) => {
       closeTimers.current[key] = setTimeout(() => setter(false), 150);
     },
-    []
+    [],
   );
 
   const makeHoverHandlers = (key: string, setter: (v: boolean) => void) => ({
