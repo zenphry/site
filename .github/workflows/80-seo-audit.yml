@@ -29,12 +29,12 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
-          node-version: '22'
+          node-version: '24'
 
       - name: Install Lighthouse
         run: |
@@ -113,7 +113,7 @@ jobs:
 
       - name: Upload Report as artifact
         if: always() && hashFiles('lighthouse-report.report.html') != ''
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: lighthouse-report-${{ matrix.env }}
           path: lighthouse-report.report.html

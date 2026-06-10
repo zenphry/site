@@ -50,7 +50,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: '00: Checkout code'
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: '01: Setup Node.js environment'
         uses: ./.github/actions/setup-node
@@ -66,7 +66,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: '00: Checkout code'
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: '01: Setup Node.js environment'
         uses: ./.github/actions/setup-node
@@ -81,7 +81,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: '00: Checkout code'
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: '01: Setup Node.js environment'
         uses: ./.github/actions/setup-node
@@ -95,7 +95,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: '00: Checkout code'
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: '01: Setup Node.js environment'
         uses: ./.github/actions/setup-node
@@ -137,7 +137,7 @@ jobs:
     timeout-minutes: 20
     steps:
       - name: '00: Checkout code'
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: '01: Setup Node.js'
         uses: ./.github/actions/setup-node

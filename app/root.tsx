@@ -213,7 +213,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <ThemeScript theme={data?.theme || "system"} />
 
         {/* Lead Onion tracking */}
-        <script dangerouslySetInnerHTML={{ __html: 'var t_code = "DS-16725-4230-982";' }} />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: 'var t_code = "DS-16725-4230-982";',
+          }}
+        />
         <script src="//ds360.co/track/script.js" />
         <script
           id="zym-pixel-src"

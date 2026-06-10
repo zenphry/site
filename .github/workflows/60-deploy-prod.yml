@@ -97,7 +97,7 @@ jobs:
           fi
 
       - name: Checkout release branch
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           ref: ${{ github.event.inputs.branch }}
 
@@ -225,7 +225,7 @@ jobs:
           echo "[OK] Branch re-validated: $BRANCH"
 
       - name: Checkout release branch
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           ref: ${{ github.event.inputs.branch }}
 
