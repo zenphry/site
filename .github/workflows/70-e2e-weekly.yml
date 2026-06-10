@@ -63,7 +63,7 @@ jobs:
       matrix: ${{ fromJson(needs.setup.outputs.matrix) }}
     steps:
       - name: '00: Checkout code'
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           ref: main # Need test files from main branch to validate deployed code on dev.zenphry.com
 

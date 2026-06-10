@@ -55,7 +55,7 @@ jobs:
           echo "[OK] Branch match verified: $WORKFLOW_BRANCH"
 
       - name: Checkout release branch
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           ref: ${{ github.event.inputs.branch }}
 
@@ -84,7 +84,7 @@ jobs:
 
     steps:
       - name: Checkout release branch
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           ref: ${{ github.event.inputs.branch }}
 

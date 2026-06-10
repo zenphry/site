@@ -1,5 +1,5 @@
 import { Link } from "react-router";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import {
   Menu,
   X,
@@ -78,13 +78,24 @@ export function Navigation() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const clearHoverTimer = useCallback((key: string) => {
+    if (closeTimers.current[key]) clearTimeout(closeTimers.current[key]);
+  }, []);
+
+  const scheduleClose = useCallback(
+    (key: string, setter: (v: boolean) => void) => {
+      closeTimers.current[key] = setTimeout(() => setter(false), 150);
+    },
+    [],
+  );
+
   const makeHoverHandlers = (key: string, setter: (v: boolean) => void) => ({
     onMouseEnter: () => {
-      if (closeTimers.current[key]) clearTimeout(closeTimers.current[key]);
+      clearHoverTimer(key);
       setter(true);
     },
     onMouseLeave: () => {
-      closeTimers.current[key] = setTimeout(() => setter(false), 150);
+      scheduleClose(key, setter);
     },
   });
 
