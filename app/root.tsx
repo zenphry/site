@@ -211,6 +211,15 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
         <ThemeScript theme={data?.theme || "system"} />
+
+        {/* Lead Onion tracking */}
+        <script dangerouslySetInnerHTML={{ __html: 'var t_code = "DS-16725-4230-982";' }} />
+        <script src="//ds360.co/track/script.js" />
+        <script
+          id="zym-pixel-src"
+          src="https://cdn.pixel.zymplify.com/pixels/39e8fff7-f079-4c31-a8df-5f3317682b4d/p.js"
+          async
+        />
       </head>
       <body>
         {children}
