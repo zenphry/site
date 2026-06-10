@@ -3,6 +3,34 @@ import { ServerRouter } from "react-router";
 import { isbot } from "isbot";
 import { renderToReadableStream } from "react-dom/server";
 
+const LEAD_ONION_SCRIPTS =
+  '<script>var t_code = "DS-16725-4230-982";</script>' +
+  '<script src="//ds360.co/track/script.js"></script>' +
+  '<script id="zym-pixel-src" src="https://cdn.pixel.zymplify.com/pixels/39e8fff7-f079-4c31-a8df-5f3317682b4d/p.js" async=""></script>';
+
+function injectLeadOnion(stream: ReadableStream<Uint8Array>): ReadableStream<Uint8Array> {
+  const enc = new TextEncoder();
+  const dec = new TextDecoder();
+  let injected = false;
+  return stream.pipeThrough(
+    new TransformStream<Uint8Array, Uint8Array>({
+      transform(chunk, controller) {
+        if (injected) {
+          controller.enqueue(chunk);
+          return;
+        }
+        const text = dec.decode(chunk, { stream: true });
+        if (text.includes("</head>")) {
+          injected = true;
+          controller.enqueue(enc.encode(text.replace("</head>", LEAD_ONION_SCRIPTS + "</head>")));
+        } else {
+          controller.enqueue(chunk);
+        }
+      },
+    }),
+  );
+}
+
 export default async function handleRequest(
   request: Request,
   responseStatusCode: number,
@@ -36,7 +64,7 @@ export default async function handleRequest(
   }
 
   responseHeaders.set("Content-Type", "text/html");
-  return new Response(body, {
+  return new Response(injectLeadOnion(body), {
     headers: responseHeaders,
     status: responseStatusCode,
   });
