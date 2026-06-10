@@ -211,7 +211,6 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
         <ThemeScript theme={data?.theme || "system"} />
-
       </head>
       <body>
         {children}

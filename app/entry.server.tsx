@@ -8,7 +8,9 @@ const LEAD_ONION_SCRIPTS =
   '<script src="//ds360.co/track/script.js"></script>' +
   '<script id="zym-pixel-src" src="https://cdn.pixel.zymplify.com/pixels/39e8fff7-f079-4c31-a8df-5f3317682b4d/p.js" async=""></script>';
 
-function injectLeadOnion(stream: ReadableStream<Uint8Array>): ReadableStream<Uint8Array> {
+function injectLeadOnion(
+  stream: ReadableStream<Uint8Array>,
+): ReadableStream<Uint8Array> {
   const enc = new TextEncoder();
   const dec = new TextDecoder();
   let injected = false;
@@ -22,7 +24,9 @@ function injectLeadOnion(stream: ReadableStream<Uint8Array>): ReadableStream<Uin
         const text = dec.decode(chunk, { stream: true });
         if (text.includes("</head>")) {
           injected = true;
-          controller.enqueue(enc.encode(text.replace("</head>", LEAD_ONION_SCRIPTS + "</head>")));
+          controller.enqueue(
+            enc.encode(text.replace("</head>", LEAD_ONION_SCRIPTS + "</head>")),
+          );
         } else {
           controller.enqueue(chunk);
         }
