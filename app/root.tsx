@@ -15,6 +15,7 @@ import type {
   LoaderFunctionArgs,
   MetaFunction,
 } from "react-router";
+import { cloudflareContext } from "~/lib/cloudflare-context";
 import stylesheet from "./app.css?url";
 import { getTheme } from "./lib/theme.server";
 import { ThemeProvider } from "./lib/theme-provider";
@@ -144,20 +145,17 @@ export const links: LinksFunction = () => [
 
 export async function loader({ request, context }: LoaderFunctionArgs) {
   const theme = await getTheme(request);
-  const isDev =
-    context.cloudflare?.env?.ENVIRONMENT === "dev" ||
-    context.cloudflare?.env?.ENVIRONMENT === "stg";
+  const { env } = context.get(cloudflareContext);
+  const isDev = env.ENVIRONMENT === "dev" || env.ENVIRONMENT === "stg";
 
-  const turnstileSiteKey = context.cloudflare?.env?.TURNSTILE_SITE_KEY as
-    | string
-    | undefined;
+  const turnstileSiteKey = env.TURNSTILE_SITE_KEY;
 
   return { theme, isDev, turnstileSiteKey };
 }
 
 // SEO Protection: Add noindex meta tag for dev and stg environments
-export const meta: MetaFunction<typeof loader> = ({ data }) => {
-  if (data?.isDev) {
+export const meta: MetaFunction<typeof loader> = ({ loaderData }) => {
+  if (loaderData?.isDev) {
     return [
       { name: "robots", content: "noindex, nofollow, noarchive" },
       { name: "googlebot", content: "noindex, nofollow" },

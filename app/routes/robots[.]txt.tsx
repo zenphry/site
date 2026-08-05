@@ -1,11 +1,11 @@
 import type { LoaderFunctionArgs } from "react-router";
+import { cloudflareContext } from "~/lib/cloudflare-context";
 
 export async function loader({ context }: LoaderFunctionArgs) {
-  const isDev =
-    context.cloudflare?.env?.ENVIRONMENT === "dev" ||
-    context.cloudflare?.env?.ENVIRONMENT === "stg";
+  const { env } = context.get(cloudflareContext);
+  const isDev = env.ENVIRONMENT === "dev" || env.ENVIRONMENT === "stg";
 
-  const siteUrl = context.cloudflare?.env?.SITE_URL || "https://zenphry.com";
+  const siteUrl = env.SITE_URL || "https://zenphry.com";
 
   const robotsTxt = isDev
     ? `# Development/Staging Environment - Block All Indexing

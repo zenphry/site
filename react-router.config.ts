@@ -8,9 +8,4 @@ export default {
   serverBuildFile: "index.js",
   buildDirectory: "build",
   appDirectory: "app",
-
-  // Cloudflare compatibility
-  future: {
-    v8_viteEnvironmentApi: true,
-  },
 } satisfies Config;

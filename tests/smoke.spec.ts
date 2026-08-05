@@ -119,7 +119,6 @@ test.describe("Smoke Tests - Critical Paths", () => {
   });
 
   test("no console errors on critical pages", async ({ page }) => {
-    const THIRD_PARTY_TRACKING = ["cdn.pixel.zymplify.com", "ds360.co"];
     const errors: string[] = [];
 
     page.on("console", (msg) => {
@@ -128,8 +127,6 @@ test.describe("Smoke Tests - Critical Paths", () => {
 
         // Filter out non-critical errors that don't break functionality
         const isIgnorableError =
-          // Third-party tracking scripts that fail in CI (no outbound internet)
-          THIRD_PARTY_TRACKING.some((domain) => text.includes(domain)) ||
           // Static asset 404s
           ((text.includes("No route matches URL") || text.includes("404")) &&
             (text.includes("favicon.ico") ||

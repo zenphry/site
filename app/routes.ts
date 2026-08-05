@@ -7,6 +7,8 @@ export default [
 
   // Services
   route("services", "routes/services._index.tsx"),
+  route("solutions", "routes/solutions._index.tsx"),
+  route("solutions/:slug", "routes/solutions.$slug.tsx"),
   route("services/diagnostic", "routes/services.diagnostic.tsx"),
   route("services/foundation", "routes/services.foundation.tsx"),
   route("services/growth", "routes/services.growth.tsx"),

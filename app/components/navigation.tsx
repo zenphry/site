@@ -58,14 +58,43 @@ const serviceLinks = [
   },
 ];
 
+const solutionLinks = [
+  {
+    to: "/solutions/education-private-cloud",
+    category: "industry",
+    label: "Education",
+    description: "Move beyond VMware with managed open-source private cloud.",
+  },
+  {
+    to: "/solutions/legal-workspace",
+    category: "industry",
+    label: "Legal",
+    description: "Central files and cloud VDI for distributed legal teams.",
+  },
+  {
+    to: "/solutions/private-ai-hr-assistant",
+    category: "capability",
+    label: "Private AI for HR",
+    description: "Answer routine employee questions from approved policies.",
+  },
+  {
+    to: "/solutions/managed-vpn",
+    category: "capability",
+    label: "Managed VPN",
+    description: "Secure access for growing teams, sites, and systems.",
+  },
+];
+
 export function Navigation() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [resourcesMobileMenuOpen, setResourcesMobileMenuOpen] = useState(false);
   const [aboutMobileMenuOpen, setAboutMobileMenuOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
+  const [solutionsOpen, setSolutionsOpen] = useState(false);
   const [resourcesOpen, setResourcesOpen] = useState(false);
   const [aboutOpen, setAboutOpen] = useState(false);
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
+  const [mobileSolutionsOpen, setMobileSolutionsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
   const closeTimers = useRef<Record<string, ReturnType<typeof setTimeout>>>({});
@@ -228,6 +257,64 @@ export function Navigation() {
                 )}
               </div>
 
+              {/* Solutions, hover menu */}
+              <div
+                className="relative"
+                {...makeHoverHandlers("solutions", setSolutionsOpen)}
+              >
+                <button
+                  className="flex items-center gap-1 text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary hover:underline underline-offset-4 transition-all duration-150"
+                  onClick={() => setSolutionsOpen(!solutionsOpen)}
+                  aria-expanded={solutionsOpen}
+                  aria-haspopup="true"
+                >
+                  Solutions
+                  <ChevronDown
+                    size={16}
+                    className={`transition-transform duration-150 ${solutionsOpen ? "rotate-180" : ""}`}
+                  />
+                </button>
+                {solutionsOpen && (
+                  <div className="absolute top-full left-0 mt-2 w-[420px] bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg py-3 z-50">
+                    <Link
+                      to="/solutions"
+                      className="block px-4 py-2 mb-1 text-xs font-semibold text-primary uppercase tracking-wider hover:underline"
+                      onClick={() => setSolutionsOpen(false)}
+                    >
+                      All Solutions &rarr;
+                    </Link>
+                    <div className="grid grid-cols-2 gap-3 px-3">
+                      {(["industry", "capability"] as const).map((category) => (
+                        <div key={category}>
+                          <p className="px-2 mb-1 text-[10px] font-semibold uppercase tracking-wider text-primary">
+                            {category === "industry"
+                              ? "By Industry"
+                              : "By Capability"}
+                          </p>
+                          {solutionLinks
+                            .filter((link) => link.category === category)
+                            .map((link) => (
+                              <Link
+                                key={link.to}
+                                to={link.to}
+                                className="block rounded-md px-2 py-2.5 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors"
+                                onClick={() => setSolutionsOpen(false)}
+                              >
+                                <p className="text-sm font-semibold text-gray-800 dark:text-gray-100 hover:text-primary">
+                                  {link.label}
+                                </p>
+                                <p className="text-xs text-gray-500 dark:text-gray-400 leading-tight mt-1">
+                                  {link.description}
+                                </p>
+                              </Link>
+                            ))}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+
               {/* Resources — hover dropdown */}
               <div
                 className="relative"
@@ -358,6 +445,70 @@ export function Navigation() {
                         {link.label}
                       </Link>
                     ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Solutions */}
+              <div>
+                <button
+                  className="flex items-center gap-1 w-full text-left text-gray-700 dark:text-gray-300 hover:text-primary transition-colors duration-150"
+                  onClick={() => setMobileSolutionsOpen(!mobileSolutionsOpen)}
+                >
+                  Solutions
+                  <ChevronDown
+                    size={16}
+                    className={`ml-1 transition-transform duration-150 ${mobileSolutionsOpen ? "rotate-180" : ""}`}
+                  />
+                </button>
+                {mobileSolutionsOpen && (
+                  <div className="mt-2 ml-4 space-y-2 border-l-2 border-primary/20 pl-3">
+                    <Link
+                      to="/solutions"
+                      className="block text-sm text-gray-600 dark:text-gray-400 hover:text-primary transition-colors duration-150"
+                      onClick={() => {
+                        setMobileMenuOpen(false);
+                        setMobileSolutionsOpen(false);
+                      }}
+                    >
+                      All Solutions
+                    </Link>
+                    <p className="pt-1 text-xs font-semibold uppercase tracking-wider text-primary">
+                      By Industry
+                    </p>
+                    {solutionLinks
+                      .filter((link) => link.category === "industry")
+                      .map((link) => (
+                        <Link
+                          key={link.to}
+                          to={link.to}
+                          className="block text-sm text-gray-600 dark:text-gray-400 hover:text-primary transition-colors duration-150"
+                          onClick={() => {
+                            setMobileMenuOpen(false);
+                            setMobileSolutionsOpen(false);
+                          }}
+                        >
+                          {link.label}
+                        </Link>
+                      ))}
+                    <p className="pt-1 text-xs font-semibold uppercase tracking-wider text-primary">
+                      By Capability
+                    </p>
+                    {solutionLinks
+                      .filter((link) => link.category === "capability")
+                      .map((link) => (
+                        <Link
+                          key={link.to}
+                          to={link.to}
+                          className="block text-sm text-gray-600 dark:text-gray-400 hover:text-primary transition-colors duration-150"
+                          onClick={() => {
+                            setMobileMenuOpen(false);
+                            setMobileSolutionsOpen(false);
+                          }}
+                        >
+                          {link.label}
+                        </Link>
+                      ))}
                   </div>
                 )}
               </div>
