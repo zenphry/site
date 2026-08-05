@@ -10,7 +10,7 @@ export function Footer() {
   return (
     <footer className="bg-gray-50/75 dark:bg-gray-800/75 backdrop-blur-sm border-t-2 border-primary/40">
       <div className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
           {/* Company Info + Contact */}
           <div>
             <Link to="/" className="flex items-center mb-4">
@@ -129,6 +129,55 @@ export function Footer() {
                   className="text-gray-600 dark:text-gray-400 hover:text-primary hover:underline underline-offset-2"
                 >
                   Growth &amp; Scale Readiness
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Solutions */}
+          <div>
+            <h3 className="font-semibold mb-4 text-gray-900 dark:text-white">
+              Solutions
+            </h3>
+            <ul className="space-y-2 text-sm">
+              <li>
+                <Link
+                  to="/solutions"
+                  className="text-gray-600 dark:text-gray-400 hover:text-primary hover:underline underline-offset-2"
+                >
+                  All Solutions
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/solutions/education-private-cloud"
+                  className="text-gray-600 dark:text-gray-400 hover:text-primary hover:underline underline-offset-2"
+                >
+                  Education
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/solutions/legal-workspace"
+                  className="text-gray-600 dark:text-gray-400 hover:text-primary hover:underline underline-offset-2"
+                >
+                  Legal Workspace
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/solutions/private-ai-hr-assistant"
+                  className="text-gray-600 dark:text-gray-400 hover:text-primary hover:underline underline-offset-2"
+                >
+                  Private AI for HR
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/solutions/managed-vpn"
+                  className="text-gray-600 dark:text-gray-400 hover:text-primary hover:underline underline-offset-2"
+                >
+                  Managed VPN
                 </Link>
               </li>
             </ul>

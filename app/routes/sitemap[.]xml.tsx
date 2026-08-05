@@ -8,6 +8,27 @@ export async function loader({ context }: LoaderFunctionArgs) {
   const routes = [
     { path: "/", priority: "1.0", changefreq: "weekly" },
     { path: "/services", priority: "0.9", changefreq: "weekly" },
+    { path: "/solutions", priority: "0.9", changefreq: "weekly" },
+    {
+      path: "/solutions/education-private-cloud",
+      priority: "0.8",
+      changefreq: "monthly",
+    },
+    {
+      path: "/solutions/legal-workspace",
+      priority: "0.8",
+      changefreq: "monthly",
+    },
+    {
+      path: "/solutions/private-ai-hr-assistant",
+      priority: "0.8",
+      changefreq: "monthly",
+    },
+    {
+      path: "/solutions/managed-vpn",
+      priority: "0.8",
+      changefreq: "monthly",
+    },
     { path: "/services/diagnostic", priority: "0.9", changefreq: "monthly" },
     { path: "/services/operational", priority: "0.8", changefreq: "monthly" },
     {
