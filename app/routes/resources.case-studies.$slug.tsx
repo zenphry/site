@@ -105,12 +105,12 @@ export async function loader({ params }: LoaderFunctionArgs) {
   return { scenario, slug };
 }
 
-export const meta: MetaFunction<typeof loader> = ({ data }) => {
+export const meta: MetaFunction<typeof loader> = ({ loaderData }) => {
   return [
-    { title: `${data?.scenario.title} | Case Studies | Zenphry` },
+    { title: `${loaderData?.scenario.title} | Case Studies | Zenphry` },
     {
       name: "description",
-      content: data?.scenario.situation,
+      content: loaderData?.scenario.situation,
     },
   ];
 };

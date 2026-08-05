@@ -1,7 +1,9 @@
 import type { LoaderFunctionArgs } from "react-router";
+import { cloudflareContext } from "~/lib/cloudflare-context";
 
 export async function loader({ context }: LoaderFunctionArgs) {
-  const siteUrl = context.cloudflare?.env?.SITE_URL || "https://zenphry.com";
+  const siteUrl =
+    context.get(cloudflareContext).env.SITE_URL || "https://zenphry.com";
 
   const routes = [
     { path: "/", priority: "1.0", changefreq: "weekly" },

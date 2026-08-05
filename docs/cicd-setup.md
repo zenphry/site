@@ -61,6 +61,7 @@ Add these secrets:
 - `R2_ACCOUNT_ID` - Same value as `CLOUDFLARE_ACCOUNT_ID`
 - `R2_ACCESS_KEY_ID` - R2 API token access key (Cloudflare dashboard → R2 → Manage API Tokens)
 - `R2_SECRET_ACCESS_KEY` - R2 API token secret key
+
 <!-- - `TURNSTILE_SECRET_KEY` - (Not enabled - Turnstile commented out) -->
 
 ### 2. Test the Pipeline

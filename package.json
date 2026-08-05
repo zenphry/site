@@ -81,6 +81,7 @@
     "wrangler": "^4.118.0"
   },
   "overrides": {
+    "undici": "7.29.0",
     "js-yaml": "4.3.0",
     "postcss": "8.5.25",
     "valibot": "1.4.2",
