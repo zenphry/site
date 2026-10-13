@@ -1,0 +1,46 @@
+<header class="site-header">
+  <div class="site-shell header-inner">
+    <a
+      class="site-brand"
+      href="{{@site.url}}/"
+      aria-label="{{@site.title}} home"
+    >
+      {{#if @site.logo}}<img
+          src="{{@site.logo}}"
+          alt="{{@site.title}}"
+        />{{else}}<img
+          src="{{asset 'images/zenphry-logo.svg'}}"
+          alt="Zenphry"
+        />{{/if}}
+    </a>
+    <nav
+      class="site-nav"
+      id="primary-navigation"
+      aria-label="Primary navigation"
+      data-site-nav
+    >{{navigation}}</nav>
+    <div class="header-actions">
+      <button
+        class="theme-toggle"
+        type="button"
+        data-theme-toggle
+        aria-label="Switch to dark theme"
+        title="Switch color theme"
+      >
+        <span aria-hidden="true" data-theme-icon>◐</span>
+      </button>
+      <button
+        class="nav-toggle"
+        type="button"
+        data-nav-toggle
+        aria-expanded="false"
+        aria-controls="primary-navigation"
+      >
+        <span class="sr-only">Open menu</span><span
+          aria-hidden="true"
+        >Menu</span>
+      </button>
+    </div>
+    <a class="button button-small" href="{{@site.url}}/book-a-call/">Book a call</a>
+  </div>
+</header>

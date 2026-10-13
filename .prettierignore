@@ -10,3 +10,7 @@ public/downloads/src/
 
 # Generated whitepaper assets
 scripts/motion-canvas/output/
+
+# Local Ghost runtime and generated migration artifacts
+ghost/.local/
+ghost/content/export/

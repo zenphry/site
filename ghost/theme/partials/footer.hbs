@@ -1,0 +1,69 @@
+<footer class="site-footer">
+  <div class="footer-cta">
+    <div class="site-shell">
+      <h2>{{@custom.footer_cta_heading}}</h2>
+      <p>{{@custom.footer_cta_text}}</p>
+      <a class="button" href="{{@site.url}}/book-a-call/">Book a call</a>
+    </div>
+  </div>
+  <div class="site-shell footer-inner">
+    <a class="site-brand footer-brand" href="{{@site.url}}/">
+      {{#if @site.logo}}<img
+          src="{{@site.logo}}"
+          alt="{{@site.title}}"
+        />{{else}}<img
+          src="{{asset 'images/zenphry-logo.svg'}}"
+          alt="Zenphry"
+        />{{/if}}
+    </a>
+    <div class="footer-contact">
+      <p>{{@site.description}}</p>
+      <p>6160 Warren Parkway, Frisco, TX 75034<br /><a
+          href="tel:+19723629878"
+        >+1 972-362-9878</a></p>
+      <p><a href="https://x.com/zenphry">X</a></p>
+      <p><a href="{{@site.url}}/contact/">Get in touch</a>
+        <a href="{{@site.url}}/book-a-call/">Book a call</a></p>
+    </div>
+    <div class="footer-links footer-groups">
+      <div><strong>Services</strong><a
+          href="{{@site.url}}/services/technology/"
+        >Technology &amp; Systems</a><a
+          href="{{@site.url}}/services/operational/"
+        >Operational Restructuring</a><a
+          href="{{@site.url}}/services/organizational/"
+        >Organizational &amp; Team</a><a
+          href="{{@site.url}}/services/financial/"
+        >Financial Execution</a><a href="{{@site.url}}/services/scale/">Growth
+          &amp; Scale Readiness</a></div>
+      <div><strong>Solutions</strong><a href="{{@site.url}}/solutions/">All
+          Solutions</a><a
+          href="{{@site.url}}/solutions/education-private-cloud/"
+        >Education</a><a href="{{@site.url}}/solutions/legal-workspace/">Legal
+          Workspace</a><a
+          href="{{@site.url}}/solutions/private-ai-hr-assistant/"
+        >Private AI for HR</a><a
+          href="{{@site.url}}/solutions/managed-vpn/"
+        >Managed VPN</a></div>
+      <div><strong>Resources</strong><a
+          href="{{@site.url}}/resources/case-studies/"
+        >Case Studies</a><a href="{{@site.url}}/resources/how-it-works/">How It
+          Works</a><a href="{{@site.url}}/resources/blog/">Blog</a><a
+          href="{{@site.url}}/resources/faq/"
+        >FAQ</a><a href="{{@site.url}}/resources/pricing/">Pricing</a></div>
+      <div><strong>Company</strong><a href="{{@site.url}}/about/">About Us</a><a
+          href="{{@site.url}}/about/what-we-do/"
+        >What We Do</a><a href="{{@site.url}}/about/team/">Team</a><a
+          href="{{@site.url}}/about/vision/"
+        >Vision &amp; Values</a></div>
+    </div>
+    <p class="copyright">&copy;
+      {{date format="YYYY"}}
+      {{@site.title}}. All rights reserved. Helping operators scale since 2022.
+      40+ engagements completed.</p>
+    <p class="footer-disclaimer">Zenphry provides operational, organizational,
+      and technology restructuring services. Zenphry does not provide legal,
+      tax, or bankruptcy advice.
+      <a href="{{@site.url}}/privacy-policy/">Privacy policy</a></p>
+  </div>
+</footer>

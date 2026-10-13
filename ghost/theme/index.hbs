@@ -1,0 +1,19 @@
+{{!< default}}
+<section class="site-shell post-feed">
+  <header class="page-header">
+    <p class="eyebrow">Insights</p>
+    <h1>Articles and practical guidance</h1>
+    <p>Operator-led insight on restructuring, transformation, and execution.</p>
+  </header>
+  <div class="post-grid">
+    {{#foreach posts}}
+      <article class="post-card {{post_class}}">
+        <a href="{{url}}"><h2>{{title}}</h2></a>
+        {{#if custom_excerpt}}<p>{{custom_excerpt}}</p>{{else}}<p>{{excerpt words="28"}}</p>{{/if}}
+        <p class="post-meta">{{date format="MMMM D, YYYY"}}</p>
+      </article>
+    {{/foreach}}
+  </div>
+  {{pagination}}
+  {{> "newsletter"}}
+</section>

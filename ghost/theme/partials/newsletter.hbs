@@ -1,0 +1,24 @@
+{{#if @site.members_enabled}}
+  {{#unless @site.members_invite_only}}
+    <section class="newsletter" aria-labelledby="newsletter-title">
+      <h2 id="newsletter-title">Get practical insights in your inbox</h2>
+      <p>Subscribe for Zenphry articles and updates. You can unsubscribe at any
+        time.</p>
+      <form data-members-form="signup" class="newsletter-form">
+        <label class="sr-only" for="newsletter-email">Email address</label>
+        <input
+          id="newsletter-email"
+          data-members-email
+          type="email"
+          required
+          autocomplete="email"
+          placeholder="you@example.com"
+        />
+        <button type="submit" class="button">Subscribe</button>
+        <p class="form-status" data-members-error></p>
+        <p class="form-status" data-members-success>Check your email to complete
+          your subscription.</p>
+      </form>
+    </section>
+  {{/unless}}
+{{/if}}

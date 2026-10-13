@@ -1,0 +1,100 @@
+routes:
+  /:
+    template: home
+    data: page.home
+  /services/:
+    template: page
+    data: page.services
+  /services/diagnostic/:
+    template: service
+    data: page.services-diagnostic
+  /services/technology/:
+    template: service
+    data: page.services-technology
+  /services/private-cloud/:
+    template: service
+    data: page.services-private-cloud
+  /services/financial/:
+    template: service
+    data: page.services-financial
+  /services/advisory/:
+    template: service
+    data: page.services-advisory
+  /services/operational/:
+    template: service
+    data: page.services-operational
+  /services/organizational/:
+    template: service
+    data: page.services-organizational
+  /services/scale/:
+    template: service
+    data: page.services-scale
+  /solutions/:
+    template: page
+    data: page.solutions
+  /solutions/education-private-cloud/:
+    template: page
+    data: page.solution-education-private-cloud
+  /solutions/legal-workspace/:
+    template: page
+    data: page.solution-legal-workspace
+  /solutions/private-ai-hr-assistant/:
+    template: page
+    data: page.solution-private-ai-hr-assistant
+  /solutions/managed-vpn/:
+    template: page
+    data: page.solution-managed-vpn
+  /about/:
+    template: page
+    data: page.about
+  /about/what-we-do/:
+    template: page
+    data: page.about-what-we-do
+  /about/team/:
+    template: page
+    data: page.about-team
+  /about/vision/:
+    template: page
+    data: page.about-vision
+  /resources/pricing/:
+    template: page
+    data: page.resources-pricing
+  /resources/case-studies/:
+    template: page
+    data: page.resources-case-studies
+  /resources/case-studies/saas-scaling/:
+    template: page
+    data: page.case-study-saas-scaling
+  /resources/case-studies/founder-bottleneck/:
+    template: page
+    data: page.case-study-founder-bottleneck
+  /resources/case-studies/enterprise-alignment/:
+    template: page
+    data: page.case-study-enterprise-alignment
+  /resources/how-it-works/:
+    template: page
+    data: page.resources-how-it-works
+  /resources/faq/:
+    template: page
+    data: page.resources-faq
+  /privacy-policy/:
+    template: page
+    data: page.privacy-policy
+  /contact/:
+    template: page-contact
+    data: page.contact
+  /book-a-call/:
+    template: page-book-a-call
+    data: page.book-a-call
+  /thank-you/:
+    template: page
+    data: page.thank-you
+
+collections:
+  /resources/blog/:
+    permalink: /resources/blog/{slug}/
+    template: index
+
+taxonomies:
+  tag: /resources/topics/{slug}/
+  author: /resources/authors/{slug}/

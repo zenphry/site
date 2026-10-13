@@ -28,6 +28,7 @@ export default tseslint.config(
       // Docker build artifacts and motion-canvas output
       "public/downloads/src",
       "scripts/motion-canvas/output",
+      "ghost/.local",
     ],
   },
   js.configs.recommended,

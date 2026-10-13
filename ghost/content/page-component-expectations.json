@@ -1,0 +1,118 @@
+{
+  "version": 1,
+  "routes": {
+    "/": { "kind": "native-home", "required": { "serviceCards": 8 } },
+    "/services/": {
+      "kind": "marketing-components",
+      "required": { "catalogCards": 8 }
+    },
+    "/services/diagnostic/": {
+      "kind": "marketing-components",
+      "required": { "componentLists": 3 }
+    },
+    "/services/technology/": {
+      "kind": "marketing-components",
+      "required": { "pillars": 6, "componentLists": 1 }
+    },
+    "/services/private-cloud/": {
+      "kind": "marketing-components",
+      "required": { "componentLists": 3 }
+    },
+    "/services/financial/": {
+      "kind": "marketing-components",
+      "required": { "pillars": 6, "exclusions": 1, "componentLists": 2 }
+    },
+    "/services/advisory/": {
+      "kind": "unfinished-source"
+    },
+    "/services/operational/": {
+      "kind": "marketing-components",
+      "required": { "componentLists": 2 }
+    },
+    "/services/organizational/": {
+      "kind": "marketing-components",
+      "required": { "componentLists": 2 }
+    },
+    "/services/scale/": {
+      "kind": "marketing-components",
+      "required": { "componentLists": 2 }
+    },
+    "/solutions/": {
+      "kind": "marketing-components",
+      "required": { "featureCards": 4 }
+    },
+    "/solutions/education-private-cloud/": {
+      "kind": "marketing-components",
+      "required": { "featureLists": 2, "faqItems": 4 }
+    },
+    "/solutions/legal-workspace/": {
+      "kind": "marketing-components",
+      "required": { "featureLists": 2, "faqItems": 4 }
+    },
+    "/solutions/private-ai-hr-assistant/": {
+      "kind": "marketing-components",
+      "required": { "featureLists": 2, "faqItems": 4 }
+    },
+    "/solutions/managed-vpn/": {
+      "kind": "marketing-components",
+      "required": { "featureLists": 2, "faqItems": 4 }
+    },
+    "/about/": {
+      "kind": "marketing-components",
+      "required": { "featureLists": 1 }
+    },
+    "/about/what-we-do/": {
+      "kind": "marketing-components",
+      "required": { "featureLists": 1, "exclusions": 1 }
+    },
+    "/about/team/": {
+      "kind": "marketing-components",
+      "required": { "featureLists": 1 }
+    },
+    "/about/vision/": {
+      "kind": "marketing-components",
+      "required": { "featureLists": 1 }
+    },
+    "/resources/pricing/": {
+      "kind": "marketing-components",
+      "required": { "storyCards": 3 }
+    },
+    "/resources/case-studies/": {
+      "kind": "marketing-components",
+      "required": { "storyCards": 3 }
+    },
+    "/resources/case-studies/saas-scaling/": {
+      "kind": "marketing-components",
+      "required": { "steps": 1 }
+    },
+    "/resources/case-studies/founder-bottleneck/": {
+      "kind": "marketing-components",
+      "required": { "steps": 1 }
+    },
+    "/resources/case-studies/enterprise-alignment/": {
+      "kind": "marketing-components",
+      "required": { "steps": 1 }
+    },
+    "/resources/how-it-works/": {
+      "kind": "marketing-components",
+      "required": { "pillars": 5 }
+    },
+    "/resources/faq/": {
+      "kind": "marketing-components",
+      "required": { "faqItems": 4 }
+    },
+    "/privacy-policy/": { "kind": "prose-privacy" },
+    "/contact/": { "kind": "bespoke-contact" },
+    "/book-a-call/": {
+      "kind": "booking-pattern",
+      "required": { "componentLists": 1 }
+    },
+    "/thank-you/": { "kind": "thank-you-steps", "required": { "steps": 1 } },
+    "/resources/blog/": { "kind": "blog-index" }
+  },
+  "discovered": {
+    "author": { "kind": "author-index" },
+    "post": { "kind": "post" },
+    "tag": { "kind": "tag-index" }
+  }
+}

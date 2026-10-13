@@ -1,0 +1,478 @@
+/* Shared presentation components for editable Ghost pages. */
+.content-page .page-content,
+.service-page .page-content {
+  max-width: 100%;
+}
+.content-page .page-content > p,
+.service-page .page-content > p,
+.component-section > p,
+.component-section > h2 {
+  max-width: 760px;
+}
+.content-page .page-header,
+.service-page .page-header {
+  max-width: 900px;
+}
+.content-page .page-header h1,
+.service-page .page-header h1 {
+  font-size: clamp(2.65rem, 5vw, 4.65rem);
+  letter-spacing: -0.055em;
+}
+
+.component-section {
+  margin-top: clamp(4rem, 9vw, 7rem);
+}
+.component-section.component-compact-list {
+  margin-top: 1.5rem;
+}
+.component-section > h2 {
+  margin: 0 0 1rem;
+  font-size: clamp(1.9rem, 3.5vw, 3rem);
+  line-height: 1.06;
+  letter-spacing: -0.045em;
+}
+.component-section > h2 + p {
+  margin-top: 0;
+  color: var(--muted);
+  font-size: 1.08rem;
+}
+
+.component-card-grid,
+.component-list-feature,
+.component-list-steps,
+.component-story-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.1rem;
+  max-width: 1120px;
+  margin: 1.6rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+.component-card,
+.component-list-feature > li,
+.component-list-steps > li,
+.component-story-card {
+  display: flex;
+  min-width: 0;
+  min-height: 100%;
+  flex-direction: column;
+  padding: 1.45rem;
+  border: 1px solid var(--rule);
+  border-radius: 0.6rem;
+  background: var(--surface);
+  box-shadow: 0 1px 0 color-mix(in srgb, var(--ink) 5%, transparent);
+}
+.component-list-feature > li:has(.component-card-action) {
+  gap: 0.75rem;
+}
+.component-card h3,
+.component-list-feature > li strong,
+.component-list-feature > li > a > strong,
+.component-list-steps > li strong,
+.component-story-card > h3:first-child {
+  display: block;
+  margin: 0 0 0.45rem;
+  color: var(--ink);
+  font-size: 1.12rem;
+  line-height: 1.25;
+}
+.component-card p,
+.component-list-feature > li,
+.component-list-steps > li,
+.component-story-card p {
+  color: var(--muted);
+  line-height: 1.55;
+}
+.component-list-feature.component-linked-list > li > a {
+  display: flex;
+  min-height: 100%;
+  flex-direction: column;
+  color: inherit;
+  text-decoration: none;
+}
+.component-list-feature.component-linked-list > li:has(> a) {
+  padding: 0;
+}
+.component-list-feature.component-linked-list > li:has(> a) > a {
+  padding: 1.45rem;
+}
+.component-card-action {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  margin-top: auto;
+  padding: 0.6rem 0.9rem;
+  border: 1px solid var(--gold);
+  border-radius: 0.35rem;
+  color: var(--gold-deep);
+  font-weight: 800;
+  text-decoration: none;
+}
+.component-card-action:hover,
+.component-card-action:focus-visible {
+  background: var(--gold);
+  color: #252015;
+}
+.component-card p {
+  margin: 0.2rem 0;
+}
+.component-card p:has(a) {
+  margin-top: auto;
+  padding-top: 1.15rem;
+}
+
+.component-card p:has(a) a,
+.component-story-card p:has(a) a {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  padding: 0.6rem 0.9rem;
+  border: 1px solid var(--gold);
+  border-radius: 0.35rem;
+  background: transparent;
+  color: var(--gold-deep);
+  text-decoration: none;
+}
+
+.component-card p:has(a) a:hover,
+.component-card p:has(a) a:focus-visible,
+.component-story-card p:has(a) a:hover,
+.component-story-card p:has(a) a:focus-visible {
+  background: var(--gold);
+  color: #252015;
+}
+
+.component-story-card > h3:not(:first-child) {
+  margin: 1rem 0 0.3rem;
+  color: var(--gold-deep);
+  font-size: 0.82rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.component-story-card p:has(a) {
+  margin-top: auto;
+  padding-top: 1.15rem;
+}
+.component-card a,
+.component-cta a {
+  color: var(--gold-deep);
+  font-weight: 800;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+}
+.component-card:focus-within,
+.component-card:hover,
+.component-list-feature > li:hover,
+.component-list-steps > li:hover,
+.component-story-card:hover {
+  border-color: var(--gold);
+  box-shadow: 0 12px 28px color-mix(in srgb, var(--ink) 10%, transparent);
+}
+
+.component-list-checklist,
+.component-list-exclusions,
+.component-marker-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+  max-width: 1040px;
+  margin: 1.5rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+.component-list-checklist > li,
+.component-list-exclusions > li,
+.component-marker-list > li {
+  position: relative;
+  min-width: 0;
+  min-height: 100%;
+  padding: 0.95rem 1rem 0.95rem 2.75rem;
+  border: 1px solid var(--rule);
+  border-radius: 0.45rem;
+  background: var(--surface);
+  line-height: 1.45;
+}
+.component-list-checklist > li::before,
+.component-list-exclusions > li::before,
+.component-marker-list > li::before {
+  position: absolute;
+  top: 0.91rem;
+  left: 1rem;
+  width: 1.05rem;
+  height: 1.05rem;
+  border: 1px solid var(--gold);
+  border-radius: 50%;
+  color: var(--gold-deep);
+  content: "✓";
+  font-size: 0.72rem;
+  font-weight: 800;
+  line-height: 0.97rem;
+  text-align: center;
+}
+
+.component-literal-markers {
+  list-style: none;
+}
+
+.component-literal-markers > li {
+  padding-left: 1rem;
+}
+
+.component-literal-markers > li::before {
+  content: none;
+}
+.component-list-checklist.component-literal-markers > li,
+.component-list-exclusions.component-literal-markers > li,
+.component-marker-list.component-literal-markers > li {
+  padding-left: 1rem;
+}
+.component-list-checklist.component-literal-markers > li::before,
+.component-list-exclusions.component-literal-markers > li::before,
+.component-marker-list.component-literal-markers > li::before {
+  content: none;
+}
+.component-pillar ul.component-literal-markers > li::before {
+  content: none;
+}
+.component-list-exclusions > li,
+.component-marker-list > li {
+  background: color-mix(in srgb, var(--surface-alt) 35%, var(--surface));
+}
+.component-list-exclusions > li::before,
+.component-marker-list > li::before {
+  border-color: var(--muted);
+  color: var(--muted);
+  content: "–";
+  font-size: 1rem;
+  line-height: 0.85rem;
+}
+
+.component-list-steps {
+  counter-reset: content-step;
+}
+
+.component-list-feature.component-grid-four {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  max-width: 760px;
+}
+.component-grid-two {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  max-width: 760px;
+}
+.component-list-steps > li {
+  position: relative;
+  min-height: 12rem;
+  padding-top: 4.1rem;
+  border-top: 3px solid var(--gold);
+}
+.component-list-steps > li::before {
+  position: absolute;
+  top: 1.25rem;
+  left: 1.45rem;
+  color: var(--gold-deep);
+  content: counter(content-step, decimal-leading-zero);
+  counter-increment: content-step;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.11em;
+}
+
+.component-pillars {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  max-width: 1120px;
+  margin-top: 1.75rem;
+  padding: 0;
+  list-style: none;
+}
+.component-pillar {
+  position: relative;
+  min-width: 0;
+  padding: 1.5rem;
+  border: 1px solid var(--rule);
+  border-radius: 0.6rem;
+  background: var(--surface);
+}
+.component-pillar::before {
+  display: grid;
+  width: 2.1rem;
+  height: 2.1rem;
+  place-items: center;
+  margin-bottom: 1rem;
+  border-radius: 50%;
+  background: var(--gold);
+  color: #252015;
+  content: attr(data-pillar);
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+.component-pillar h3 {
+  margin: 0 0 1rem;
+  font-size: 1.25rem;
+  line-height: 1.2;
+}
+.component-pillar ul {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.55rem 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.component-pillar li {
+  position: relative;
+  padding-left: 1.2rem;
+  color: var(--muted);
+  font-size: 0.94rem;
+  line-height: 1.45;
+}
+.component-pillar li::before {
+  position: absolute;
+  left: 0;
+  color: var(--gold-deep);
+  content: "✓";
+  font-weight: 800;
+}
+
+.component-faq {
+  max-width: 900px;
+}
+.component-accordion {
+  margin-top: 1.5rem;
+  border-top: 1px solid var(--rule);
+}
+.component-accordion details {
+  border-bottom: 1px solid var(--rule);
+}
+.component-accordion summary {
+  position: relative;
+  padding: 1.1rem 2.2rem 1.1rem 0;
+  color: var(--ink);
+  cursor: pointer;
+  font-weight: 800;
+  line-height: 1.35;
+  list-style: none;
+}
+.component-accordion summary::-webkit-details-marker {
+  display: none;
+}
+.component-accordion summary::after {
+  position: absolute;
+  top: 0.98rem;
+  right: 0.2rem;
+  color: var(--gold-deep);
+  content: "+";
+  font-size: 1.35rem;
+  font-weight: 400;
+}
+.component-accordion details[open] summary::after {
+  content: "–";
+}
+.component-accordion details > :not(summary) {
+  max-width: 780px;
+  margin: 0 0 1.2rem;
+  color: var(--muted);
+}
+
+.component-link-chips > p {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+.component-link-chips > p a {
+  display: inline-flex;
+  padding: 0.45rem 0.75rem;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  color: var(--ink);
+  font-size: 0.92rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+.component-link-chips > p a:hover,
+.component-link-chips > p a:focus-visible {
+  border-color: var(--gold);
+  color: var(--gold-deep);
+}
+.component-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.75rem;
+}
+
+.component-cta > :is(strong, em, b, i, span) {
+  display: inline-flex;
+}
+
+.component-cta a {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  padding: 0.65rem 1rem;
+  border: 1px solid var(--gold);
+  border-radius: 0.35rem;
+  background: var(--gold);
+  color: #252015;
+  font-size: 0.95rem;
+  text-decoration: none;
+}
+
+.component-cta a + a {
+  background: transparent;
+  color: var(--gold-deep);
+}
+
+.component-cta a:hover,
+.component-cta a:focus-visible {
+  border-color: var(--gold-deep);
+  background: var(--gold-deep);
+  color: var(--paper);
+}
+
+@media (max-width: 860px) {
+  .component-card-grid,
+  .component-list-feature,
+  .component-list-steps,
+  .component-story-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 620px) {
+  .component-card-grid,
+  .component-list-feature,
+  .component-list-steps,
+  .component-story-grid,
+  .component-list-feature.component-grid-four,
+  .component-list-checklist,
+  .component-list-exclusions,
+  .component-marker-list,
+  .component-pillars,
+  .component-pillar ul {
+    grid-template-columns: 1fr;
+  }
+  .component-section {
+    margin-top: 3.5rem;
+  }
+  .component-card,
+  .component-list-feature > li,
+  .component-pillar,
+  .component-story-card {
+    padding: 1.2rem;
+  }
+
+  .component-list-steps > li {
+    padding: 3.8rem 1.2rem 1.2rem;
+  }
+
+  .component-list-steps > li::before {
+    top: 1.05rem;
+    left: 1.2rem;
+  }
+}

@@ -1,0 +1,111 @@
+{{!< default}}
+{{#page}}
+  <article class="site-shell page contact-page {{post_class}}">
+    <header class="page-header"><h1>{{title}}</h1>{{#if custom_excerpt}}<p
+        >{{custom_excerpt}}</p>{{/if}}</header>
+    <div class="contact-layout">
+      <div class="page-content gh-content">{{content}}</div>
+      <section
+        class="contact-form-section"
+        aria-label="Send Zenphry an enquiry"
+      >
+        <form
+          action="/contact/submit"
+          class="contact-form"
+          data-contact-form
+          method="post"
+        >
+          <fieldset>
+            <legend>Send an enquiry</legend>
+            <p class="contact-form-intro">Tell us where you are stuck. We will
+              reply within one business day.</p>
+            <div class="contact-form-grid">
+              <p><label for="contact-name">Name</label><input
+                  aria-describedby="contact-name-error"
+                  autocomplete="name"
+                  id="contact-name"
+                  maxlength="120"
+                  name="name"
+                  required
+                  type="text"
+                /><span
+                  class="contact-field-error"
+                  data-contact-error-for="name"
+                  id="contact-name-error"
+                ></span></p>
+              <p><label for="contact-email">Work email</label><input
+                  aria-describedby="contact-email-error"
+                  autocomplete="email"
+                  id="contact-email"
+                  maxlength="254"
+                  name="email"
+                  required
+                  type="email"
+                /><span
+                  class="contact-field-error"
+                  data-contact-error-for="email"
+                  id="contact-email-error"
+                ></span></p>
+              <p><label for="contact-company">Company
+                  <span>(optional)</span></label><input
+                  aria-describedby="contact-company-error"
+                  autocomplete="organization"
+                  id="contact-company"
+                  maxlength="160"
+                  name="company"
+                  type="text"
+                /><span
+                  class="contact-field-error"
+                  data-contact-error-for="company"
+                  id="contact-company-error"
+                ></span></p>
+              <p><label for="contact-phone">Phone
+                  <span>(optional)</span></label><input
+                  aria-describedby="contact-phone-error"
+                  autocomplete="tel"
+                  id="contact-phone"
+                  maxlength="40"
+                  name="phone"
+                  type="tel"
+                /><span
+                  class="contact-field-error"
+                  data-contact-error-for="phone"
+                  id="contact-phone-error"
+                ></span></p>
+            </div>
+            <p><label for="contact-message">Message</label><textarea
+                aria-describedby="contact-message-error"
+                id="contact-message"
+                maxlength="6000"
+                name="message"
+                required
+                rows="6"
+              ></textarea><span
+                class="contact-field-error"
+                data-contact-error-for="message"
+                id="contact-message-error"
+              ></span></p>
+            <p class="contact-honeypot" aria-hidden="true"><label
+                for="contact-website"
+              >Website</label><input
+                autocomplete="off"
+                id="contact-website"
+                maxlength="200"
+                name="website"
+                tabindex="-1"
+                type="text"
+              /></p>
+            <p class="contact-form-actions"><button
+                class="button"
+                type="submit"
+              >Send enquiry</button><span
+                aria-live="polite"
+                class="contact-form-status"
+                data-contact-status
+              ></span></p>
+          </fieldset>
+        </form>
+      </section>
+    </div>
+  </article>
+{{/page}}

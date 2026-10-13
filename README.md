@@ -98,6 +98,10 @@ Additional resources:
 - **[NEXT_STEPS.md](./NEXT_STEPS.md)** - What to do next (deployment, content, integrations)
 - **[IMPLEMENTATION_PLAN.md](./IMPLEMENTATION_PLAN.md)** - Full implementation plan
 
+## Ghost migration
+
+The current Cloudflare site remains the live site until the Ghost cutover is approved. The Ghost theme, editable content export, custom routes, redirects, and local validation instructions are in [ghost/README.md](./ghost/README.md).
+
 ## License
 
 MIT
