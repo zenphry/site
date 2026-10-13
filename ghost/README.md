@@ -145,6 +145,10 @@ fields, and timezone. It must not be used against staging or production.
 
 To reset a disposable local instance, stop Compose and remove only `ghost/.local/`. Never point this Compose file at production data.
 
+## Local article drafts
+
+`ghost/content/articles/` contains the source-preserving, Ghost-ready article bodies and their metadata manifest. Run `npx tsx ghost/scripts/prepare-local-articles.ts` only after local administrator setup. It accepts loopback Admin URLs, creates draft posts only, skips existing slugs without overwriting staff edits, and writes its local report to `ghost/.local/article-import.json`.
+
 ## Launch handoff
 
 The local preview is not a production deployment. The
