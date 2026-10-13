@@ -39,6 +39,25 @@ test("builds an eight-card services catalog only once", () => {
   assert.equal(document.querySelectorAll(".component-section").length, 1);
 });
 
+test("closes the mobile navigation when a nested link element is clicked", () => {
+  const document = render(
+    "/",
+    `<button data-nav-toggle aria-expanded="false"></button><nav data-site-nav><a href="/services/"><span>Services</span><svg><path></path></svg></a></nav>`,
+  );
+  const toggle = document.querySelector("[data-nav-toggle]");
+  const nav = document.querySelector("[data-site-nav]");
+
+  toggle.click();
+  nav
+    .querySelector("path")
+    .dispatchEvent(
+      new document.defaultView.MouseEvent("click", { bubbles: true }),
+    );
+
+  assert.equal(nav.classList.contains("is-open"), false);
+  assert.equal(toggle.getAttribute("aria-expanded"), "false");
+});
+
 test("keeps FAQ introductions and trailing CTAs outside collapsed answers", () => {
   const document = render(
     "/resources/faq/",

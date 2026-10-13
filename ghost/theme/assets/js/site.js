@@ -37,7 +37,9 @@
       if (!isOpen) nav.querySelector("a")?.focus();
     });
     nav.addEventListener("click", function (event) {
-      if (event.target instanceof HTMLAnchorElement) {
+      var link =
+        event.target instanceof Element ? event.target.closest("a") : null;
+      if (link && nav.contains(link)) {
         nav.classList.remove("is-open");
         navToggle.setAttribute("aria-expanded", "false");
       }

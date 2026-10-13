@@ -198,7 +198,7 @@ async function main() {
     "<h3>What is NOT included:</h3><ul><li>• Implementation</li>",
   ])
     requireText(pricing.html, expected, `flat pricing content: ${expected}`);
-  if (/<li\\b[^>]*>[^<]*<(?:p|h[1-6]|ul|ol)\\b/i.test(pricing.html))
+  if (/<li\b[^>]*>[^<]*<(?:p|h[1-6]|ul|ol)\b/i.test(pricing.html))
     throw new Error("Pricing still nests rich blocks inside list items");
   const caseStudies = page(posts, "resources-case-studies");
   for (const expected of [
