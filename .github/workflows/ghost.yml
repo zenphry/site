@@ -36,6 +36,27 @@ jobs:
       - name: Test contact service
         run: npm --prefix ghost/contact-service ci && npm --prefix ghost/contact-service test
 
+      - name: Build and start the Linux AMD64 contact service
+        run: |
+          docker build --platform linux/amd64 --tag zenphry-contact-service:ci ./ghost/contact-service
+          docker run --detach --rm --name zenphry-contact-service-ci --publish 127.0.0.1:3000:3000 \
+            --env CONTACT_ALLOWED_ORIGINS=http://127.0.0.1:2368 \
+            --env CONTACT_FROM=contact@mg.zenphry.test \
+            --env CONTACT_RECIPIENT=contact@zenphry.com \
+            --env CONTACT_SMTP_HOST=127.0.0.1 \
+            zenphry-contact-service:ci
+
+      - name: Check the Linux AMD64 contact service health endpoint
+        run: |
+          for _ in {1..20}; do
+            if test "$(curl --fail --silent http://127.0.0.1:3000/health)" = '{"ok":true}'; then
+              exit 0
+            fi
+            sleep 1
+          done
+          docker logs zenphry-contact-service-ci
+          exit 1
+
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 
