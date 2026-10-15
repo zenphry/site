@@ -463,6 +463,23 @@ html:not(.js) .theme-toggle {
 .post-card .text-link {
   margin-top: auto;
 }
+/* post_class adds .post to cards; keep the page-level .post padding off them. */
+.post-grid .post-card {
+  padding: 1.5rem;
+}
+.post-card-image {
+  display: block;
+  margin: -1.5rem -1.5rem 1.2rem;
+  overflow: hidden;
+  border-radius: 0.5rem 0.5rem 0 0;
+}
+.post-card-image img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 7 / 4;
+  object-fit: cover;
+}
 .post-meta {
   margin: 0;
   color: var(--muted);

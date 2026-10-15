@@ -94,7 +94,7 @@ To exercise any of these rights, please contact us using the details below. We w
 Zenphry
 6160 Warren Parkway
 Frisco, TX 75034
-+1 972-362-9878
++1 469-879-6464
 contact@zenphry.com`,
   },
 ];

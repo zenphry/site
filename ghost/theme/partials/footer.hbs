@@ -19,9 +19,18 @@
     <div class="footer-contact">
       <p>{{@site.description}}</p>
       <p>6160 Warren Parkway, Frisco, TX 75034<br /><a
-          href="tel:+19723629878"
-        >+1 972-362-9878</a></p>
-      <p><a href="https://x.com/zenphry">X</a></p>
+          href="tel:+14698796464"
+        >+1 469-879-6464</a></p>
+      <p class="footer-social">
+        {{#if @site.twitter}}<a
+            href="{{social_url type="twitter"}}"
+            rel="noopener"
+          >X</a>{{/if}}
+        {{#if @site.linkedin}}<a
+            href="{{social_url type="linkedin"}}"
+            rel="noopener"
+          >LinkedIn</a>{{/if}}
+      </p>
       <p><a href="{{@site.url}}/contact/">Get in touch</a>
         <a href="{{@site.url}}/book-a-call/">Book a call</a></p>
     </div>
