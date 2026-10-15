@@ -972,12 +972,17 @@ html:not(.js) .theme-toggle {
   border-radius: 0.5rem;
 }
 .newsletter {
-  width: min(900px, 100%);
-  margin: 4rem auto 0;
+  width: min(900px, calc(100% - 2.5rem));
+  margin: 4rem auto;
   padding: 2rem;
+  border: 1px solid var(--rule);
+  border-top: 3px solid var(--gold);
   border-radius: 0.5rem;
-  background: var(--inverse);
-  color: var(--inverse-text);
+  background: var(--surface);
+  color: var(--ink);
+}
+.newsletter p {
+  color: var(--muted);
 }
 .newsletter h2 {
   margin: 0;
@@ -993,7 +998,7 @@ html:not(.js) .theme-toggle {
   padding: 0.7rem;
   border: 1px solid var(--rule);
   border-radius: 0.3rem;
-  background: var(--surface);
+  background: var(--paper);
   color: var(--ink);
 }
 .form-status {
@@ -1376,4 +1381,33 @@ html:not(.js) .theme-toggle {
   font-size: 0.7rem;
   font-weight: 800;
   vertical-align: middle;
+}
+
+/* post_class adds .page to the homepage; keep page padding off it. */
+.home.page {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+/* Proof statements: one paragraph of bold items shown as stat cards. */
+.home-introduction .gh-content > p:has(> strong + strong) {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  max-width: 1120px;
+  margin: 2.25rem 0;
+}
+.home-introduction .gh-content > p:has(> strong + strong) strong {
+  margin: 0;
+  padding: 1.35rem 1.5rem;
+  border: 1px solid var(--rule);
+  border-left: 3px solid var(--gold);
+  border-radius: 0.5rem;
+  background: var(--surface);
+  color: var(--ink);
+  font-size: 1.15rem;
+}
+@media (max-width: 620px) {
+  .home-introduction .gh-content > p:has(> strong + strong) {
+    grid-template-columns: 1fr;
+  }
 }
