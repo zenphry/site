@@ -8,18 +8,13 @@
   <div class="post-grid">
     {{#foreach posts}}
       <article class="post-card {{post_class}}">
-        {{#if feature_image}}<a
-            class="post-card-image"
-            href="{{url}}"
-            tabindex="-1"
-            aria-hidden="true"
-          ><img
+        {{#if feature_image}}<div class="post-card-image"><img
               src="{{img_url feature_image}}"
               alt="{{feature_image_alt}}"
               loading="lazy"
               width="1400"
               height="800"
-            /></a>{{/if}}
+            /></div>{{/if}}
         <a href="{{url}}"><h2>{{title}}</h2></a>
         {{#if custom_excerpt}}<p>{{custom_excerpt}}</p>{{else}}<p>{{excerpt words="28"}}</p>{{/if}}
         <p class="post-meta">{{date format="MMMM D, YYYY"}}</p>

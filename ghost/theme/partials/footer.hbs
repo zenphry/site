@@ -21,16 +21,24 @@
       <p>6160 Warren Parkway, Frisco, TX 75034<br /><a
           href="tel:+14698796464"
         >+1 469-879-6464</a></p>
-      <p class="footer-social">
+      <div class="footer-social">
         {{#if @site.twitter}}<a
             href="{{social_url type="twitter"}}"
-            rel="noopener"
-          >X</a>{{/if}}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Zenphry on X"
+          ><svg viewBox="0 0 24 24" aria-hidden="true"><path
+                d="M18.9 2H22l-7.3 8.4L23 22h-6.6l-5.1-6.7L5.4 22H2.3l7.8-9L2 2h6.7l4.6 6.1L18.9 2Zm-1.1 18h1.7L7.3 3.9H5.5L17.8 20Z"
+              /></svg></a>{{/if}}
         {{#if @site.linkedin}}<a
             href="{{social_url type="linkedin"}}"
-            rel="noopener"
-          >LinkedIn</a>{{/if}}
-      </p>
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Zenphry on LinkedIn"
+          ><svg viewBox="0 0 24 24" aria-hidden="true"><path
+                d="M20.4 20.5h-3.6v-5.6c0-1.3 0-3-1.8-3s-2.1 1.4-2.1 2.9v5.7H9.3V9h3.4v1.6h.1c.5-.9 1.6-1.8 3.4-1.8 3.6 0 4.3 2.4 4.3 5.5v6.2ZM5.3 7.4a2.1 2.1 0 1 1 0-4.2 2.1 2.1 0 0 1 0 4.2Zm1.8 13.1H3.5V9h3.6v11.5ZM22.2 0H1.8C.8 0 0 .8 0 1.7v20.6c0 .9.8 1.7 1.8 1.7h20.4c1 0 1.8-.8 1.8-1.7V1.7C24 .8 23.2 0 22.2 0Z"
+              /></svg></a>{{/if}}
+      </div>
       <p><a href="{{@site.url}}/contact/">Get in touch</a>
         <a href="{{@site.url}}/book-a-call/">Book a call</a></p>
     </div>
