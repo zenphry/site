@@ -1530,3 +1530,117 @@ html:not(.js) .theme-toggle {
     max-width: 320px;
   }
 }
+
+/* Business Suite app grid and app page header (HTML cards) */
+.suite-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0 3rem;
+}
+.suite-grid-tools {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+.gh-content .suite-app {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  padding: 1.35rem;
+  border: 1px solid var(--rule);
+  border-radius: 0.5rem;
+  background: var(--surface);
+  color: var(--ink);
+  text-decoration: none;
+}
+.gh-content a.suite-app:hover,
+.gh-content a.suite-app:focus-visible {
+  border-color: var(--gold);
+  box-shadow: 0 10px 24px color-mix(in srgb, var(--ink) 10%, transparent);
+}
+.suite-app-icon,
+.app-hero-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 0.6rem;
+  background: color-mix(in srgb, var(--gold) 16%, transparent);
+  color: var(--gold-deep);
+}
+.suite-icon {
+  width: 1.45rem;
+  height: 1.45rem;
+}
+.suite-app-name {
+  margin-top: 0.4rem;
+  font-size: 1.05rem;
+  font-weight: 800;
+}
+.suite-app-desc {
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+.suite-app-more {
+  margin-top: auto;
+  padding-top: 0.5rem;
+  color: var(--gold-deep);
+  font-size: 0.85rem;
+  font-weight: 800;
+}
+.app-hero {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  margin: 0 0 2rem;
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--rule);
+  border-radius: 0.5rem;
+  background: var(--surface);
+}
+.app-hero-icon {
+  width: 3.25rem;
+  height: 3.25rem;
+}
+.app-hero-icon .suite-icon {
+  width: 1.75rem;
+  height: 1.75rem;
+}
+.app-hero-text p {
+  margin: 0;
+}
+.app-hero-kicker {
+  color: var(--gold-deep);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.app-hero-base {
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+.gh-content .app-hero-back {
+  margin-left: auto;
+  color: var(--gold-deep);
+  font-size: 0.9rem;
+  font-weight: 800;
+  text-decoration: none;
+}
+@media (max-width: 960px) {
+  .suite-grid,
+  .suite-grid-tools {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 620px) {
+  .suite-grid,
+  .suite-grid-tools {
+    grid-template-columns: 1fr;
+  }
+  .gh-content .app-hero-back {
+    margin-left: 0;
+  }
+}

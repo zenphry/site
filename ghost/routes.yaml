@@ -47,6 +47,36 @@ routes:
   /solutions/business-suite/:
     template: page
     data: page.solution-business-suite
+  /solutions/business-suite/erp/:
+    template: page
+    data: page.suite-erp
+  /solutions/business-suite/hr/:
+    template: page
+    data: page.suite-hr
+  /solutions/business-suite/learning/:
+    template: page
+    data: page.suite-learning
+  /solutions/business-suite/insights/:
+    template: page
+    data: page.suite-insights
+  /solutions/business-suite/crm/:
+    template: page
+    data: page.suite-crm
+  /solutions/business-suite/helpdesk/:
+    template: page
+    data: page.suite-helpdesk
+  /solutions/business-suite/lending/:
+    template: page
+    data: page.suite-lending
+  /solutions/business-suite/team-chat/:
+    template: page
+    data: page.suite-team-chat
+  /solutions/business-suite/drive/:
+    template: page
+    data: page.suite-drive
+  /solutions/business-suite/custom-development/:
+    template: page
+    data: page.suite-custom-development
   /about/:
     template: page
     data: page.about
