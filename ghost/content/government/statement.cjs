@@ -15,7 +15,7 @@ const naics = [
 const info = [
   ["Legal Name", "Zenphry IT Services LLC"], ["UEI", "P8TAY263GD23"], ["CAGE Code", "0EQU0"],
   ["Business Type", "Minority-Owned Small Business (Black-Owned LLC)"], ["SAM Status", "Active"],
-  ["CMBL Status", "Approved"], ["State", "Texas"], ["Texas HUB", "Certification in progress"],
+  ["CMBL Status", "Approved"], ["State", "Texas"],
 ];
 const services = [
   "Business process redesign and workflow automation", "CRM and enterprise systems modernization",
