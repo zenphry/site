@@ -1,0 +1,16 @@
+{{!< default}}
+{{#post}}
+  <article class="site-shell post {{post_class}}">
+    <header class="page-header">
+      <p class="eyebrow">Insights</p>
+      <h1>{{title}}</h1>
+      <p class="post-meta">{{date format="MMMM D, YYYY"}} · {{reading_time}}</p>
+    </header>
+    {{#if feature_image}}<img
+        class="feature-image"
+        src="{{img_url feature_image size="xl"}}"
+        alt="{{feature_image_alt}}"
+      />{{/if}}
+    <div class="page-content gh-content">{{content}}</div>
+  </article>
+{{/post}}

@@ -1,0 +1,10 @@
+301:
+  "^/pricing/?$": /resources/pricing/
+  "^/case-studies/?$": /resources/case-studies/
+  "^/case-studies/saas-scaling/?$": /resources/case-studies/saas-scaling/
+  "^/case-studies/founder-bottleneck/?$": /resources/case-studies/founder-bottleneck/
+  "^/case-studies/enterprise-alignment/?$": /resources/case-studies/enterprise-alignment/
+  "^/how-it-works/?$": /resources/how-it-works/
+  "^/services/foundation/?$": /services/operational/
+  "^/services/enterprise/?$": /services/organizational/
+  "^/services/growth/?$": /services/scale/

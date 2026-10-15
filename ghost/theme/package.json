@@ -1,0 +1,98 @@
+{
+  "name": "zenphry-ghost-theme",
+  "version": "1.0.0",
+  "description": "Zenphry's Ghost theme for editable marketing pages and publishing.",
+  "license": "MIT",
+  "author": {
+    "name": "Zenphry",
+    "email": "contact@zenphry.com"
+  },
+  "keywords": [
+    "ghost-theme",
+    "business",
+    "consulting"
+  ],
+  "engines": {
+    "ghost": ">=6.0.0"
+  },
+  "config": {
+    "posts_per_page": 12,
+    "card_assets": true,
+    "custom": {
+      "footer_cta_heading": {
+        "type": "text",
+        "default": "Ready to fix what is holding your business back?",
+        "description": "Heading shown above the footer contact call to action."
+      },
+      "footer_cta_text": {
+        "type": "text",
+        "default": "Start with a restructuring diagnostic to identify the root causes.",
+        "description": "Supporting copy shown above the footer contact call to action."
+      },
+      "homepage_eyebrow": {
+        "type": "text",
+        "default": "Business restructuring and transformation",
+        "description": "Short line shown above the homepage title."
+      },
+      "homepage_supporting_text": {
+        "type": "text",
+        "default": "For operators scaling $1M–$50M businesses.",
+        "description": "Supporting line shown below the homepage title."
+      },
+      "homepage_primary_cta": {
+        "type": "text",
+        "default": "Book a call",
+        "description": "Homepage primary call to action label."
+      },
+      "homepage_secondary_cta": {
+        "type": "text",
+        "default": "Get the diagnostic",
+        "description": "Homepage secondary call to action label."
+      },
+      "services_eyebrow": {
+        "type": "text",
+        "default": "How we help",
+        "description": "Short line above the homepage services section."
+      },
+      "services_heading": {
+        "type": "text",
+        "default": "Support for business restructuring",
+        "description": "Heading above the homepage services section."
+      },
+      "insights_eyebrow": {
+        "type": "text",
+        "default": "Insights",
+        "description": "Short line above the homepage insights section."
+      },
+      "insights_heading": {
+        "type": "text",
+        "default": "Insights on operations, teams, systems, and growth",
+        "description": "Heading above the homepage insights section."
+      },
+      "diagnostic_eyebrow": {
+        "type": "text",
+        "default": "Start with clarity",
+        "description": "Short line above the homepage diagnostic section."
+      },
+      "diagnostic_heading": {
+        "type": "text",
+        "default": "Find the root causes of stalled execution.",
+        "description": "Heading above the homepage diagnostic call to action."
+      },
+      "diagnostic_text": {
+        "type": "text",
+        "default": "Start with a restructuring diagnostic to identify the constraints and set the next priorities.",
+        "description": "Supporting copy above the homepage diagnostic call to action."
+      },
+      "diagnostic_cta": {
+        "type": "text",
+        "default": "Get the diagnostic",
+        "description": "Homepage diagnostic call to action label."
+      },
+      "booking_url": {
+        "type": "text",
+        "description": "Booking calendar URL, embedded on the Book a call page. Leave empty to send visitors to contact."
+      }
+    }
+  }
+}

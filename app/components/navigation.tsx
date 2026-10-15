@@ -15,7 +15,6 @@ import {
 import { Button } from "./ui/button";
 import { BookingModal } from "./booking-modal";
 import { ThemeToggle } from "./theme-toggle";
-import { AnnouncementBar } from "./announcement-bar";
 import logoColor from "~/assets/logo-color.svg";
 import logoWhite from "~/assets/logo-white.svg";
 
@@ -130,7 +129,6 @@ export function Navigation() {
 
   return (
     <div className="fixed top-0 left-0 right-0 z-50">
-      <AnnouncementBar />
       <header
         className={`bg-white/75 dark:bg-gray-900/75 backdrop-blur-md border-b border-gray-200 dark:border-gray-800 transition-shadow duration-200 ${
           scrolled ? "shadow-md border-gray-300 dark:border-gray-700" : ""

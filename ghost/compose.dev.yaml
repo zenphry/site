@@ -1,0 +1,89 @@
+name: zenphry-ghost-dev
+
+services:
+  ghost:
+    image: ghost:6.69.0@sha256:55131b90d48c3cecae6c085f873b2067542ababd286b12d08474b2b34328e266
+    restart: "no"
+    environment:
+      url: http://127.0.0.1:2368
+      # Local preview only: sign in without an emailed device-verification code.
+      security__staffDeviceVerification: "false"
+      database__client: mysql
+      database__connection__host: mysql
+      database__connection__user: ghost
+      database__connection__password: ghost-local-only
+      database__connection__database: ghost
+      mail__transport: SMTP
+      mail__from: local@zenphry.test
+      mail__options__host: mailpit
+      mail__options__port: 1025
+      mail__options__secure: "false"
+    volumes:
+      - ./.local/ghost:/var/lib/ghost/content
+      - ./.local/tmp:/tmp
+    depends_on:
+      mysql:
+        condition: service_healthy
+      mailpit:
+        condition: service_started
+
+  contact-service:
+    build:
+      context: ./contact-service
+    restart: "no"
+    environment:
+      CONTACT_ALLOWED_ORIGINS: http://127.0.0.1:2368
+      CONTACT_FROM: local@zenphry.test
+      CONTACT_RECIPIENT: contact@zenphry.test
+      CONTACT_SMTP_HOST: mailpit
+      CONTACT_SMTP_PORT: "1025"
+      CONTACT_SMTP_SECURE: "false"
+      CONTACT_SMTP_REQUIRE_TLS: "false"
+    depends_on:
+      mailpit:
+        condition: service_started
+
+  caddy:
+    image: caddy:2.11.2-alpine@sha256:834468128c7696cec0ceea6172f7d692daf645ae51983ca76e39da54a97c570d
+    restart: "no"
+    ports:
+      - "127.0.0.1:2368:2368"
+    volumes:
+      - ./Caddyfile.dev:/etc/caddy/Caddyfile:ro
+    depends_on:
+      ghost:
+        condition: service_started
+      contact-service:
+        condition: service_started
+
+  mailpit:
+    image: ghcr.io/axllent/mailpit:v1.31.3@sha256:ed9b00c609e77e99c79b93f1178255ebc271868920f2c69a8d166bd5634ed10d
+    restart: "no"
+    ports:
+      - "127.0.0.1:8025:8025"
+
+  mysql:
+    image: mysql:8.4.11@sha256:6ea90827b1100f8f2ae306a539f86d2c264a26ed435a2a9f75551dd5c3aeb242
+    restart: "no"
+    environment:
+      MYSQL_DATABASE: ghost
+      MYSQL_USER: ghost
+      MYSQL_PASSWORD: ghost-local-only
+      MYSQL_ROOT_PASSWORD: ghost-local-root-only
+    volumes:
+      - ./.local/mysql:/var/lib/mysql
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "mysqladmin",
+          "ping",
+          "-h",
+          "localhost",
+          "-uroot",
+          "-pghost-local-root-only",
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+      start_period: 10s

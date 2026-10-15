@@ -1,0 +1,90 @@
+name: Ghost migration checks
+
+on:
+  pull_request:
+    paths:
+      - "ghost/**"
+      - "app/**"
+      - "public/**"
+      - "package.json"
+      - "package-lock.json"
+      - "vite.config.*"
+      - "react-router.config.*"
+      - ".github/workflows/ghost.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  ghost:
+    name: Export, validate, and package Ghost
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Test contact service
+        run: npm --prefix ghost/contact-service ci && npm --prefix ghost/contact-service test
+
+      - name: Build and start the Linux AMD64 contact service
+        run: |
+          docker build --platform linux/amd64 --tag zenphry-contact-service:ci ./ghost/contact-service
+          docker run --detach --rm --name zenphry-contact-service-ci --publish 127.0.0.1:3000:3000 \
+            --env CONTACT_ALLOWED_ORIGINS=http://127.0.0.1:2368 \
+            --env CONTACT_FROM=contact@mg.zenphry.test \
+            --env CONTACT_RECIPIENT=contact@zenphry.com \
+            --env CONTACT_SMTP_HOST=127.0.0.1 \
+            zenphry-contact-service:ci
+
+      - name: Check the Linux AMD64 contact service health endpoint
+        run: |
+          for _ in {1..20}; do
+            if test "$(curl --fail --silent http://127.0.0.1:3000/health)" = '{"ok":true}'; then
+              exit 0
+            fi
+            sleep 1
+          done
+          docker logs zenphry-contact-service-ci
+          exit 1
+
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Export editable Ghost content
+        run: npm run ghost:export
+
+      - name: Verify migration routes and content
+        run: |
+          npm run ghost:verify
+          npm run ghost:verify-export
+
+      - name: Test reusable page components
+        run: node --test ghost/tests/*.test.mjs
+
+      - name: Validate Ghost theme
+        run: npm run ghost:gscan
+
+      - name: Package Ghost theme
+        run: npm run ghost:package-theme
+
+      - name: Upload Ghost migration artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ghost-migration-${{ github.event.pull_request.number }}
+          path: |
+            ghost/content/export/zenphry-content.json
+            ghost/content/export/zenphry-ghost-theme.zip
+            ghost/routes.yaml
+            ghost/redirects.yaml
+          if-no-files-found: error
+          retention-days: 7

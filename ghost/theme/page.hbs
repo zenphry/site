@@ -1,0 +1,13 @@
+{{! Imported marketing pages are editable in Ghost Admin. }}
+{{!< default}}
+{{#page}}
+  <article class="site-shell page content-page {{post_class}}">
+    {{#if @page.show_title_and_feature_image}}
+      <header class="page-header">
+        <h1>{{title}}</h1>
+        {{#if custom_excerpt}}<p>{{custom_excerpt}}</p>{{/if}}
+      </header>
+    {{/if}}
+    <div class="page-content gh-content">{{content}}</div>
+  </article>
+{{/page}}

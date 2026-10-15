@@ -1,0 +1,96 @@
+{{!< default}}
+{{#page}}
+  <article class="home {{post_class}}">
+    <section class="home-hero">
+      <div class="site-shell home-hero-inner">
+        <p class="eyebrow">{{@custom.homepage_eyebrow}}</p>
+        <h1>{{title}}</h1>
+        <p class="home-hero-copy">{{@custom.homepage_supporting_text}}</p>
+        <div class="button-row">
+          <a
+            class="button"
+            href="{{@site.url}}/book-a-call/"
+          >{{@custom.homepage_primary_cta}}</a>
+          <a
+            class="text-link"
+            href="{{@site.url}}/services/diagnostic/"
+          >{{@custom.homepage_secondary_cta}}
+            <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="home-introduction">
+      <div class="site-shell gh-content">{{content}}</div>
+    </section>
+
+    <section class="home-section home-services">
+      <div class="site-shell">
+        <div class="section-heading section-heading-row">
+          <div><p class="eyebrow">{{@custom.services_eyebrow}}</p><h2>{{@custom.services_heading}}</h2></div>
+          <a class="text-link" href="{{@site.url}}/services/">Explore all
+            services
+            <span aria-hidden="true">→</span></a>
+        </div>
+        {{#get
+          "pages"
+          filter="slug:[services-diagnostic,services-operational,services-organizational,services-financial,services-technology,services-scale,services-advisory,services-private-cloud]"
+          limit="8"
+          order="title asc"
+        }}
+          <div class="card-grid service-grid">
+            {{#foreach pages}}
+              {{> "service-card"}}
+            {{/foreach}}
+          </div>
+        {{/get}}
+      </div>
+    </section>
+
+    {{#get "posts" limit="3" include="tags,authors" order="published_at desc"}}
+      {{#if posts}}
+        <section class="home-insights">
+          <div class="site-shell">
+            <div class="section-heading section-heading-row">
+              <div>
+                <p class="eyebrow">{{@custom.insights_eyebrow}}</p>
+                <h2>{{@custom.insights_heading}}</h2>
+              </div>
+              <a class="text-link" href="{{@site.url}}/resources/blog/">View all
+                insights
+                <span aria-hidden="true">→</span></a>
+            </div>
+            <div class="post-grid">
+              {{#foreach posts}}
+                <article class="post-card {{post_class}}">
+                  <p class="post-meta">{{date format="MMMM D, YYYY"}}</p>
+                  <a href="{{url}}"><h3>{{title}}</h3></a>
+                  {{#if custom_excerpt}}<p>{{custom_excerpt}}</p>{{else}}<p
+                    >{{excerpt words="24"}}</p>{{/if}}
+                  <a class="text-link" href="{{url}}">Read article
+                    <span aria-hidden="true">→</span></a>
+                </article>
+              {{/foreach}}
+            </div>
+          </div>
+        </section>
+      {{/if}}
+    {{/get}}
+
+    {{> "newsletter"}}
+
+    <section class="home-diagnostic">
+      <div class="site-shell diagnostic-inner">
+        <div>
+          <p class="eyebrow">{{@custom.diagnostic_eyebrow}}</p>
+          <h2>{{@custom.diagnostic_heading}}</h2>
+          <p>{{@custom.diagnostic_text}}</p>
+        </div>
+        <a
+          class="button button-inverse"
+          href="{{@site.url}}/services/diagnostic/"
+        >{{@custom.diagnostic_cta}}</a>
+      </div>
+    </section>
+  </article>
+{{/page}}

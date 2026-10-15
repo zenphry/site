@@ -1,0 +1,350 @@
+<header class="site-header">
+  <div class="site-shell header-inner">
+    <a
+      class="site-brand"
+      href="{{@site.url}}/"
+      aria-label="{{@site.title}} home"
+    >
+      {{#if @site.logo}}<img
+          src="{{@site.logo}}"
+          alt="{{@site.title}}"
+        />{{else}}<img
+          src="{{asset 'images/zenphry-logo.svg'}}"
+          alt="Zenphry"
+        />{{/if}}
+    </a>
+    <nav
+      class="site-nav"
+      id="primary-navigation"
+      aria-label="Primary navigation"
+      data-site-nav
+    >
+      <ul class="nav-menu">
+        <li class="nav-item" data-nav-dropdown data-nav-section="/services/">
+          <button
+            class="nav-trigger"
+            type="button"
+            aria-expanded="false"
+            aria-controls="nav-panel-services"
+            data-nav-trigger
+          >
+            Services
+            <svg
+              class="nav-chevron"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+              focusable="false"
+            ><path d="m6 9 6 6 6-6" /></svg>
+          </button>
+          <div
+            class="nav-panel nav-panel-mega"
+            id="nav-panel-services"
+            data-nav-panel
+          >
+            <div class="nav-panel-column">
+              <a class="nav-all-link" href="{{@site.url}}/services/">All
+                services
+                <span aria-hidden="true">→</span></a>
+              <ul class="nav-list">
+                <li><a
+                    class="nav-link nav-link-rich"
+                    href="{{@site.url}}/services/technology/"
+                  ><svg
+                      class="nav-icon"
+                      viewBox="0 0 24 24"
+                      aria-hidden="true"
+                      focusable="false"
+                    ><path
+                        d="M12 20v2M12 2v2M17 20v2M17 2v2M2 12h2M2 17h2M2 7h2M20 12h2M20 17h2M20 7h2M7 20v2M7 2v2"
+                      /><rect x="4" y="4" width="16" height="16" rx="2" /><rect
+                        x="8"
+                        y="8"
+                        width="8"
+                        height="8"
+                        rx="1"
+                      /></svg><span class="nav-link-text"><span
+                        class="nav-link-title"
+                      >Technology &amp; Systems</span><span
+                        class="nav-link-description"
+                      >Modernise tech stacks and eliminate bottlenecks.</span></span></a></li>
+                <li><a
+                    class="nav-link nav-link-rich"
+                    href="{{@site.url}}/services/private-cloud/"
+                  ><svg
+                      class="nav-icon"
+                      viewBox="0 0 24 24"
+                      aria-hidden="true"
+                      focusable="false"
+                    ><path
+                        d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"
+                      /></svg><span class="nav-link-text"><span
+                        class="nav-link-title"
+                      >Private Cloud</span><span
+                        class="nav-link-description"
+                      >White-label private cloud for US-based clients.</span></span></a></li>
+                <li><a
+                    class="nav-link nav-link-rich"
+                    href="{{@site.url}}/services/operational/"
+                  ><svg
+                      class="nav-icon"
+                      viewBox="0 0 24 24"
+                      aria-hidden="true"
+                      focusable="false"
+                    ><path
+                        d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"
+                      /><circle cx="12" cy="12" r="3" /></svg><span
+                      class="nav-link-text"
+                    ><span class="nav-link-title">Operational Restructuring</span><span
+                        class="nav-link-description"
+                      >Streamline operations and cut inefficiencies.</span></span></a></li>
+                <li><a
+                    class="nav-link nav-link-rich"
+                    href="{{@site.url}}/services/organizational/"
+                  ><svg
+                      class="nav-icon"
+                      viewBox="0 0 24 24"
+                      aria-hidden="true"
+                      focusable="false"
+                    ><path
+                        d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M16 3.128a4 4 0 0 1 0 7.744M22 21v-2a4 4 0 0 0-3-3.87"
+                      /><circle cx="9" cy="7" r="4" /></svg><span
+                      class="nav-link-text"
+                    ><span class="nav-link-title">Organizational &amp; Team</span><span
+                        class="nav-link-description"
+                      >Realign teams and leadership for execution.</span></span></a></li>
+                <li><a
+                    class="nav-link nav-link-rich"
+                    href="{{@site.url}}/services/financial/"
+                  ><svg
+                      class="nav-icon"
+                      viewBox="0 0 24 24"
+                      aria-hidden="true"
+                      focusable="false"
+                    ><path
+                        d="M3 3v16a2 2 0 0 0 2 2h16M18 17V9M13 17V5M8 17v-3"
+                      /></svg><span class="nav-link-text"><span
+                        class="nav-link-title"
+                      >Financial Execution</span><span
+                        class="nav-link-description"
+                      >Tighten financial discipline and cash control.</span></span></a></li>
+                <li><a
+                    class="nav-link nav-link-rich"
+                    href="{{@site.url}}/services/scale/"
+                  ><svg
+                      class="nav-icon"
+                      viewBox="0 0 24 24"
+                      aria-hidden="true"
+                      focusable="false"
+                    ><path d="M16 7h6v6M22 7l-8.5 8.5-5-5L2 17" /></svg><span
+                      class="nav-link-text"
+                    ><span class="nav-link-title">Growth &amp; Scale</span><span
+                        class="nav-link-description"
+                      >Build the systems to scale without chaos.</span></span></a></li>
+              </ul>
+            </div>
+            <div class="nav-feature">
+              <p class="nav-feature-badge">Most Popular</p>
+              <p class="nav-feature-title">Restructuring Diagnostic</p>
+              <p class="nav-feature-copy">Start here. Identify root causes
+                before restructuring begins.</p>
+              <p class="nav-feature-meta"><span>Timeline:</span>
+                2–3 weeks</p>
+              <a
+                class="nav-feature-cta"
+                href="{{@site.url}}/services/diagnostic/"
+                aria-label="Start here: Restructuring Diagnostic"
+              >Start Here <span aria-hidden="true">→</span></a>
+            </div>
+          </div>
+        </li>
+        <li class="nav-item" data-nav-dropdown data-nav-section="/solutions/">
+          <button
+            class="nav-trigger"
+            type="button"
+            aria-expanded="false"
+            aria-controls="nav-panel-solutions"
+            data-nav-trigger
+          >
+            Solutions
+            <svg
+              class="nav-chevron"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+              focusable="false"
+            ><path d="m6 9 6 6 6-6" /></svg>
+          </button>
+          <div
+            class="nav-panel nav-panel-solutions"
+            id="nav-panel-solutions"
+            data-nav-panel
+          >
+            <a class="nav-all-link" href="{{@site.url}}/solutions/">All
+              solutions
+              <span aria-hidden="true">→</span></a>
+            <div class="nav-panel-groups">
+              <div class="nav-group">
+                <p class="nav-group-label" id="nav-group-industry">By industry</p>
+                <ul class="nav-list" aria-labelledby="nav-group-industry">
+                  <li><a
+                      class="nav-link nav-link-rich"
+                      href="{{@site.url}}/solutions/education-private-cloud/"
+                    ><span class="nav-link-text"><span
+                          class="nav-link-title"
+                        >Education</span><span class="nav-link-description">Move
+                          beyond VMware with managed open-source private cloud.</span></span></a></li>
+                  <li><a
+                      class="nav-link nav-link-rich"
+                      href="{{@site.url}}/solutions/legal-workspace/"
+                    ><span class="nav-link-text"><span
+                          class="nav-link-title"
+                        >Legal</span><span class="nav-link-description">Central
+                          files and cloud VDI for distributed legal teams.</span></span></a></li>
+                </ul>
+              </div>
+              <div class="nav-group">
+                <p class="nav-group-label" id="nav-group-capability">By
+                  capability</p>
+                <ul class="nav-list" aria-labelledby="nav-group-capability">
+                  <li><a
+                      class="nav-link nav-link-rich"
+                      href="{{@site.url}}/solutions/private-ai-hr-assistant/"
+                    ><span class="nav-link-text"><span
+                          class="nav-link-title"
+                        >Private AI for HR</span><span
+                          class="nav-link-description"
+                        >Answer routine employee questions from approved
+                          policies.</span></span></a></li>
+                  <li><a
+                      class="nav-link nav-link-rich"
+                      href="{{@site.url}}/solutions/managed-vpn/"
+                    ><span class="nav-link-text"><span
+                          class="nav-link-title"
+                        >Managed VPN</span><span
+                          class="nav-link-description"
+                        >Secure access for growing teams, sites, and systems.</span></span></a></li>
+                </ul>
+              </div>
+            </div>
+            <a
+              class="nav-suite"
+              href="{{@site.url}}/solutions/business-suite/"
+            ><span class="nav-feature-badge">New</span><span
+                class="nav-suite-title"
+              >Zenphry Business Suite</span><span class="nav-suite-copy">CRM,
+                accounting, ERP, HR, payroll and helpdesk in one managed
+                platform.</span><span class="nav-suite-cta">Explore the suite
+                <span aria-hidden="true">→</span></span></a>
+          </div>
+        </li>
+        <li class="nav-item" data-nav-dropdown data-nav-section="/resources/">
+          <button
+            class="nav-trigger"
+            type="button"
+            aria-expanded="false"
+            aria-controls="nav-panel-resources"
+            data-nav-trigger
+          >
+            Resources
+            <svg
+              class="nav-chevron"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+              focusable="false"
+            ><path d="m6 9 6 6 6-6" /></svg>
+          </button>
+          <div
+            class="nav-panel nav-panel-simple"
+            id="nav-panel-resources"
+            data-nav-panel
+          >
+            <ul class="nav-list">
+              <li><a
+                  class="nav-link"
+                  href="{{@site.url}}/resources/case-studies/"
+                >Case Studies</a></li>
+              <li><a
+                  class="nav-link"
+                  href="{{@site.url}}/resources/how-it-works/"
+                >How It Works</a></li>
+              <li><a
+                  class="nav-link"
+                  href="{{@site.url}}/resources/blog/"
+                >Blog</a></li>
+              <li><a
+                  class="nav-link"
+                  href="{{@site.url}}/resources/faq/"
+                >FAQ</a></li>
+              <li><a
+                  class="nav-link"
+                  href="{{@site.url}}/resources/pricing/"
+                >Pricing</a></li>
+            </ul>
+          </div>
+        </li>
+        <li class="nav-item" data-nav-dropdown data-nav-section="/about/">
+          <button
+            class="nav-trigger"
+            type="button"
+            aria-expanded="false"
+            aria-controls="nav-panel-about"
+            data-nav-trigger
+          >
+            About
+            <svg
+              class="nav-chevron"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+              focusable="false"
+            ><path d="m6 9 6 6 6-6" /></svg>
+          </button>
+          <div
+            class="nav-panel nav-panel-simple"
+            id="nav-panel-about"
+            data-nav-panel
+          >
+            <ul class="nav-list">
+              <li><a class="nav-link" href="{{@site.url}}/about/">About Us</a></li>
+              <li><a
+                  class="nav-link"
+                  href="{{@site.url}}/about/what-we-do/"
+                >What We Do</a></li>
+              <li><a
+                  class="nav-link"
+                  href="{{@site.url}}/about/team/"
+                >Team</a></li>
+              <li><a class="nav-link" href="{{@site.url}}/about/vision/">Vision
+                  &amp; Values</a></li>
+            </ul>
+          </div>
+        </li>
+        <li class="nav-item"><a
+            class="nav-top-link"
+            href="{{@site.url}}/contact/"
+          >Contact</a></li>
+      </ul>
+    </nav>
+    <div class="header-actions">
+      <button
+        class="theme-toggle"
+        type="button"
+        data-theme-toggle
+        aria-label="Switch to dark theme"
+        title="Switch color theme"
+      >
+        <span aria-hidden="true" data-theme-icon>◐</span>
+      </button>
+      <button
+        class="nav-toggle"
+        type="button"
+        data-nav-toggle
+        aria-expanded="false"
+        aria-controls="primary-navigation"
+      >
+        <span class="sr-only">Open menu</span><span
+          aria-hidden="true"
+        >Menu</span>
+      </button>
+    </div>
+    <a class="button button-small" href="{{@site.url}}/book-a-call/">Book a call</a>
+  </div>
+</header>

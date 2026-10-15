@@ -1,0 +1,61 @@
+{
+  "articles": [
+    {
+      "sequence": 1,
+      "slug": "change-readiness-assessment",
+      "title": "How to assess change readiness before launching a new process",
+      "htmlFile": "change-readiness-assessment.html",
+      "sourceFile": "change-readiness-assessment.html",
+      "originalSource": "change-readiness-assessment.html",
+      "authoredBy": "Marvellous Chuyuoh",
+      "reviewStatus": "ready",
+      "customExcerpt": "Assess people, capacity, support and ownership before a process rollout.",
+      "metaTitle": "Assess Change Readiness Before Rollout | Zenphry",
+      "metaDescription": "Use a practical readiness review to identify gaps in ownership, capacity, practice and support before a process rollout.",
+      "tags": ["Change Management"]
+    },
+    {
+      "sequence": 2,
+      "slug": "change-communication-plan-for-managers",
+      "title": "How managers can explain workplace change and respond to employee concerns",
+      "htmlFile": "change-communication-plan-for-managers.html",
+      "sourceFile": "change-communication-plan-for-managers.html",
+      "originalSource": "change-communication-plan-for-managers.html",
+      "authoredBy": "Marvellous Chuyuoh",
+      "reviewStatus": "ready",
+      "customExcerpt": "Help managers explain workplace change through real tasks, clear ownership and useful follow-up.",
+      "metaTitle": "A Change Communication Plan for Managers | Zenphry",
+      "metaDescription": "Help managers explain workplace change, handle employee concerns and keep questions moving to clear owners and updates.",
+      "tags": ["Change Management"]
+    },
+    {
+      "sequence": 3,
+      "slug": "measure-change-adoption-after-launch",
+      "title": "How to measure change adoption after a new process goes live",
+      "htmlFile": "measure-change-adoption-after-launch.html",
+      "sourceFile": "measure-change-adoption-after-launch.html",
+      "originalSource": "measure-change-adoption-after-launch.html",
+      "authoredBy": "Marvellous Chuyuoh",
+      "reviewStatus": "ready",
+      "customExcerpt": "Measure process use, quality, outcomes and obstacles after a new process goes live.",
+      "metaTitle": "Measure Change Adoption After Launch | Zenphry",
+      "metaDescription": "Measure process adoption after launch with defined behaviours, quality checks, relevant outcomes and a practical review rhythm.",
+      "tags": ["Change Management"]
+    },
+    {
+      "sequence": 4,
+      "slug": "zenphry-ai-adoption-change-management",
+      "title": "Your Team Has AI Tools. What Changes on Monday?",
+      "htmlFile": "zenphry-ai-adoption-change-management.html",
+      "sourceFile": "zenphry-ai-adoption-change-management.html",
+      "originalSource": "zenphry-ai-adoption-change-management.pdf",
+      "authoredBy": "Marvellous Chuyuoh",
+      "authoredDate": "2026-10-05",
+      "reviewStatus": "needs-review",
+      "customExcerpt": "A practical guide to preparing people for AI-assisted work, from one task to a supported pilot.",
+      "metaTitle": "AI Adoption Change Management | Zenphry",
+      "metaDescription": "Prepare people for AI-assisted work by defining the task, responsibilities, manager support and measures for a practical pilot.",
+      "tags": ["Change Management", "AI Adoption"]
+    }
+  ]
+}

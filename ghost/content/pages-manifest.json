@@ -1,0 +1,47 @@
+[
+  { "path": "/", "slug": "home" },
+  { "path": "/services", "slug": "services" },
+  { "path": "/services/diagnostic", "slug": "services-diagnostic" },
+  { "path": "/services/technology", "slug": "services-technology" },
+  { "path": "/services/private-cloud", "slug": "services-private-cloud" },
+  { "path": "/services/financial", "slug": "services-financial" },
+  { "path": "/services/advisory", "slug": "services-advisory" },
+  { "path": "/services/operational", "slug": "services-operational" },
+  { "path": "/services/organizational", "slug": "services-organizational" },
+  { "path": "/services/scale", "slug": "services-scale" },
+  { "path": "/solutions", "slug": "solutions" },
+  {
+    "path": "/solutions/education-private-cloud",
+    "slug": "solution-education-private-cloud"
+  },
+  { "path": "/solutions/legal-workspace", "slug": "solution-legal-workspace" },
+  {
+    "path": "/solutions/private-ai-hr-assistant",
+    "slug": "solution-private-ai-hr-assistant"
+  },
+  { "path": "/solutions/managed-vpn", "slug": "solution-managed-vpn" },
+  { "path": "/about", "slug": "about" },
+  { "path": "/about/what-we-do", "slug": "about-what-we-do" },
+  { "path": "/about/team", "slug": "about-team" },
+  { "path": "/about/vision", "slug": "about-vision" },
+  { "path": "/resources/pricing", "slug": "resources-pricing" },
+  { "path": "/resources/case-studies", "slug": "resources-case-studies" },
+  {
+    "path": "/resources/case-studies/saas-scaling",
+    "slug": "case-study-saas-scaling"
+  },
+  {
+    "path": "/resources/case-studies/founder-bottleneck",
+    "slug": "case-study-founder-bottleneck"
+  },
+  {
+    "path": "/resources/case-studies/enterprise-alignment",
+    "slug": "case-study-enterprise-alignment"
+  },
+  { "path": "/resources/how-it-works", "slug": "resources-how-it-works" },
+  { "path": "/resources/faq", "slug": "resources-faq" },
+  { "path": "/privacy-policy", "slug": "privacy-policy" },
+  { "path": "/contact", "slug": "contact" },
+  { "path": "/book-a-call", "slug": "book-a-call" },
+  { "path": "/thank-you", "slug": "thank-you" }
+]
