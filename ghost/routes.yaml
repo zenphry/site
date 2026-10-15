@@ -44,6 +44,9 @@ routes:
   /solutions/managed-vpn/:
     template: page
     data: page.solution-managed-vpn
+  /solutions/business-suite/:
+    template: page
+    data: page.solution-business-suite
   /about/:
     template: page
     data: page.about

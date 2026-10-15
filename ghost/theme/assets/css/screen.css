@@ -238,7 +238,7 @@ html:not(.js) .nav-item:focus-within > .nav-panel-mega {
   width: min(580px, calc(100vw - 2.5rem));
 }
 .nav-panel-solutions {
-  width: min(460px, calc(100vw - 2.5rem));
+  width: min(500px, calc(100vw - 2.5rem));
 }
 .nav-panel-simple {
   width: 13rem;
@@ -1324,4 +1324,56 @@ html:not(.js) .theme-toggle {
   margin-top: 0.75rem;
   color: var(--muted);
   font-size: 0.9rem;
+}
+
+.nav-suite {
+  display: grid;
+  gap: 0.35rem;
+  margin-top: 0.75rem;
+  padding: 1rem;
+  border: 1px solid color-mix(in srgb, var(--gold) 45%, transparent);
+  border-radius: 0.5rem;
+  background: color-mix(in srgb, var(--gold) 12%, var(--surface));
+  color: var(--ink);
+  text-decoration: none;
+}
+.nav-suite .nav-feature-badge {
+  justify-self: start;
+  margin: 0;
+}
+.nav-suite-title {
+  font-size: 1.05rem;
+  font-weight: 800;
+}
+.nav-suite-copy {
+  color: var(--muted);
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+.nav-suite-cta {
+  color: var(--gold-deep);
+  font-size: 0.85rem;
+  font-weight: 800;
+}
+.nav-suite:hover,
+.nav-suite:focus-visible {
+  border-color: var(--gold);
+}
+.nav-suite:hover .nav-suite-cta,
+.nav-suite:focus-visible .nav-suite-cta {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+.footer-highlight {
+  font-weight: 700;
+}
+.footer-highlight span {
+  margin-left: 0.35rem;
+  padding: 0.05rem 0.45rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--gold) 22%, transparent);
+  color: var(--gold-deep);
+  font-size: 0.7rem;
+  font-weight: 800;
+  vertical-align: middle;
 }
