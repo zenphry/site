@@ -6,7 +6,19 @@
     <div class="page-content gh-content">{{content}}</div>
     <section class="booking-action" aria-label="Book a call with Zenphry">
       {{#if @custom.booking_url}}
-        <a class="button" href="{{@custom.booking_url}}">Open booking calendar</a>
+        <iframe
+          class="booking-embed"
+          src="{{@custom.booking_url}}"
+          title="Book a discovery call with Zenphry"
+          loading="lazy"
+        ></iframe>
+        <p class="booking-fallback">Calendar not loading?
+          <a
+            class="text-link"
+            href="{{@custom.booking_url}}"
+            target="_blank"
+            rel="noopener noreferrer"
+          >Open it in a new tab</a></p>
       {{else}}
         <p><a class="text-link" href="{{@site.url}}/contact/">Send an enquiry</a>
           to arrange a discovery call.</p>

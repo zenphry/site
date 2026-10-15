@@ -6,21 +6,79 @@
       <a class="button" href="{{@site.url}}/book-a-call/">Book a call</a>
     </div>
   </div>
-  <div class="site-shell footer-inner">
-    <a class="site-brand footer-brand" href="{{@site.url}}/">
-      {{#if @site.logo}}<img
-          src="{{@site.logo}}"
-          alt="{{@site.title}}"
-        />{{else}}<img
-          src="{{asset 'images/zenphry-logo.svg'}}"
-          alt="Zenphry"
-        />{{/if}}
-    </a>
-    <div class="footer-contact">
-      <p>{{@site.description}}</p>
-      <p>6160 Warren Parkway, Frisco, TX 75034<br /><a
-          href="tel:+14698796464"
-        >+1 469-879-6464</a></p>
+  <div class="site-shell footer-main">
+    <div class="footer-top">
+      <div class="footer-about">
+        <a class="site-brand footer-brand" href="{{@site.url}}/">
+          {{#if @site.logo}}<img
+              src="{{@site.logo}}"
+              alt="{{@site.title}}"
+            />{{else}}<img
+              src="{{asset 'images/zenphry-logo.svg'}}"
+              alt="Zenphry"
+            />{{/if}}
+        </a>
+        <p class="footer-tagline">{{@site.description}}</p>
+        <address class="footer-address">
+          6160 Warren Parkway<br />Frisco, TX 75034, USA<br />
+          <a href="tel:+14698796464">+1 469-879-6464</a><br />
+          <a href="mailto:contact@zenphry.com">contact@zenphry.com</a>
+        </address>
+      </div>
+      <nav class="footer-nav" aria-label="Footer">
+        <div class="footer-col">
+          <h2 class="footer-heading">Services</h2>
+          <ul>
+            <li><a href="{{@site.url}}/services/technology/">Technology &amp;
+                Systems</a></li>
+            <li><a href="{{@site.url}}/services/private-cloud/">Private Cloud</a></li>
+            <li><a href="{{@site.url}}/services/operational/">Operational
+                Restructuring</a></li>
+            <li><a href="{{@site.url}}/services/organizational/">Organizational
+                &amp; Team</a></li>
+            <li><a href="{{@site.url}}/services/financial/">Financial Execution</a></li>
+            <li><a href="{{@site.url}}/services/scale/">Growth &amp; Scale</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h2 class="footer-heading">Solutions</h2>
+          <ul>
+            <li><a href="{{@site.url}}/solutions/">All Solutions</a></li>
+            <li><a
+                href="{{@site.url}}/solutions/education-private-cloud/"
+              >Education</a></li>
+            <li><a href="{{@site.url}}/solutions/legal-workspace/">Legal
+                Workspace</a></li>
+            <li><a
+                href="{{@site.url}}/solutions/private-ai-hr-assistant/"
+              >Private AI for HR</a></li>
+            <li><a href="{{@site.url}}/solutions/managed-vpn/">Managed VPN</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h2 class="footer-heading">Resources</h2>
+          <ul>
+            <li><a href="{{@site.url}}/resources/case-studies/">Case Studies</a></li>
+            <li><a href="{{@site.url}}/resources/how-it-works/">How It Works</a></li>
+            <li><a href="{{@site.url}}/resources/blog/">Blog</a></li>
+            <li><a href="{{@site.url}}/resources/faq/">FAQ</a></li>
+            <li><a href="{{@site.url}}/resources/pricing/">Pricing</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h2 class="footer-heading">Company</h2>
+          <ul>
+            <li><a href="{{@site.url}}/about/">About Us</a></li>
+            <li><a href="{{@site.url}}/about/what-we-do/">What We Do</a></li>
+            <li><a href="{{@site.url}}/about/team/">Team</a></li>
+            <li><a href="{{@site.url}}/about/vision/">Vision &amp; Values</a></li>
+            <li><a href="{{@site.url}}/contact/">Contact</a></li>
+            <li><a href="{{@site.url}}/book-a-call/">Book a Call</a></li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+    <div class="footer-bottom">
       <div class="footer-social">
         {{#if @site.twitter}}<a
             href="{{social_url type="twitter"}}"
@@ -39,48 +97,18 @@
                 d="M20.4 20.5h-3.6v-5.6c0-1.3 0-3-1.8-3s-2.1 1.4-2.1 2.9v5.7H9.3V9h3.4v1.6h.1c.5-.9 1.6-1.8 3.4-1.8 3.6 0 4.3 2.4 4.3 5.5v6.2ZM5.3 7.4a2.1 2.1 0 1 1 0-4.2 2.1 2.1 0 0 1 0 4.2Zm1.8 13.1H3.5V9h3.6v11.5ZM22.2 0H1.8C.8 0 0 .8 0 1.7v20.6c0 .9.8 1.7 1.8 1.7h20.4c1 0 1.8-.8 1.8-1.7V1.7C24 .8 23.2 0 22.2 0Z"
               /></svg></a>{{/if}}
       </div>
-      <p><a href="{{@site.url}}/contact/">Get in touch</a>
-        <a href="{{@site.url}}/book-a-call/">Book a call</a></p>
+      <p class="footer-legal">Zenphry &copy; 2022&ndash;{{date format="YYYY"}}
+        <a href="{{@site.url}}/privacy-policy/">Privacy Policy</a></p>
+      <p class="footer-locale"><svg
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        ><circle cx="12" cy="12" r="9" /><path
+            d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3Z"
+          /></svg>English
+        <span>United States</span></p>
     </div>
-    <div class="footer-links footer-groups">
-      <div><strong>Services</strong><a
-          href="{{@site.url}}/services/technology/"
-        >Technology &amp; Systems</a><a
-          href="{{@site.url}}/services/operational/"
-        >Operational Restructuring</a><a
-          href="{{@site.url}}/services/organizational/"
-        >Organizational &amp; Team</a><a
-          href="{{@site.url}}/services/financial/"
-        >Financial Execution</a><a href="{{@site.url}}/services/scale/">Growth
-          &amp; Scale Readiness</a></div>
-      <div><strong>Solutions</strong><a href="{{@site.url}}/solutions/">All
-          Solutions</a><a
-          href="{{@site.url}}/solutions/education-private-cloud/"
-        >Education</a><a href="{{@site.url}}/solutions/legal-workspace/">Legal
-          Workspace</a><a
-          href="{{@site.url}}/solutions/private-ai-hr-assistant/"
-        >Private AI for HR</a><a
-          href="{{@site.url}}/solutions/managed-vpn/"
-        >Managed VPN</a></div>
-      <div><strong>Resources</strong><a
-          href="{{@site.url}}/resources/case-studies/"
-        >Case Studies</a><a href="{{@site.url}}/resources/how-it-works/">How It
-          Works</a><a href="{{@site.url}}/resources/blog/">Blog</a><a
-          href="{{@site.url}}/resources/faq/"
-        >FAQ</a><a href="{{@site.url}}/resources/pricing/">Pricing</a></div>
-      <div><strong>Company</strong><a href="{{@site.url}}/about/">About Us</a><a
-          href="{{@site.url}}/about/what-we-do/"
-        >What We Do</a><a href="{{@site.url}}/about/team/">Team</a><a
-          href="{{@site.url}}/about/vision/"
-        >Vision &amp; Values</a></div>
-    </div>
-    <p class="copyright">&copy;
-      {{date format="YYYY"}}
-      {{@site.title}}. All rights reserved. Helping operators scale since 2022.
-      40+ engagements completed.</p>
     <p class="footer-disclaimer">Zenphry provides operational, organizational,
       and technology restructuring services. Zenphry does not provide legal,
-      tax, or bankruptcy advice.
-      <a href="{{@site.url}}/privacy-policy/">Privacy policy</a></p>
+      tax, or bankruptcy advice.</p>
   </div>
 </footer>

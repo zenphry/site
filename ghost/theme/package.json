@@ -91,7 +91,7 @@
       },
       "booking_url": {
         "type": "text",
-        "description": "Full Microsoft Bookings URL. Leave empty to send visitors to contact."
+        "description": "Booking calendar URL, embedded on the Book a call page. Leave empty to send visitors to contact."
       }
     }
   }
