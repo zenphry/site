@@ -1411,3 +1411,122 @@ html:not(.js) .theme-toggle {
     grid-template-columns: 1fr;
   }
 }
+
+/* Leadership profile (HTML card on the Team page) */
+.leader-profile {
+  display: grid;
+  grid-template-columns: minmax(220px, 340px) minmax(0, 1fr);
+  gap: clamp(1.5rem, 4vw, 3rem);
+  align-items: start;
+  margin: 2rem 0 3rem;
+  padding: clamp(1.25rem, 3vw, 2rem);
+  border: 1px solid var(--rule);
+  border-top: 3px solid var(--gold);
+  border-radius: 0.5rem;
+  background: var(--surface);
+}
+.leader-photo img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 5 / 6;
+  object-fit: cover;
+  border-radius: 0.4rem;
+}
+.leader-body > p {
+  margin: 0 0 1rem;
+}
+.leader-role {
+  color: var(--gold-deep);
+  font-size: 0.78rem !important;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.gh-content .leader-name {
+  margin: 0.25rem 0 1rem;
+  font-size: clamp(1.8rem, 3.5vw, 2.4rem);
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+}
+.leader-lead {
+  color: var(--ink);
+  font-size: 1.15rem;
+  line-height: 1.5;
+}
+.leader-facts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.5rem;
+  margin: 1.5rem 0;
+  padding: 1.25rem 0;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+}
+.leader-label {
+  margin: 0 0 0.6rem;
+  color: var(--muted);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.leader-facts ul {
+  display: grid;
+  gap: 0.4rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.leader-facts li {
+  padding-left: 1rem;
+  position: relative;
+  font-size: 0.95rem;
+}
+.leader-facts li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.6em;
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: 50%;
+  background: var(--gold);
+}
+.leader-community strong {
+  color: var(--ink);
+}
+.leader-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.5rem !important;
+}
+.leader-links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 42px;
+  padding: 0.55rem 1rem;
+  border: 1px solid var(--gold);
+  border-radius: 0.35rem;
+  color: var(--ink);
+  font-weight: 700;
+  text-decoration: none;
+}
+.leader-links a:last-child {
+  background: var(--gold);
+  color: #252015;
+}
+.leader-links a:hover,
+.leader-links a:focus-visible {
+  border-color: var(--gold-deep);
+}
+@media (max-width: 760px) {
+  .leader-profile,
+  .leader-facts {
+    grid-template-columns: 1fr;
+  }
+  .leader-photo {
+    max-width: 320px;
+  }
+}
