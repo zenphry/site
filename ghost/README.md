@@ -100,7 +100,7 @@ Import only into a fresh Ghost instance. A second import creates duplicate pages
 2. Open **Settings → Advanced → Labs**, then upload `routes.yaml` and `redirects.yaml` in the Routes and Redirects settings.
 3. Open **Settings → Site → Theme**, choose **Change theme**, then **Upload theme**. Upload `zenphry-ghost-theme.zip` and activate it.
 4. In **Settings → Site → Design & branding**, set the publication name, logo, icon, accent color, site description, and homepage SEO title and description. The exported home page does not replace the site-level homepage SEO settings.
-5. Set the real primary navigation to Services, Solutions, About, Insights (`/resources/blog/`), and Contact.
+5. The header navigation and its Services, Solutions, Resources, and About dropdowns are theme markup in `theme/partials/header.hbs`, so they match the legacy site. The theme does not render the primary navigation from **Settings → Navigation**. To change a header link, edit that partial and upload the theme again.
 6. Review every page, redirects, native contact form, booking page, member signup, and article publishing in the local preview. A remote staging instance is optional; the selected plan is one production instance after the local, restore, and cutover checks pass.
 
 See the [Ghost import guide](https://ghost.org/help/imports/), [theme installation guide](https://ghost.org/help/installing-a-theme/), and [routing documentation](https://docs.ghost.org/themes/routing/) for the current Admin workflow.
