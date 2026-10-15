@@ -58,6 +58,92 @@ test("closes the mobile navigation when a nested link element is clicked", () =>
   assert.equal(toggle.getAttribute("aria-expanded"), "false");
 });
 
+const dropdownNavigation = `<button data-nav-toggle aria-expanded="false"></button><nav data-site-nav><ul class="nav-menu"><li class="nav-item" data-nav-dropdown data-nav-section="/services/"><button class="nav-trigger" type="button" aria-expanded="false" aria-controls="nav-panel-services" data-nav-trigger>Services</button><div class="nav-panel" id="nav-panel-services" data-nav-panel><a href="/services/">All services</a><a href="/services/technology/">Technology</a><a href="/services/scale/">Growth</a></div></li><li class="nav-item" data-nav-dropdown data-nav-section="/about/"><button class="nav-trigger" type="button" aria-expanded="false" aria-controls="nav-panel-about" data-nav-trigger>About</button><div class="nav-panel" id="nav-panel-about" data-nav-panel><a href="/about/">About Us</a></div></li><li class="nav-item"><a class="nav-top-link" href="/contact/">Contact</a></li></ul></nav><p id="outside">Outside</p>`;
+
+function pressKey(document, target, key) {
+  target.dispatchEvent(
+    new document.defaultView.KeyboardEvent("keydown", { key, bubbles: true }),
+  );
+}
+
+test("toggles a navigation dropdown and closes it on an outside click", () => {
+  const document = render("/", dropdownNavigation);
+  const [services, about] = document.querySelectorAll("[data-nav-trigger]");
+
+  services.click();
+  assert.equal(services.getAttribute("aria-expanded"), "true");
+  assert.equal(
+    services.closest(".nav-item").classList.contains("is-open"),
+    true,
+  );
+
+  about.click();
+  assert.equal(services.getAttribute("aria-expanded"), "false");
+  assert.equal(about.getAttribute("aria-expanded"), "true");
+
+  document.querySelector("#outside").click();
+  assert.equal(about.getAttribute("aria-expanded"), "false");
+});
+
+test("supports arrow keys and Escape inside a navigation dropdown", () => {
+  const document = render("/", dropdownNavigation);
+  const services = document.querySelector("[data-nav-trigger]");
+  const links = document.querySelectorAll("#nav-panel-services a");
+
+  services.focus();
+  pressKey(document, services, "ArrowDown");
+  assert.equal(services.getAttribute("aria-expanded"), "true");
+  assert.equal(document.activeElement, links[0]);
+
+  pressKey(document, links[0], "ArrowUp");
+  assert.equal(document.activeElement, links[2]);
+  pressKey(document, links[2], "Home");
+  assert.equal(document.activeElement, links[0]);
+
+  pressKey(document, links[0], "Escape");
+  assert.equal(services.getAttribute("aria-expanded"), "false");
+  assert.equal(document.activeElement, services);
+});
+
+test("marks the current navigation link and its dropdown", () => {
+  const document = render("/services/technology/", dropdownNavigation);
+
+  assert.equal(
+    document
+      .querySelector('a[href="/services/technology/"]')
+      .getAttribute("aria-current"),
+    "page",
+  );
+  assert.equal(document.querySelectorAll('[aria-current="page"]').length, 1);
+  assert.equal(
+    document
+      .querySelector('[data-nav-section="/services/"]')
+      .classList.contains("is-current"),
+    true,
+  );
+  assert.equal(
+    document
+      .querySelector('[data-nav-section="/about/"]')
+      .classList.contains("is-current"),
+    false,
+  );
+});
+
+test("collapses open dropdowns when the mobile menu closes", () => {
+  const document = render("/", dropdownNavigation);
+  const toggle = document.querySelector("[data-nav-toggle]");
+  const services = document.querySelector("[data-nav-trigger]");
+
+  toggle.click();
+  assert.equal(document.activeElement, services);
+  services.click();
+  assert.equal(services.getAttribute("aria-expanded"), "true");
+
+  toggle.click();
+  assert.equal(toggle.getAttribute("aria-expanded"), "false");
+  assert.equal(services.getAttribute("aria-expanded"), "false");
+});
+
 test("keeps FAQ introductions and trailing CTAs outside collapsed answers", () => {
   const document = render(
     "/resources/faq/",

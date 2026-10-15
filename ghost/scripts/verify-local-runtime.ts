@@ -282,8 +282,10 @@ async function main() {
     const focusedTag = await mobile.evaluate(
       () => document.activeElement?.tagName,
     );
-    if (focusedTag !== "A")
-      throw new Error("Mobile navigation did not move focus to its first link");
+    if (focusedTag !== "A" && focusedTag !== "BUTTON")
+      throw new Error(
+        "Mobile navigation did not move focus to its first control",
+      );
     await mobile.keyboard.press("Escape");
     if ((await menuButton.getAttribute("aria-expanded")) !== "false")
       throw new Error("Escape did not close the mobile menu");
